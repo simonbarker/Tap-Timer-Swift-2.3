@@ -45,11 +45,18 @@ class TimerView: UIView {
     }
     
     func setTimerLabelFromMilliSeconds(milliSeconds: Int) {
-        let minutes: Int = milliSeconds / 60000
-        let remainderSeconds: Int = (milliSeconds - (60000 * minutes) )/1000
-        let remainderMilliSeconds: Int = milliSeconds - (60000 * minutes) - (remainderSeconds * 1000)
         
-        timerLabel.text = String(format: "%0.2d:%.2d:%2.2d", minutes, remainderSeconds, remainderMilliSeconds/10)
+        let hours: Int = milliSeconds / 3600000
+        let minutes: Int = (milliSeconds - (hours * 3600000)) / 60000
+        let remainderSeconds: Int = (milliSeconds - (60000 * minutes) - (hours * 3600000))/1000
+        
+        //let remainderMilliSeconds: Int = milliSeconds - (60000 * minutes) - (remainderSeconds * 1000)
+        
+        if milliSeconds < 3600000 { //1 hour
+            timerLabel.text = String(format: "%0.2d:%.2d", minutes, remainderSeconds)
+        } else {
+            timerLabel.text = String(format: "%0.2d:%0.2d:%.2d", hours, minutes, remainderSeconds)
+        }
     }
     
     func setCurrentCountDownConstraint(forCurrentTime: Int, ofStartTime: Int){
@@ -69,8 +76,10 @@ class TimerView: UIView {
                 
         }
         
-
-        
+    }
+    
+    func reset(){
+        self.setCurrentCountDownConstraint(1, ofStartTime: 1)
     }
     
     /*
