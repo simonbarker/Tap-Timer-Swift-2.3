@@ -96,7 +96,7 @@ class ViewController: UIViewController {
     
     func panDetected(sender: UIPanGestureRecognizer) {
         
-        changeTimerBasedOnTranslation(sender)
+        changeTimerBasedOnDistanceFromBottom(sender)
         
         
     }
@@ -105,6 +105,30 @@ class ViewController: UIViewController {
     var peakTranslationDown = CGPoint(x: 0, y: 0)
     
     //MARK: - Set timer methods
+    func changeTimerBasedOnDistanceFromBottom(sender: UIPanGestureRecognizer) {
+        
+        //only let timer time be changed if not active
+        if timer.active == false {
+            let location = sender.locationInView(timerView)
+            //let velocity = sender.velocityInView(timerView)
+            let screenHeight = self.view.frame.size.height
+            
+            if sender.state == UIGestureRecognizerState.Began {
+            } else {
+                
+                newStartTimeMilliSeconds = Int(1000 * exp(((1-(abs(location.y))/screenHeight))*9.5))
+                
+            }
+            
+            timer.startTimeMilliSeconds = newStartTimeMilliSeconds
+            timer.resetTimer()
+            timerView.reset()
+            timerView.setTimerLabelFromMilliSeconds(timer.startTimeMilliSeconds)
+        }
+        
+    }
+    
+    
     func changeTimerBasedOnTranslation(sender: UIPanGestureRecognizer) {
         
         //only let timer time be changed if not active
@@ -126,7 +150,7 @@ class ViewController: UIViewController {
                         peakTranslationUp.y = translation.y
                     }
                     
-                    let testTime = Int(1000 * exp(((abs(peakTranslationDown.y - translation.y))/screenHeight)*10.8383))
+                    let testTime = Int(1000 * exp(((abs(peakTranslationDown.y - translation.y))/screenHeight)*7.8383))
                     
                     newStartTimeMilliSeconds += testTime
                     if newStartTimeMilliSeconds > 86400000 {
