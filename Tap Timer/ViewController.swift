@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AVFoundation
 
 class ViewController: UIViewController {
 
@@ -19,8 +20,11 @@ class ViewController: UIViewController {
     var settingsMode: Bool = false
     
     var countDownTimer: NSTimer = NSTimer()
+    var endAudioTimer: NSTimer = NSTimer()
     
     var newStartTimeMilliSeconds: Int = 0
+    
+    var player: AVAudioPlayer = AVAudioPlayer()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,6 +34,7 @@ class ViewController: UIViewController {
         timerView.setTimerLabelFromMilliSeconds(timer.startTimeMilliSeconds)
         timerView.setCurrentCountDownConstraint(timer.currentTimeMilliSeconds, ofStartTime: timer.startTimeMilliSeconds)
         
+        //set up gesture recognisers
         let singleTapGestureRecogniser = UITapGestureRecognizer(target: self, action: #selector(self.singleTapDetected(_:)))
         singleTapGestureRecogniser.numberOfTapsRequired = 1
         
@@ -45,6 +50,8 @@ class ViewController: UIViewController {
         timerView.addGestureRecognizer(doubleTapGestureRecogniser)
         timerView.addGestureRecognizer(panGestureRecogniser)
         
+        loadAudio()
+        
     }
     
     func timerFired() {
@@ -52,6 +59,13 @@ class ViewController: UIViewController {
         if timer.currentTimeMilliSeconds > 10 {
             timer.currentTimeMilliSeconds -= 10
         } else {
+            //timer finished
+            print("timer finished")
+            
+            player.currentTime = 0.0
+            player.play()
+            endAudioTimer = NSTimer.scheduledTimerWithTimeInterval(2, target: self, selector: #selector(self.endAlertSound), userInfo: nil, repeats: false)
+            
             countDownTimer.invalidate()
             timer.resetTimer()
         }
@@ -61,6 +75,24 @@ class ViewController: UIViewController {
         timerView.setCurrentCountDownConstraint(timer.currentTimeMilliSeconds, ofStartTime: timer.startTimeMilliSeconds)
     }
     
+    func loadAudio(){
+        
+        let audioPath = NSBundle.mainBundle().pathForResource("School Bell", ofType: "mp3")!
+        
+        do {
+            
+            try player = AVAudioPlayer(contentsOfURL: NSURL(fileURLWithPath: audioPath))
+            
+        } catch {
+            print("Error: \(error) in loadind audio file")
+        }
+        
+    }
+    
+    func endAlertSound() {
+        player.stop()
+        endAudioTimer.invalidate()
+    }
     
     //MARK: - Gesture recognisers
     func singleTapDetected(sender: UITapGestureRecognizer) {
@@ -98,11 +130,7 @@ class ViewController: UIViewController {
         
         changeTimerBasedOnDistanceFromBottom(sender)
         
-        
     }
-    
-    var peakTranslationUp = CGPoint(x: 0, y: 0)
-    var peakTranslationDown = CGPoint(x: 0, y: 0)
     
     //MARK: - Set timer methods
     func changeTimerBasedOnDistanceFromBottom(sender: UIPanGestureRecognizer) {
@@ -128,7 +156,8 @@ class ViewController: UIViewController {
         
     }
     
-    
+    var peakTranslationUp = CGPoint(x: 0, y: 0)
+    var peakTranslationDown = CGPoint(x: 0, y: 0)
     func changeTimerBasedOnTranslation(sender: UIPanGestureRecognizer) {
         
         //only let timer time be changed if not active

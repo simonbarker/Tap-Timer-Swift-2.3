@@ -15,6 +15,7 @@
 		B01A49EF1D35319F00FE087D /* TimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B01A49EE1D35319F00FE087D /* TimerView.swift */; };
 		B02E24D11D35344D001C3243 /* TimerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B02E24D01D35344D001C3243 /* TimerView.xib */; };
 		B02E24D31D355FA9001C3243 /* TimerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B02E24D21D355FA9001C3243 /* TimerModel.swift */; };
+		B07081351D3803F9004A5D9D /* School Bell.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B07081341D3803F9004A5D9D /* School Bell.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		B01A49EE1D35319F00FE087D /* TimerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimerView.swift; sourceTree = "<group>"; };
 		B02E24D01D35344D001C3243 /* TimerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TimerView.xib; sourceTree = "<group>"; };
 		B02E24D21D355FA9001C3243 /* TimerModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimerModel.swift; sourceTree = "<group>"; };
+		B07081341D3803F9004A5D9D /* School Bell.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "School Bell.mp3"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +62,7 @@
 		B01A49DB1D35308100FE087D /* Tap Timer */ = {
 			isa = PBXGroup;
 			children = (
+				B07081341D3803F9004A5D9D /* School Bell.mp3 */,
 				B01A49DC1D35308100FE087D /* AppDelegate.swift */,
 				B01A49DE1D35308100FE087D /* ViewController.swift */,
 				B02E24D21D355FA9001C3243 /* TimerModel.swift */,
@@ -133,6 +136,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B01A49E71D35308100FE087D /* LaunchScreen.storyboard in Resources */,
+				B07081351D3803F9004A5D9D /* School Bell.mp3 in Resources */,
 				B01A49E41D35308100FE087D /* Assets.xcassets in Resources */,
 				B02E24D11D35344D001C3243 /* TimerView.xib in Resources */,
 				B01A49E21D35308100FE087D /* Main.storyboard in Resources */,
