@@ -12,26 +12,61 @@ class TimerModel: NSObject {
     
     var name: String
     var active: Bool
-    var startTimeMilliSeconds: Int
-    var currentTimeMilliSeconds: Int
+    var paused: Bool
+    var duration: Int
+    var remainingWhenPaused: Int?
+    var timerEndTime: NSDate?
+    var timerStartTime: NSDate?
     
-    init(withName name: String, startTimeMilliSeconds: Int) {
+    init(withName name: String, duration: Int) {
         self.name = name
         self.active = false
-        self.startTimeMilliSeconds = startTimeMilliSeconds
-        self.currentTimeMilliSeconds = startTimeMilliSeconds
+        self.paused = false
+        self.duration = duration
         super.init()
     }
     
     convenience override init() {
-        self.init(withName: "Timer", startTimeMilliSeconds: 150000)
+        self.init(withName: "Timer", duration: 10)
     }
     
     func resetTimer() {
         active = false
-        currentTimeMilliSeconds = startTimeMilliSeconds
+        paused = false
     }
     
+    func percentageThroughTimer() -> Double {
+        
+        guard let timerEnd = timerEndTime as NSDate! else {
+            print("No timerEndTimer set")
+            return 0.0
+        }
+        
+        let timeRemaing = timerEnd.timeIntervalSinceNow
+        
+        return timeRemaing/Double(duration)
+    }
     
+    func timeFromEndTime() -> Int {
+        
+        guard let timerEnd = timerEndTime as NSDate! else {
+            print("No timerEndTimer set")
+            return 0
+        }
+        
+        let timeRemaing = timerEnd.timeIntervalSinceNow
+        
+        return Int(timeRemaing)
+    }
+    
+    func setPausedRemaining() {
+        
+        guard let timerEnd = timerEndTime as NSDate! else {
+            print("No timerEndTimer set")
+            return
+        }
+        
+        remainingWhenPaused = Int(timerEnd.timeIntervalSinceNow)
+    }
     
 }

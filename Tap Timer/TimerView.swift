@@ -44,42 +44,46 @@ class TimerView: UIView {
         return view
     }
     
-    func setTimerLabelFromMilliSeconds(milliSeconds: Int) {
+    func setTimeRemainingLabel(seconds: Int) {
         
-        let hours: Int = milliSeconds / 3600000
-        let minutes: Int = (milliSeconds - (hours * 3600000)) / 60000
-        let remainderSeconds: Int = (milliSeconds - (60000 * minutes) - (hours * 3600000))/1000
+        let hours: Int = seconds / 3600
+        let minutes: Int = (seconds - (hours * 3600)) / 60
+        let remainderSeconds: Int = seconds - (60 * minutes) - (hours * 3600)
         
         //let remainderMilliSeconds: Int = milliSeconds - (60000 * minutes) - (remainderSeconds * 1000)
         
-        if milliSeconds < 3600000 { //1 hour
+        if seconds < 3600 { //1 hour
             timerLabel.text = String(format: "%0.2d:%.2d", minutes, remainderSeconds)
         } else {
             timerLabel.text = String(format: "%0.2d:%0.2d:%.2d", hours, minutes, remainderSeconds)
         }
+        
     }
     
-    func setCurrentCountDownConstraint(forCurrentTime: Int, ofStartTime: Int){
-        
+    func setCountDownBarFromPercentage(percentage: Double){
         //get screen height
         let screenHeight = self.frame.size.height
         
         //calculate percentage through timer
-        let percentageDone = 1 - Float(forCurrentTime)/Float(ofStartTime)
+        var percentageDone = 1 - percentage
+        
+        //stop the contraint trying to go negative
+        if percentageDone > 1 {
+            percentageDone = 1.0
+        }
         
         //set constraint to that percentage of the screen height
         countDownBarTopSpaceConstraint.constant = screenHeight * CGFloat(percentageDone)
         
         UIView.animateWithDuration(0.01, delay: 0, options: [UIViewAnimationOptions.CurveLinear, UIViewAnimationOptions.AllowUserInteraction] , animations: {
             self.contentView.layoutIfNeeded()
-            }) { (true) in
-                
+        }) { (true) in
+            
         }
-        
     }
     
     func reset(){
-        self.setCurrentCountDownConstraint(1, ofStartTime: 1)
+        self.setCountDownBarFromPercentage(1.0)
     }
     
     /*

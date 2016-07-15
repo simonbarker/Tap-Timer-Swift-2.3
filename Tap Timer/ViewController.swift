@@ -29,10 +29,10 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        timer = TimerModel.init(withName: "Stretch Timer", startTimeMilliSeconds: 10000)
+        timer = TimerModel.init(withName: "Stretch Timer", duration: 10)
         
-        timerView.setTimerLabelFromMilliSeconds(timer.startTimeMilliSeconds)
-        timerView.setCurrentCountDownConstraint(timer.currentTimeMilliSeconds, ofStartTime: timer.startTimeMilliSeconds)
+        timerView.setTimeRemainingLabel(timer.duration)
+        timerView.setCountDownBarFromPercentage(1.0)
         
         //set up gesture recognisers
         let singleTapGestureRecogniser = UITapGestureRecognizer(target: self, action: #selector(self.singleTapDetected(_:)))
@@ -56,23 +56,27 @@ class ViewController: UIViewController {
     
     func timerFired() {
         //update timer
-        if timer.currentTimeMilliSeconds > 10 {
-            timer.currentTimeMilliSeconds -= 10
-        } else {
-            //timer finished
-            print("timer finished")
+        
+        guard let timerEndTime = timer.timerEndTime else {
+            print("No timer end time available")
+            return
+        }
+        
+        if NSDate().compare(timerEndTime) == NSComparisonResult.OrderedDescending {
             
-            player.currentTime = 0.0
-            player.play()
-            endAudioTimer = NSTimer.scheduledTimerWithTimeInterval(2, target: self, selector: #selector(self.endAlertSound), userInfo: nil, repeats: false)
+            playAudioFor(2)
             
             countDownTimer.invalidate()
             timer.resetTimer()
+            timerView.setTimeRemainingLabel(timer.duration)
+            timerView.reset()
+            
+        } else {
+            
+            timerView.setCountDownBarFromPercentage(timer.percentageThroughTimer())
+            timerView.setTimeRemainingLabel(timer.timeFromEndTime())
+            
         }
-        
-        //update UI
-        timerView.setTimerLabelFromMilliSeconds(timer.currentTimeMilliSeconds)
-        timerView.setCurrentCountDownConstraint(timer.currentTimeMilliSeconds, ofStartTime: timer.startTimeMilliSeconds)
     }
     
     func loadAudio(){
@@ -80,13 +84,18 @@ class ViewController: UIViewController {
         let audioPath = NSBundle.mainBundle().pathForResource("School Bell", ofType: "mp3")!
         
         do {
-            
             try player = AVAudioPlayer(contentsOfURL: NSURL(fileURLWithPath: audioPath))
-            
         } catch {
             print("Error: \(error) in loadind audio file")
         }
         
+    }
+    
+    func playAudioFor(seconds: Int) {
+        //play audio for 2 seconds
+        player.currentTime = 0.0
+        player.play()
+        endAudioTimer = NSTimer.scheduledTimerWithTimeInterval(NSTimeInterval(seconds), target: self, selector: #selector(self.endAlertSound), userInfo: nil, repeats: false)
     }
     
     func endAlertSound() {
@@ -98,18 +107,40 @@ class ViewController: UIViewController {
     func singleTapDetected(sender: UITapGestureRecognizer) {
         
         if sender.state == .Ended {
-            if timer.startTimeMilliSeconds != 0 && timer.currentTimeMilliSeconds != 0 {
-                if !timer.active {
-                    //start timer
-                    timer.active = true
-                    countDownTimer = NSTimer.scheduledTimerWithTimeInterval(0.01, target: self, selector: #selector(self.timerFired), userInfo: nil, repeats: true)
-                } else {
-                    //pause timer
-                    timer.active = false
-                    countDownTimer.invalidate()
+            if timer.active == false && timer.paused == false{
+                
+                //start timer
+                timer.active = true
+                countDownTimer = NSTimer.scheduledTimerWithTimeInterval(0.01, target: self, selector: #selector(self.timerFired), userInfo: nil, repeats: true)
+                timer.timerStartTime = NSDate()
+                timer.timerEndTime = NSDate().dateByAddingTimeInterval(NSTimeInterval((timer.duration)))
+                
+            } else if timer.active == false && timer.paused == true {
+                
+                //start timer
+                timer.active = true
+                timer.paused = false
+                countDownTimer = NSTimer.scheduledTimerWithTimeInterval(0.01, target: self, selector: #selector(self.timerFired), userInfo: nil, repeats: true)
+                
+                //reset end time
+                timer.timerStartTime = NSDate()
+                
+                guard let remaining = timer.remainingWhenPaused else {
+                    print("No paused remaining time")
+                    return
                 }
+                
+                timer.timerEndTime = NSDate().dateByAddingTimeInterval(NSTimeInterval((remaining)))
+                
+            } else {
+                
+                //pause timer
+                timer.active = false
+                timer.paused = true
+                timer.setPausedRemaining()
+                countDownTimer.invalidate()
+                
             }
-            
         }
         
     }
@@ -120,8 +151,10 @@ class ViewController: UIViewController {
             //reset timer
             countDownTimer.invalidate()
             timer.resetTimer()
-            timerView.setTimerLabelFromMilliSeconds(timer.currentTimeMilliSeconds)
-            timerView.setCurrentCountDownConstraint(timer.currentTimeMilliSeconds, ofStartTime: timer.startTimeMilliSeconds)
+            timerView.reset()
+            timerView.setTimeRemainingLabel(timer.duration)
+            timer.timerStartTime = nil
+            timer.timerEndTime = nil
         }
         
     }
@@ -142,75 +175,19 @@ class ViewController: UIViewController {
             let screenHeight = self.view.frame.size.height
             
             if sender.state == UIGestureRecognizerState.Began {
+                
             } else {
                 
-                newStartTimeMilliSeconds = Int(1000 * exp(((1-(abs(location.y))/screenHeight))*9.5))
+                let duration = Int(1 * exp(((1-(abs(location.y))/screenHeight))*9.5))
+                
+                timer.duration = duration
+                timer.resetTimer()
+                timerView.reset()
+                timerView.setTimeRemainingLabel(duration)
                 
             }
-            
-            timer.startTimeMilliSeconds = newStartTimeMilliSeconds
-            timer.resetTimer()
-            timerView.reset()
-            timerView.setTimerLabelFromMilliSeconds(timer.startTimeMilliSeconds)
         }
-        
     }
-    
-    var peakTranslationUp = CGPoint(x: 0, y: 0)
-    var peakTranslationDown = CGPoint(x: 0, y: 0)
-    func changeTimerBasedOnTranslation(sender: UIPanGestureRecognizer) {
-        
-        //only let timer time be changed if not active
-        if timer.active == false {
-            let translation = sender.translationInView(timerView)
-            let velocity = sender.velocityInView(timerView)
-            let screenHeight = self.view.frame.size.height
-            
-            if sender.state == UIGestureRecognizerState.Began {
-                peakTranslationUp.y = 0
-                peakTranslationDown.y = 0
-            } else {
-                
-                if velocity.y < 0 {
-                    
-                    print("Increase time")
-                    
-                    if translation.y < peakTranslationUp.y {
-                        peakTranslationUp.y = translation.y
-                    }
-                    
-                    let testTime = Int(1000 * exp(((abs(peakTranslationDown.y - translation.y))/screenHeight)*7.8383))
-                    
-                    newStartTimeMilliSeconds += testTime
-                    if newStartTimeMilliSeconds > 86400000 {
-                        newStartTimeMilliSeconds = 86400000
-                    }
-                } else {
-                    
-                    print("Decrease time")
-                    
-                    if translation.y > peakTranslationDown.y {
-                        peakTranslationDown.y = translation.y
-                    }
-                    
-                    let testTime = Int(1000 * exp(((abs(peakTranslationUp.y - translation.y))/screenHeight)*10.8383))
-                    
-                    newStartTimeMilliSeconds -= testTime
-                    if newStartTimeMilliSeconds < 0 {
-                        newStartTimeMilliSeconds = 0
-                    }
-                }
-                
-            }
-            
-            timer.startTimeMilliSeconds = newStartTimeMilliSeconds
-            timer.resetTimer()
-            timerView.reset()
-            timerView.setTimerLabelFromMilliSeconds(timer.startTimeMilliSeconds)
-        }
-        
-    }
-    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
