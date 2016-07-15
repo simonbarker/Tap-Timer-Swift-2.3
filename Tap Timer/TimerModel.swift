@@ -8,6 +8,11 @@
 
 import Foundation
 
+enum AlertNoise {
+    case SchoolBell
+    case DogBark
+}
+
 class TimerModel: NSObject {
     
     var name: String
@@ -17,12 +22,14 @@ class TimerModel: NSObject {
     var remainingWhenPaused: Int?
     var timerEndTime: NSDate?
     var timerStartTime: NSDate?
+    var audioAlert: AlertNoise
     
     init(withName name: String, duration: Int) {
         self.name = name
         self.active = false
         self.paused = false
         self.duration = duration
+        self.audioAlert = AlertNoise.SchoolBell
         super.init()
     }
     
@@ -67,6 +74,15 @@ class TimerModel: NSObject {
         }
         
         remainingWhenPaused = Int(timerEnd.timeIntervalSinceNow)
+    }
+    
+    func alertAudio() -> (String, String){
+        switch audioAlert {
+        case .SchoolBell:
+            return ("School Bell", "mp3")
+        case .DogBark:
+            return ("Dog Bark", "mp3")
+        }
     }
     
 }

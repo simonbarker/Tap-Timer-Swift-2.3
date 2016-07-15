@@ -79,9 +79,12 @@ class ViewController: UIViewController {
         }
     }
     
+    //Mark: - Audio methods
     func loadAudio(){
         
-        let audioPath = NSBundle.mainBundle().pathForResource("School Bell", ofType: "mp3")!
+        let audioFile = timer.alertAudio()
+        
+        let audioPath = NSBundle.mainBundle().pathForResource(audioFile.0, ofType: audioFile.1)!
         
         do {
             try player = AVAudioPlayer(contentsOfURL: NSURL(fileURLWithPath: audioPath))
@@ -95,10 +98,10 @@ class ViewController: UIViewController {
         //play audio for 2 seconds
         player.currentTime = 0.0
         player.play()
-        endAudioTimer = NSTimer.scheduledTimerWithTimeInterval(NSTimeInterval(seconds), target: self, selector: #selector(self.endAlertSound), userInfo: nil, repeats: false)
+        endAudioTimer = NSTimer.scheduledTimerWithTimeInterval(NSTimeInterval(seconds), target: self, selector: #selector(self.endAAudio), userInfo: nil, repeats: false)
     }
     
-    func endAlertSound() {
+    func endAAudio() {
         player.stop()
         endAudioTimer.invalidate()
     }
