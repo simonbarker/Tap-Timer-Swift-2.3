@@ -11,6 +11,11 @@ import AVFoundation
 
 class ViewController: UIViewController {
 
+    @IBOutlet var timerLeadingConstraint: NSLayoutConstraint!
+    @IBOutlet var timerTrailingContraint: NSLayoutConstraint!
+    @IBOutlet var timerTopContraint: NSLayoutConstraint!
+    @IBOutlet var timerBottomContraint: NSLayoutConstraint!
+    
     @IBOutlet var timerView: TimerView!
     
     //timer model
@@ -46,9 +51,13 @@ class ViewController: UIViewController {
         
         let panGestureRecogniser = UIPanGestureRecognizer(target: self, action: #selector(self.panDetected(_:)))
         
+        let pinchGestureRecogniser = UIPinchGestureRecognizer(target: self, action: #selector(self.pinchDetected(_:)))
+        
         timerView.addGestureRecognizer(singleTapGestureRecogniser)
         timerView.addGestureRecognizer(doubleTapGestureRecogniser)
         timerView.addGestureRecognizer(panGestureRecogniser)
+        
+        self.view.addGestureRecognizer(pinchGestureRecogniser)
         
         loadAudio()
         
@@ -112,7 +121,7 @@ class ViewController: UIViewController {
     //MARK: - Gesture recognisers
     func singleTapDetected(sender: UITapGestureRecognizer) {
         
-        if sender.state == .Ended {
+        if sender.state == .Ended && settingsMode == false {
             if timer.active == false && timer.paused == false{
                 
                 //start timer
@@ -162,7 +171,7 @@ class ViewController: UIViewController {
     
     func doubleTapDetected(sender: UITapGestureRecognizer) {
         
-        if sender.state == .Ended {
+        if sender.state == .Ended && settingsMode == false {
             //reset timer
             countDownTimer.invalidate()
             timer.resetTimer()
@@ -179,8 +188,35 @@ class ViewController: UIViewController {
     
     func panDetected(sender: UIPanGestureRecognizer) {
         
-        changeTimerBasedOnDistanceFromBottom(sender)
+        if settingsMode == false {
+            changeTimerBasedOnDistanceFromBottom(sender)
+        }
         
+    }
+    
+    func pinchDetected(sender: UIPinchGestureRecognizer) {
+        if sender.state == .Began {
+            
+            let constraints = [timerLeadingConstraint, timerTrailingContraint, timerTopContraint, timerBottomContraint]
+            
+            if sender.scale < 1 {
+                
+                constraints[0].constant = 75
+                constraints[1].constant = 75
+                constraints[2].constant = 95
+                constraints[3].constant = 95
+                
+                settingsMode = true
+            } else {
+                
+                constraints[0].constant = -20
+                constraints[1].constant = -20
+                constraints[2].constant = 0
+                constraints[3].constant = 0
+                
+                settingsMode = false
+            }
+        }
     }
     
     //MARK: - Notification methods
