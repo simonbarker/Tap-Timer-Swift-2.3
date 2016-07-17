@@ -64,12 +64,15 @@ class ViewController: UIViewController {
         
         if NSDate().compare(timerEndTime) == NSComparisonResult.OrderedDescending {
             
-            playAudioFor(2)
+            if !didNotificationFire(timer) {
+                playAudioFor(2)
+            }
             
             countDownTimer.invalidate()
             timer.resetTimer()
             timerView.setTimeRemainingLabel(timer.duration)
             timerView.reset()
+            removeNotificationFromSchedule(timer)
             
         } else {
             
@@ -203,6 +206,20 @@ class ViewController: UIViewController {
                 break
             }
         }
+    }
+    
+    func didNotificationFire(timer: TimerModel) -> Bool {
+        let scheduledNotifications: [UILocalNotification]? = UIApplication.sharedApplication().scheduledLocalNotifications
+        guard scheduledNotifications != nil else {return false} // Nothing to remove, so return
+        
+        for notification in scheduledNotifications! { // loop through notifications...
+            if (notification.userInfo!["UUID"] as! String == timer.UUID) { // ...and cancel the notification that corresponds to this TodoItem instance (matched by UUID)
+                //found a notification so timer didn't end in background
+                return false
+            }
+        }
+        //didn't find notificaiton so must have fired already
+        return true
     }
     
     
