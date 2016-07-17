@@ -33,6 +33,11 @@ class TimerView: UIView {
         countDownBar.layer.zPosition = 1
         timerLabel.layer.zPosition = 2
         
+        self.layer.shadowColor = UIColor.blackColor().CGColor
+        self.layer.shadowOpacity = 0.25
+        self.layer.shadowOffset = CGSizeMake(2, 3)
+        self.layer.shadowRadius = 4
+        
     }
     
     func loadViewFromNib() -> UIView {

@@ -34,6 +34,8 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupSettingsView()
+        
         timer = TimerModel.init(withName: "Tap Timer 1", duration: 10, UUID: NSUUID().UUIDString)
         
         timerView.setTimeRemainingLabel(timer.duration)
@@ -61,6 +63,15 @@ class ViewController: UIViewController {
         
         loadAudio()
         
+    }
+    
+    func setupSettingsView() {        
+        
+        let gradient: CAGradientLayer = CAGradientLayer()
+        gradient.frame = view.bounds
+        gradient.colors = [UIColor.whiteColor().CGColor, UIColor.blackColor().CGColor]
+        gradient.opacity = 0.15
+        self.view.layer.insertSublayer(gradient, atIndex: 0)
     }
     
     func timerFired() {
@@ -197,26 +208,45 @@ class ViewController: UIViewController {
     func pinchDetected(sender: UIPinchGestureRecognizer) {
         if sender.state == .Began {
             
-            let constraints = [timerLeadingConstraint, timerTrailingContraint, timerTopContraint, timerBottomContraint]
-            
             if sender.scale < 1 {
                 
-                constraints[0].constant = 75
-                constraints[1].constant = 75
-                constraints[2].constant = 95
-                constraints[3].constant = 95
+                chnageViewModeTo("settings")
                 
                 settingsMode = true
             } else {
                 
-                constraints[0].constant = -20
-                constraints[1].constant = -20
-                constraints[2].constant = 0
-                constraints[3].constant = 0
+                chnageViewModeTo("timer")
                 
                 settingsMode = false
             }
         }
+    }
+    
+    func chnageViewModeTo(mode: String){
+        
+        let constraints = [timerLeadingConstraint, timerTrailingContraint, timerTopContraint, timerBottomContraint]
+        
+        if mode == "settings" {
+            constraints[0].constant = 55
+            constraints[1].constant = 55
+            constraints[2].constant = 105
+            constraints[3].constant = 105
+            self.timerView.timerLabel.hidden = true
+        }
+        if mode == "timer" {
+            constraints[0].constant = -20
+            constraints[1].constant = -20
+            constraints[2].constant = 0
+            constraints[3].constant = 0
+            self.timerView.timerLabel.hidden = false
+        }
+        
+        UIView.animateWithDuration(0.2, delay: 0, options: [UIViewAnimationOptions.CurveEaseIn] , animations: {
+            self.view.layoutIfNeeded()
+        }) { (true) in
+            
+        }
+        
     }
     
     //MARK: - Notification methods
