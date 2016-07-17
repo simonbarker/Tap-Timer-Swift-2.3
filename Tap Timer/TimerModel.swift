@@ -23,18 +23,20 @@ class TimerModel: NSObject {
     var timerEndTime: NSDate?
     var timerStartTime: NSDate?
     var audioAlert: AlertNoise
+    var UUID: String
     
-    init(withName name: String, duration: Int) {
+    init(withName name: String, duration: Int, UUID: String) {
         self.name = name
         self.active = false
         self.paused = false
         self.duration = duration
+        self.UUID = UUID
         self.audioAlert = AlertNoise.SchoolBell
         super.init()
     }
     
     convenience override init() {
-        self.init(withName: "Timer", duration: 10)
+        self.init(withName: "Tap Timer 1", duration: 10, UUID: NSUUID().UUIDString)
     }
     
     func resetTimer() {

@@ -29,7 +29,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        timer = TimerModel.init(withName: "Stretch Timer", duration: 10)
+        timer = TimerModel.init(withName: "Tap Timer 1", duration: 10, UUID: NSUUID().UUIDString)
         
         timerView.setTimeRemainingLabel(timer.duration)
         timerView.setCountDownBarFromPercentage(1.0)
@@ -118,6 +118,9 @@ class ViewController: UIViewController {
                 timer.timerStartTime = NSDate()
                 timer.timerEndTime = NSDate().dateByAddingTimeInterval(NSTimeInterval((timer.duration)))
                 
+                registerTimerNotification(timer)
+                
+                
             } else if timer.active == false && timer.paused == true {
                 
                 //start timer
@@ -135,6 +138,9 @@ class ViewController: UIViewController {
                 
                 timer.timerEndTime = NSDate().dateByAddingTimeInterval(NSTimeInterval((remaining)))
                 
+                registerTimerNotification(timer)
+                
+                
             } else {
                 
                 //pause timer
@@ -142,6 +148,9 @@ class ViewController: UIViewController {
                 timer.paused = true
                 timer.setPausedRemaining()
                 countDownTimer.invalidate()
+                
+                //remove notification
+                removeNotificationFromSchedule(timer)
                 
             }
         }
@@ -158,6 +167,9 @@ class ViewController: UIViewController {
             timerView.setTimeRemainingLabel(timer.duration)
             timer.timerStartTime = nil
             timer.timerEndTime = nil
+            
+            //remove notification
+            removeNotificationFromSchedule(timer)
         }
         
     }
@@ -167,6 +179,32 @@ class ViewController: UIViewController {
         changeTimerBasedOnDistanceFromBottom(sender)
         
     }
+    
+    //MARK: - Notification methods
+    func registerTimerNotification(timer: TimerModel){
+        //register local notificaton
+        let notification = UILocalNotification()
+        notification.alertBody = "\(timer.name) done!"
+        notification.alertAction = "open"
+        notification.fireDate = timer.timerEndTime
+        notification.soundName = "\(timer.alertAudio().0).\(timer.alertAudio().1)"
+        notification.userInfo = ["title": timer.name, "UUID": timer.UUID]
+        
+        UIApplication.sharedApplication().scheduleLocalNotification(notification)
+    }
+    
+    func removeNotificationFromSchedule(timer: TimerModel){
+        let scheduledNotifications: [UILocalNotification]? = UIApplication.sharedApplication().scheduledLocalNotifications
+        guard scheduledNotifications != nil else {return} // Nothing to remove, so return
+        
+        for notification in scheduledNotifications! { // loop through notifications...
+            if (notification.userInfo!["UUID"] as! String == timer.UUID) { // ...and cancel the notification that corresponds to this TodoItem instance (matched by UUID)
+                UIApplication.sharedApplication().cancelLocalNotification(notification) // there should be a maximum of one match on UUID
+                break
+            }
+        }
+    }
+    
     
     //MARK: - Set timer methods
     func changeTimerBasedOnDistanceFromBottom(sender: UIPanGestureRecognizer) {
