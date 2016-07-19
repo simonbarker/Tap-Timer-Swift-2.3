@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import UIKit
+import ChameleonFramework
 
 enum AlertNoise {
     case SchoolBell
@@ -24,19 +26,23 @@ class TimerModel: NSObject {
     var timerStartTime: NSDate?
     var audioAlert: AlertNoise
     var UUID: String
+    var colorLight: UIColor
+    var colorDark: UIColor
     
-    init(withName name: String, duration: Int, UUID: String) {
+    init(withName name: String, duration: Int, UUID: String, colorLight: UIColor, colorDark: UIColor) {
         self.name = name
         self.active = false
         self.paused = false
         self.duration = duration
         self.UUID = UUID
         self.audioAlert = AlertNoise.SchoolBell
+        self.colorLight = colorLight
+        self.colorDark = colorDark
         super.init()
     }
     
     convenience override init() {
-        self.init(withName: "Tap Timer 1", duration: 10, UUID: NSUUID().UUIDString)
+        self.init(withName: "Tap Timer 1", duration: 10, UUID: NSUUID().UUIDString, colorLight: UIColor.flatRedColor(), colorDark: UIColor.flatRedColorDark())
     }
     
     func resetTimer() {

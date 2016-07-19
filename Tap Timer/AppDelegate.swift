@@ -19,7 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let sess = AVAudioSession.sharedInstance()
         if sess.otherAudioPlaying {
-            _ = try? sess.setCategory(AVAudioSessionCategoryAmbient, withOptions: [])
+            _ = try? sess.setCategory(AVAudioSessionCategoryAmbient, withOptions: [.MixWithOthers])
             _ = try? sess.setActive(true, withOptions: [])
         }
         

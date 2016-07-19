@@ -36,10 +36,12 @@ class ViewController: UIViewController {
         
         setupSettingsView()
         
-        timer = TimerModel.init(withName: "Tap Timer 1", duration: 10, UUID: NSUUID().UUIDString)
+        timer = TimerModel.init(withName: "Tap Timer 1", duration: 10, UUID: NSUUID().UUIDString, colorLight: UIColor.flatBlueColor(), colorDark: UIColor.flatBlueColorDark())
         
+        timerView.setColorScheme(colorLight: timer.colorLight, colorDark: timer.colorDark)
         timerView.setTimeRemainingLabel(timer.duration)
         timerView.setCountDownBarFromPercentage(1.0)
+        timerView.layer.zPosition = 100 //make sure the timer view sits on top of the settings panel
         
         //set up gesture recognisers
         let singleTapGestureRecogniser = UITapGestureRecognizer(target: self, action: #selector(self.singleTapDetected(_:)))
@@ -230,7 +232,7 @@ class ViewController: UIViewController {
             constraints[0].constant = 55
             constraints[1].constant = 55
             constraints[2].constant = 105
-            constraints[3].constant = 105
+            constraints[3].constant = 85
             self.timerView.timerLabel.hidden = true
         }
         if mode == "timer" {
@@ -319,5 +321,26 @@ class ViewController: UIViewController {
     }
 
 
+    //MARK: - Color tapped
+    @IBAction func colorTapped(sender: UIButton) {
+        switch sender.tag {
+        case 100:
+            print("Blue")
+        case 101:
+            print("Purple")
+        case 102:
+            print("Red")
+        case 103:
+            print("Yellow")
+        case 104:
+            print("Green")
+        case 105:
+            print("Grey")
+        default:
+            print("No color")
+        }
+    }
+    
+    
 }
 

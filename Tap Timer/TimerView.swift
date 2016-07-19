@@ -29,9 +29,9 @@ class TimerView: UIView {
         addSubview(contentView)
         
         //set z indexes
-        contentView.layer.zPosition = 0
-        countDownBar.layer.zPosition = 1
-        timerLabel.layer.zPosition = 2
+        contentView.layer.zPosition = 2
+        countDownBar.layer.zPosition = 3
+        timerLabel.layer.zPosition = 4
         
         self.layer.shadowColor = UIColor.blackColor().CGColor
         self.layer.shadowOpacity = 0.25
@@ -90,6 +90,12 @@ class TimerView: UIView {
     func reset(){
         self.setCountDownBarFromPercentage(1.0)
     }
+    
+    func setColorScheme(colorLight colorLight: UIColor, colorDark: UIColor) {
+        contentView.backgroundColor = colorLight
+        countDownBar.backgroundColor = colorDark
+    }
+    
     
     /*
     // Only override drawRect: if you perform custom drawing.
