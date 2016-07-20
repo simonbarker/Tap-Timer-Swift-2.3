@@ -15,6 +15,15 @@ enum AlertNoise {
     case DogBark
 }
 
+enum BaseColor {
+    case SkyBlue
+    case Red
+    case Purple
+    case Yellow
+    case Green
+    case Gray
+}
+
 class TimerModel: NSObject {
     
     var name: String
@@ -26,23 +35,21 @@ class TimerModel: NSObject {
     var timerStartTime: NSDate?
     var audioAlert: AlertNoise
     var UUID: String
-    var colorLight: UIColor
-    var colorDark: UIColor
+    var colorScheme: BaseColor
     
-    init(withName name: String, duration: Int, UUID: String, colorLight: UIColor, colorDark: UIColor) {
+    init(withName name: String, duration: Int, UUID: String, color: BaseColor) {
         self.name = name
         self.active = false
         self.paused = false
         self.duration = duration
         self.UUID = UUID
         self.audioAlert = AlertNoise.SchoolBell
-        self.colorLight = colorLight
-        self.colorDark = colorDark
+        self.colorScheme = color
         super.init()
     }
     
     convenience override init() {
-        self.init(withName: "Tap Timer 1", duration: 10, UUID: NSUUID().UUIDString, colorLight: UIColor.flatRedColor(), colorDark: UIColor.flatRedColorDark())
+        self.init(withName: "Tap Timer 1", duration: 10, UUID: NSUUID().UUIDString, color: .Red)
     }
     
     func resetTimer() {
@@ -90,6 +97,23 @@ class TimerModel: NSObject {
             return ("School Bell", "mp3")
         case .DogBark:
             return ("Dog Bark", "mp3")
+        }
+    }
+    
+    func getColorScheme() -> [String : UIColor] {
+        switch colorScheme {
+        case .SkyBlue:
+            return ["lightColor": UIColor.flatSkyBlueColor(), "darkColor": UIColor.flatSkyBlueColorDark()]
+        case .Purple:
+            return ["lightColor": UIColor.flatPurpleColor(), "darkColor": UIColor.flatPurpleColorDark()]
+        case .Red:
+            return ["lightColor": UIColor.flatRedColor(), "darkColor": UIColor.flatRedColorDark()]
+        case .Yellow:
+            return ["lightColor": UIColor.flatYellowColor(), "darkColor": UIColor.flatYellowColorDark()]
+        case .Green:
+            return ["lightColor": UIColor.flatGreenColor(), "darkColor": UIColor.flatGreenColorDark()]
+        case .Gray:
+            return ["lightColor": UIColor.flatGrayColor(), "darkColor": UIColor.flatGrayColorDark()]
         }
     }
     

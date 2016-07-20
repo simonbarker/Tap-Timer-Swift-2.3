@@ -36,9 +36,11 @@ class ViewController: UIViewController {
         
         setupSettingsView()
         
-        timer = TimerModel.init(withName: "Tap Timer 1", duration: 10, UUID: NSUUID().UUIDString, colorLight: UIColor.flatBlueColor(), colorDark: UIColor.flatBlueColorDark())
+        timer = TimerModel.init(withName: "Tap Timer 1", duration: 10, UUID: NSUUID().UUIDString, color: .SkyBlue)
         
-        timerView.setColorScheme(colorLight: timer.colorLight, colorDark: timer.colorDark)
+        let colors = timer.getColorScheme()
+        
+        timerView.setColorScheme(colorLight: colors["lightColor"]!, colorDark: colors["darkColor"]!)
         timerView.setTimeRemainingLabel(timer.duration)
         timerView.setCountDownBarFromPercentage(1.0)
         timerView.layer.zPosition = 100 //make sure the timer view sits on top of the settings panel
@@ -325,20 +327,25 @@ class ViewController: UIViewController {
     @IBAction func colorTapped(sender: UIButton) {
         switch sender.tag {
         case 100:
-            print("Blue")
+            timer.colorScheme = .SkyBlue
         case 101:
-            print("Purple")
+            timer.colorScheme = .Purple
         case 102:
-            print("Red")
+            timer.colorScheme = .Red
         case 103:
-            print("Yellow")
+            timer.colorScheme = .Yellow
         case 104:
-            print("Green")
+            timer.colorScheme = .Green
         case 105:
-            print("Grey")
+            timer.colorScheme = .Gray
         default:
             print("No color")
         }
+        
+        let colors = timer.getColorScheme()
+        
+        timerView.setColorScheme(colorLight: colors["lightColor"]!, colorDark: colors["darkColor"]!)
+        
     }
     
     
