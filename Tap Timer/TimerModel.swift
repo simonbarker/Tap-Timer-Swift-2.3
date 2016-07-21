@@ -11,7 +11,7 @@ import UIKit
 import ChameleonFramework
 
 enum AlertNoise {
-    case SchoolBell
+    case ChurchBell
     case DogBark
     case BoxingBell
     case Horn
@@ -40,6 +40,7 @@ class TimerModel: NSObject {
     var audioAlert: AlertNoise
     var UUID: String
     var colorScheme: BaseColor
+    var alarmRepetitions: Int
     
     init(withName name: String, duration: Int, UUID: String, color: BaseColor) {
         self.name = name
@@ -47,8 +48,9 @@ class TimerModel: NSObject {
         self.paused = false
         self.duration = duration
         self.UUID = UUID
-        self.audioAlert = AlertNoise.SchoolBell
+        self.audioAlert = AlertNoise.ChurchBell
         self.colorScheme = color
+        alarmRepetitions = 1
         super.init()
     }
     
@@ -97,8 +99,8 @@ class TimerModel: NSObject {
     
     func alertAudio() -> (String, String){
         switch audioAlert {
-        case .SchoolBell:
-            return ("School Bell", "mp3")
+        case .ChurchBell:
+            return ("Church Bell", "mp3")
         case .DogBark:
             return ("Car Horn", "mp3")
         case .BoxingBell:

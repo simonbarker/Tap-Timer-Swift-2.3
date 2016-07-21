@@ -18,7 +18,7 @@
 		B02E24D11D35344D001C3243 /* TimerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B02E24D01D35344D001C3243 /* TimerView.xib */; };
 		B02E24D31D355FA9001C3243 /* TimerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B02E24D21D355FA9001C3243 /* TimerModel.swift */; };
 		B05540A41D3EC0E8007A6519 /* ChameleonFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B05540A31D3EC0E8007A6519 /* ChameleonFramework.framework */; };
-		B07081351D3803F9004A5D9D /* School Bell.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B07081341D3803F9004A5D9D /* School Bell.mp3 */; };
+		B06D50881D415439007D8D04 /* Church Bell.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B06D50871D415438007D8D04 /* Church Bell.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,7 +36,7 @@
 		B02E24D01D35344D001C3243 /* TimerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TimerView.xib; sourceTree = "<group>"; };
 		B02E24D21D355FA9001C3243 /* TimerModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimerModel.swift; sourceTree = "<group>"; };
 		B05540A31D3EC0E8007A6519 /* ChameleonFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ChameleonFramework.framework; path = "Pods/../build/Debug-iphoneos/ChameleonFramework/ChameleonFramework.framework"; sourceTree = "<group>"; };
-		B07081341D3803F9004A5D9D /* School Bell.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "School Bell.mp3"; sourceTree = "<group>"; };
+		B06D50871D415438007D8D04 /* Church Bell.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Church Bell.mp3"; sourceTree = "<group>"; };
 		FEE7D16F601712D0A3F4C637 /* Pods-Tap Timer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tap Timer.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Tap Timer/Pods-Tap Timer.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -92,7 +92,7 @@
 		B01A49DB1D35308100FE087D /* Tap Timer */ = {
 			isa = PBXGroup;
 			children = (
-				B07081341D3803F9004A5D9D /* School Bell.mp3 */,
+				B06D50871D415438007D8D04 /* Church Bell.mp3 */,
 				B00737EC1D412F6200D46510 /* Car Horn.mp3 */,
 				B01A49DC1D35308100FE087D /* AppDelegate.swift */,
 				B01A49DE1D35308100FE087D /* ViewController.swift */,
@@ -169,9 +169,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B06D50881D415439007D8D04 /* Church Bell.mp3 in Resources */,
 				B01A49E71D35308100FE087D /* LaunchScreen.storyboard in Resources */,
 				B00737ED1D412F6200D46510 /* Car Horn.mp3 in Resources */,
-				B07081351D3803F9004A5D9D /* School Bell.mp3 in Resources */,
 				B01A49E41D35308100FE087D /* Assets.xcassets in Resources */,
 				B02E24D11D35344D001C3243 /* TimerView.xib in Resources */,
 				B01A49E21D35308100FE087D /* Main.storyboard in Resources */,

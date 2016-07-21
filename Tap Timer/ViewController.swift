@@ -9,7 +9,7 @@
 import UIKit
 import AVFoundation
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, AVAudioPlayerDelegate {
 
     @IBOutlet var timerLeadingConstraint: NSLayoutConstraint!
     @IBOutlet var timerTrailingContraint: NSLayoutConstraint!
@@ -17,6 +17,11 @@ class ViewController: UIViewController {
     @IBOutlet var timerBottomContraint: NSLayoutConstraint!
     
     @IBOutlet var timerView: TimerView!
+    
+    var audioPlayer: AVAudioPlayer?
+    
+    //audio playng flag
+    var audioPlaying = false
     
     //timer model
     var timer: TimerModel!
@@ -37,6 +42,7 @@ class ViewController: UIViewController {
         setupSettingsView()
         
         timer = TimerModel.init(withName: "Tap Timer 1", duration: 10, UUID: NSUUID().UUIDString, color: .SkyBlue)
+        timer.alarmRepetitions = 5
         
         //set up timer view
         let colors = timer.getColorScheme()
@@ -65,9 +71,6 @@ class ViewController: UIViewController {
         
         self.view.addGestureRecognizer(pinchGestureRecogniser)
         
-        //prepare audio
-        loadAudio()
-        
     }
     
     func setupSettingsView() {        
@@ -87,10 +90,12 @@ class ViewController: UIViewController {
             return
         }
         
+        //count down timer ended
         if NSDate().compare(timerEndTime) == NSComparisonResult.OrderedDescending {
             
             if !didNotificationFire(timer) {
-                playAudioFor(2)
+                loadAudio()
+                playAudio()
             }
             
             countDownTimer.invalidate()
@@ -109,77 +114,85 @@ class ViewController: UIViewController {
     
     //Mark: - Audio methods
     func loadAudio(){
-        
+        print("loading audio")
         let audioFile = timer.alertAudio()
         
         let audioPath = NSBundle.mainBundle().pathForResource(audioFile.0, ofType: audioFile.1)!
         
         do {
             try player = AVAudioPlayer(contentsOfURL: NSURL(fileURLWithPath: audioPath))
+            player.delegate = self
+            audioPlayer = player
         } catch {
             print("Error: \(error) in loadind audio file")
         }
         
     }
     
-    func playAudioFor(seconds: Int) {
-        //play audio for 2 seconds
+    func playAudio() {
+        
+        print("playing audio")
+        
+        player.numberOfLoops = timer.alarmRepetitions - 1
         player.currentTime = 0.0
         player.play()
-        endAudioTimer = NSTimer.scheduledTimerWithTimeInterval(NSTimeInterval(seconds), target: self, selector: #selector(self.endAAudio), userInfo: nil, repeats: false)
-    }
-    
-    func endAAudio() {
-        player.stop()
-        endAudioTimer.invalidate()
+        
+        audioPlaying = true
     }
     
     //MARK: - Gesture recognisers
     func singleTapDetected(sender: UITapGestureRecognizer) {
         
         if sender.state == .Ended && settingsMode == false {
-            if timer.active == false && timer.paused == false{
-                
-                //start timer
-                timer.active = true
-                countDownTimer = NSTimer.scheduledTimerWithTimeInterval(0.01, target: self, selector: #selector(self.timerFired), userInfo: nil, repeats: true)
-                timer.timerStartTime = NSDate()
-                timer.timerEndTime = NSDate().dateByAddingTimeInterval(NSTimeInterval((timer.duration)))
-                
-                registerTimerNotification(timer)
-                
-                
-            } else if timer.active == false && timer.paused == true {
-                
-                //start timer
-                timer.active = true
-                timer.paused = false
-                countDownTimer = NSTimer.scheduledTimerWithTimeInterval(0.01, target: self, selector: #selector(self.timerFired), userInfo: nil, repeats: true)
-                
-                //reset end time
-                timer.timerStartTime = NSDate()
-                
-                guard let remaining = timer.remainingWhenPaused else {
-                    print("No paused remaining time")
-                    return
-                }
-                
-                timer.timerEndTime = NSDate().dateByAddingTimeInterval(NSTimeInterval((remaining)))
-                
-                registerTimerNotification(timer)
-                
-                
+            if audioPlaying == true {
+                audioPlayer!.stop()
+                audioPlayer = nil
+                audioPlaying = false
             } else {
                 
-                //pause timer
-                timer.active = false
-                timer.paused = true
-                timer.setPausedRemaining()
-                countDownTimer.invalidate()
-                
-                //remove notification
-                removeNotificationFromSchedule(timer)
-                
+                if timer.active == false && timer.paused == false {
+                    
+                    //start timer
+                    timer.active = true
+                    countDownTimer = NSTimer.scheduledTimerWithTimeInterval(0.01, target: self, selector: #selector(self.timerFired), userInfo: nil, repeats: true)
+                    timer.timerStartTime = NSDate()
+                    timer.timerEndTime = NSDate().dateByAddingTimeInterval(NSTimeInterval((timer.duration)))
+                    
+                    registerTimerNotification(timer)
+                    
+                    
+                } else if timer.active == false && timer.paused == true {
+                    
+                    //start timer
+                    timer.active = true
+                    timer.paused = false
+                    countDownTimer = NSTimer.scheduledTimerWithTimeInterval(0.01, target: self, selector: #selector(self.timerFired), userInfo: nil, repeats: true)
+                    
+                    //reset end time
+                    timer.timerStartTime = NSDate()
+                    
+                    guard let remaining = timer.remainingWhenPaused else {
+                        print("No paused remaining time")
+                        return
+                    }
+                    
+                    timer.timerEndTime = NSDate().dateByAddingTimeInterval(NSTimeInterval((remaining)))
+                    
+                    registerTimerNotification(timer)
+                    
+                    
+                } else {
+                    
+                    //pause timer
+                    timer.active = false
+                    timer.paused = true
+                    timer.setPausedRemaining()
+                    countDownTimer.invalidate()
+                    
+                    //remove notification
+                    removeNotificationFromSchedule(timer)
+                    
+                }
             }
         }
         
@@ -321,47 +334,51 @@ class ViewController: UIViewController {
 
     //MARK: - Color tapped
     @IBAction func colorTapped(sender: UIButton) {
-        switch sender.tag {
-        case 100:
-            timer.colorScheme = .SkyBlue
-        case 101:
-            timer.colorScheme = .Purple
-        case 102:
-            timer.colorScheme = .Red
-        case 103:
-            timer.colorScheme = .Yellow
-        case 104:
-            timer.colorScheme = .Green
-        case 105:
-            timer.colorScheme = .Gray
-        default:
-            print("No color")
+        if settingsMode {
+            switch sender.tag {
+            case 100:
+                timer.colorScheme = .SkyBlue
+            case 101:
+                timer.colorScheme = .Purple
+            case 102:
+                timer.colorScheme = .Red
+            case 103:
+                timer.colorScheme = .Yellow
+            case 104:
+                timer.colorScheme = .Green
+            case 105:
+                timer.colorScheme = .Gray
+            default:
+                print("No color")
+            }
+            
+            let colors = timer.getColorScheme()
+            
+            timerView.setColorScheme(colorLight: colors["lightColor"]!, colorDark: colors["darkColor"]!)
         }
-        
-        let colors = timer.getColorScheme()
-        
-        timerView.setColorScheme(colorLight: colors["lightColor"]!, colorDark: colors["darkColor"]!)
     }
     
     @IBAction func soundTapped(sender: UIButton) {
-        switch sender.tag {
-        case 200:
-            timer.audioAlert = .SchoolBell
-        case 201:
-            timer.audioAlert = .DogBark
-        case 202:
-            timer.audioAlert = .BoxingBell
-        case 203:
-            timer.audioAlert = .Horn
-        case 204:
-            timer.audioAlert = .Alien
-        case 205:
-            timer.audioAlert = .Car
-        default:
-            print("no sound")
+        if settingsMode {
+            switch sender.tag {
+            case 200:
+                timer.audioAlert = .ChurchBell
+            case 201:
+                timer.audioAlert = .DogBark
+            case 202:
+                timer.audioAlert = .BoxingBell
+            case 203:
+                timer.audioAlert = .Horn
+            case 204:
+                timer.audioAlert = .Alien
+            case 205:
+                timer.audioAlert = .Car
+            default:
+                print("no sound")
+            }
+            loadAudio()
+            playAudio()
         }
-        loadAudio()
-        playAudioFor(2)
     }
     
     override func didReceiveMemoryWarning() {
@@ -369,6 +386,12 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    //MARK: - AVPlayer Delegate
+    
+    func audioPlayerDidFinishPlaying(player: AVAudioPlayer, successfully flag: Bool) {
+        print("here")
+        audioPlaying = false
+    }
     
 }
 
