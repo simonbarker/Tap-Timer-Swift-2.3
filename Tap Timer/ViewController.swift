@@ -457,9 +457,12 @@ class ViewController: UIViewController, AVAudioPlayerDelegate {
     }
     
     //MARK: - AVPlayer Delegate
-    
     func audioPlayerDidFinishPlaying(player: AVAudioPlayer, successfully flag: Bool) {
         audioPlaying = false
+    }
+    
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return UIStatusBarStyle.LightContent
     }
     
 }
