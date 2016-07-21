@@ -151,7 +151,6 @@
                                         </constraints>
                                         <state key="normal" image="Bell"/>
                                         <connections>
-                                            <action selector="colorTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="fGq-Mq-wLp"/>
                                             <action selector="soundTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="18R-Lw-GL3"/>
                                         </connections>
                                     </button>
@@ -163,7 +162,6 @@
                                         </constraints>
                                         <state key="normal" image="Dog"/>
                                         <connections>
-                                            <action selector="colorTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Uid-CN-sMA"/>
                                             <action selector="soundTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="moN-u5-EZ3"/>
                                         </connections>
                                     </button>
@@ -175,7 +173,6 @@
                                         </constraints>
                                         <state key="normal" image="Boxing bell"/>
                                         <connections>
-                                            <action selector="colorTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="dWR-9T-s9m"/>
                                             <action selector="soundTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="B0P-WO-NEz"/>
                                         </connections>
                                     </button>
@@ -187,7 +184,6 @@
                                         </constraints>
                                         <state key="normal" image="Horn"/>
                                         <connections>
-                                            <action selector="colorTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="5AZ-Gh-Tjn"/>
                                             <action selector="soundTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Ffn-G5-tzq"/>
                                         </connections>
                                     </button>
@@ -199,7 +195,6 @@
                                         </constraints>
                                         <state key="normal" image="Alien"/>
                                         <connections>
-                                            <action selector="colorTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="xD4-0o-PzC"/>
                                             <action selector="soundTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Isv-fv-dIv"/>
                                         </connections>
                                     </button>
@@ -211,7 +206,6 @@
                                         </constraints>
                                         <state key="normal" image="Car"/>
                                         <connections>
-                                            <action selector="colorTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="clX-4C-JVY"/>
                                             <action selector="soundTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="o5O-t5-5ft"/>
                                         </connections>
                                     </button>
