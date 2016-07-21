@@ -38,8 +38,8 @@ class ViewController: UIViewController {
         
         timer = TimerModel.init(withName: "Tap Timer 1", duration: 10, UUID: NSUUID().UUIDString, color: .SkyBlue)
         
+        //set up timer view
         let colors = timer.getColorScheme()
-        
         timerView.setColorScheme(colorLight: colors["lightColor"]!, colorDark: colors["darkColor"]!)
         timerView.setTimeRemainingLabel(timer.duration)
         timerView.setCountDownBarFromPercentage(1.0)
@@ -65,6 +65,7 @@ class ViewController: UIViewController {
         
         self.view.addGestureRecognizer(pinchGestureRecogniser)
         
+        //prepare audio
         loadAudio()
         
     }
@@ -226,6 +227,7 @@ class ViewController: UIViewController {
         }
     }
     
+    //MARK: - Toggle view mode between settings and timer
     func chnageViewModeTo(mode: String){
         
         let constraints = [timerLeadingConstraint, timerTrailingContraint, timerTopContraint, timerBottomContraint]
@@ -317,12 +319,6 @@ class ViewController: UIViewController {
         }
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
-
     //MARK: - Color tapped
     @IBAction func colorTapped(sender: UIButton) {
         switch sender.tag {
@@ -345,7 +341,32 @@ class ViewController: UIViewController {
         let colors = timer.getColorScheme()
         
         timerView.setColorScheme(colorLight: colors["lightColor"]!, colorDark: colors["darkColor"]!)
-        
+    }
+    
+    @IBAction func soundTapped(sender: UIButton) {
+        switch sender.tag {
+        case 200:
+            timer.audioAlert = .SchoolBell
+        case 201:
+            timer.audioAlert = .DogBark
+        case 202:
+            timer.audioAlert = .BoxingBell
+        case 203:
+            timer.audioAlert = .Horn
+        case 204:
+            timer.audioAlert = .Alien
+        case 205:
+            timer.audioAlert = .Car
+        default:
+            print("no sound")
+        }
+        loadAudio()
+        playAudioFor(2)
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
     }
     
     

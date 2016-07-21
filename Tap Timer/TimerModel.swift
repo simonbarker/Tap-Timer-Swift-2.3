@@ -13,6 +13,10 @@ import ChameleonFramework
 enum AlertNoise {
     case SchoolBell
     case DogBark
+    case BoxingBell
+    case Horn
+    case Alien
+    case Car
 }
 
 enum BaseColor {
@@ -96,7 +100,15 @@ class TimerModel: NSObject {
         case .SchoolBell:
             return ("School Bell", "mp3")
         case .DogBark:
-            return ("Dog Bark", "mp3")
+            return ("Car Horn", "mp3")
+        case .BoxingBell:
+            return ("School Bell", "mp3")
+        case .Horn:
+            return ("Car Horn", "mp3")
+        case .Alien:
+            return ("School Bell", "mp3")
+        case .Car:
+            return ("Car Horn", "mp3")
         }
     }
     
