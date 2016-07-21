@@ -36,13 +36,20 @@ class ViewController: UIViewController, AVAudioPlayerDelegate {
     
     var player: AVAudioPlayer = AVAudioPlayer()
     
+    var soundButtonImages: [UIImage] = []
+    
+    @IBOutlet var alarmRepetitionsSlider: UISlider!
+    @IBOutlet var alarmRepetitionsSliderLabel: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupSettingsView()
         
+        changeViewModeTo("timer")
+        
         timer = TimerModel.init(withName: "Tap Timer 1", duration: 10, UUID: NSUUID().UUIDString, color: .SkyBlue)
-        timer.alarmRepetitions = 5
+        timer.alarmRepetitions = 1
         
         //set up timer view
         let colors = timer.getColorScheme()
@@ -71,15 +78,46 @@ class ViewController: UIViewController, AVAudioPlayerDelegate {
         
         self.view.addGestureRecognizer(pinchGestureRecogniser)
         
+        //grab oringal images from sound UIButton
+        for i in (200...205) {
+            let button = self.view.viewWithTag(i) as? UIButton
+            soundButtonImages.append((button!.imageView?.image)!)
+        }
+        
+        //highlight correct sound
+        highlightCorrectSoundButtonForTimer()
+        
     }
     
-    func setupSettingsView() {        
+    func highlightCorrectSoundButtonForTimer() {
+        var tag = 200
+        switch timer.audioAlert {
+        case .ChurchBell:
+            tag = 200
+        case .DogBark:
+            tag = 201
+        case .BoxingBell:
+            tag = 202
+        case .Horn:
+            tag = 203
+        case .Alien:
+            tag = 204
+        case .Car:
+            tag = 205
+        }
+        
+        let button = self.view.viewWithTag(tag) as? UIButton
+        addButtonTint(button!)
+    }
+    
+    func setupSettingsView() {
         
         let gradient: CAGradientLayer = CAGradientLayer()
         gradient.frame = view.bounds
         gradient.colors = [UIColor.whiteColor().CGColor, UIColor.blackColor().CGColor]
         gradient.opacity = 0.15
         self.view.layer.insertSublayer(gradient, atIndex: 0)
+    
     }
     
     func timerFired() {
@@ -95,7 +133,7 @@ class ViewController: UIViewController, AVAudioPlayerDelegate {
             
             if !didNotificationFire(timer) {
                 loadAudio()
-                playAudio()
+                playAudio(timer.alarmRepetitions - 1)
             }
             
             countDownTimer.invalidate()
@@ -129,11 +167,11 @@ class ViewController: UIViewController, AVAudioPlayerDelegate {
         
     }
     
-    func playAudio() {
+    func playAudio(loops: Int) {
         
         print("playing audio")
         
-        player.numberOfLoops = timer.alarmRepetitions - 1
+        player.numberOfLoops = loops
         player.currentTime = 0.0
         player.play()
         
@@ -228,12 +266,12 @@ class ViewController: UIViewController, AVAudioPlayerDelegate {
             
             if sender.scale < 1 {
                 
-                chnageViewModeTo("settings")
+                changeViewModeTo("settings")
                 
                 settingsMode = true
             } else {
                 
-                chnageViewModeTo("timer")
+                changeViewModeTo("timer")
                 
                 settingsMode = false
             }
@@ -241,7 +279,7 @@ class ViewController: UIViewController, AVAudioPlayerDelegate {
     }
     
     //MARK: - Toggle view mode between settings and timer
-    func chnageViewModeTo(mode: String){
+    func changeViewModeTo(mode: String){
         
         let constraints = [timerLeadingConstraint, timerTrailingContraint, timerTopContraint, timerBottomContraint]
         
@@ -355,6 +393,14 @@ class ViewController: UIViewController, AVAudioPlayerDelegate {
             let colors = timer.getColorScheme()
             
             timerView.setColorScheme(colorLight: colors["lightColor"]!, colorDark: colors["darkColor"]!)
+            
+            //change color of the highlighted sound button
+            for i in (200...205) {
+                let button = self.view.viewWithTag(i) as? UIButton
+                if button?.imageView?.image != soundButtonImages[i - 200]{
+                    addButtonTint(button!)
+                }
+            }
         }
     }
     
@@ -376,9 +422,33 @@ class ViewController: UIViewController, AVAudioPlayerDelegate {
             default:
                 print("no sound")
             }
+            
+            //clear previously highlighted buttons
+            for i in (200...205) {
+                let button = self.view.viewWithTag(i) as? UIButton
+                button?.imageView?.image = soundButtonImages[i-200]
+            }
+            
+            //change color of tapped button
+            addButtonTint(sender)
+            
             loadAudio()
-            playAudio()
+            playAudio(0)
         }
+    }
+    
+    func addButtonTint(button: UIButton) {
+        let origImage = button.imageView?.image
+        let tintedImage = origImage?.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
+        button.setImage(tintedImage, forState: .Normal)
+        
+        let colors = timer.getColorScheme()
+        button.tintColor = colors["lightColor"]!
+    }
+    
+    @IBAction func sliderMoved(sender: UISlider) {
+        timer.alarmRepetitions = Int(sender.value)
+        alarmRepetitionsSliderLabel.text = "\(Int(sender.value))"
     }
     
     override func didReceiveMemoryWarning() {
@@ -389,7 +459,6 @@ class ViewController: UIViewController, AVAudioPlayerDelegate {
     //MARK: - AVPlayer Delegate
     
     func audioPlayerDidFinishPlaying(player: AVAudioPlayer, successfully flag: Bool) {
-        print("here")
         audioPlaying = false
     }
     

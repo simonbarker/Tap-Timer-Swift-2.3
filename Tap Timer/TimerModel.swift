@@ -104,11 +104,11 @@ class TimerModel: NSObject {
         case .DogBark:
             return ("Car Horn", "mp3")
         case .BoxingBell:
-            return ("School Bell", "mp3")
+            return ("Church Bell", "mp3")
         case .Horn:
             return ("Car Horn", "mp3")
         case .Alien:
-            return ("School Bell", "mp3")
+            return ("Church Bell", "mp3")
         case .Car:
             return ("Car Horn", "mp3")
         }
