@@ -19,6 +19,9 @@
 		B02E24D31D355FA9001C3243 /* TimerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B02E24D21D355FA9001C3243 /* TimerModel.swift */; };
 		B05540A41D3EC0E8007A6519 /* ChameleonFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B05540A31D3EC0E8007A6519 /* ChameleonFramework.framework */; };
 		B06D50881D415439007D8D04 /* Church Bell.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B06D50871D415438007D8D04 /* Church Bell.mp3 */; };
+		B099C5BA1D416E9B00A7B705 /* iCarousel.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B099C5B91D416E9B00A7B705 /* iCarousel.framework */; };
+		B0F54CA31D423884006BF224 /* UpgradeToProViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0F54CA21D423884006BF224 /* UpgradeToProViewController.swift */; };
+		B0F54CA51D4238AA006BF224 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0F54CA41D4238AA006BF224 /* Helper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +40,9 @@
 		B02E24D21D355FA9001C3243 /* TimerModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimerModel.swift; sourceTree = "<group>"; };
 		B05540A31D3EC0E8007A6519 /* ChameleonFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ChameleonFramework.framework; path = "Pods/../build/Debug-iphoneos/ChameleonFramework/ChameleonFramework.framework"; sourceTree = "<group>"; };
 		B06D50871D415438007D8D04 /* Church Bell.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Church Bell.mp3"; sourceTree = "<group>"; };
+		B099C5B91D416E9B00A7B705 /* iCarousel.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iCarousel.framework; path = "Pods/../build/Debug-iphoneos/iCarousel/iCarousel.framework"; sourceTree = "<group>"; };
+		B0F54CA21D423884006BF224 /* UpgradeToProViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpgradeToProViewController.swift; sourceTree = "<group>"; };
+		B0F54CA41D4238AA006BF224 /* Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
 		FEE7D16F601712D0A3F4C637 /* Pods-Tap Timer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tap Timer.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Tap Timer/Pods-Tap Timer.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -45,6 +51,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B099C5BA1D416E9B00A7B705 /* iCarousel.framework in Frameworks */,
 				B05540A41D3EC0E8007A6519 /* ChameleonFramework.framework in Frameworks */,
 				391E3707D5F72B98C8E0603A /* Pods_Tap_Timer.framework in Frameworks */,
 			);
@@ -65,6 +72,7 @@
 		7714B5DF8E9D8E7F61F9CD0E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B099C5B91D416E9B00A7B705 /* iCarousel.framework */,
 				B05540A31D3EC0E8007A6519 /* ChameleonFramework.framework */,
 				46D8505C7376F5F4F91F8605 /* Pods_Tap_Timer.framework */,
 			);
@@ -96,7 +104,9 @@
 				B00737EC1D412F6200D46510 /* Car Horn.mp3 */,
 				B01A49DC1D35308100FE087D /* AppDelegate.swift */,
 				B01A49DE1D35308100FE087D /* ViewController.swift */,
+				B0F54CA21D423884006BF224 /* UpgradeToProViewController.swift */,
 				B02E24D21D355FA9001C3243 /* TimerModel.swift */,
+				B0F54CA41D4238AA006BF224 /* Helper.swift */,
 				B01A49E01D35308100FE087D /* Main.storyboard */,
 				B02E24D01D35344D001C3243 /* TimerView.xib */,
 				B01A49EE1D35319F00FE087D /* TimerView.swift */,
@@ -233,10 +243,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B0F54CA31D423884006BF224 /* UpgradeToProViewController.swift in Sources */,
 				B01A49EF1D35319F00FE087D /* TimerView.swift in Sources */,
 				B02E24D31D355FA9001C3243 /* TimerModel.swift in Sources */,
 				B01A49DF1D35308100FE087D /* ViewController.swift in Sources */,
 				B01A49DD1D35308100FE087D /* AppDelegate.swift in Sources */,
+				B0F54CA51D4238AA006BF224 /* Helper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -357,6 +369,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/build/Debug-iphoneos/ChameleonFramework",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/iCarousel",
 				);
 				INFOPLIST_FILE = "Tap Timer/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -376,6 +389,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/build/Debug-iphoneos/ChameleonFramework",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/iCarousel",
 				);
 				INFOPLIST_FILE = "Tap Timer/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

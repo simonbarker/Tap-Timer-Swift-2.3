@@ -8,8 +8,13 @@
 
 import UIKit
 import AVFoundation
+import iCarousel
+
+var pro = true
 
 class ViewController: UIViewController, AVAudioPlayerDelegate {
+    
+    var timers = [Int]()
 
     @IBOutlet var timerLeadingConstraint: NSLayoutConstraint!
     @IBOutlet var timerTrailingContraint: NSLayoutConstraint!
@@ -20,7 +25,7 @@ class ViewController: UIViewController, AVAudioPlayerDelegate {
     
     var audioPlayer: AVAudioPlayer?
     
-    //audio playng flag
+    //audio playing flag
     var audioPlaying = false
     
     //timer model
@@ -40,6 +45,13 @@ class ViewController: UIViewController, AVAudioPlayerDelegate {
     
     @IBOutlet var alarmRepetitionsSlider: UISlider!
     @IBOutlet var alarmRepetitionsSliderLabel: UILabel!
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        timers = [1,2,3,4,5,6]
+        
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -87,6 +99,8 @@ class ViewController: UIViewController, AVAudioPlayerDelegate {
         //highlight correct sound
         highlightCorrectSoundButtonForTimer()
         
+        changeViewModeTo("settings")
+        
     }
     
     func highlightCorrectSoundButtonForTimer() {
@@ -112,11 +126,8 @@ class ViewController: UIViewController, AVAudioPlayerDelegate {
     
     func setupSettingsView() {
         
-        let gradient: CAGradientLayer = CAGradientLayer()
-        gradient.frame = view.bounds
-        gradient.colors = [UIColor.whiteColor().CGColor, UIColor.blackColor().CGColor]
-        gradient.opacity = 0.15
-        self.view.layer.insertSublayer(gradient, atIndex: 0)
+        Helper.addBackgroundGradient(self.view)
+        
     
     }
     
