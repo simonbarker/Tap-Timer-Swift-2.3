@@ -9,6 +9,8 @@
 import UIKit
 import AVFoundation
 
+var isPro: Bool = false
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 

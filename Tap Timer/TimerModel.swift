@@ -9,6 +9,13 @@
 import Foundation
 import UIKit
 import ChameleonFramework
+import AVFoundation
+
+//protocol provides a way for the timer to tell the view controller that has fired, this allows the viewcontroller to update the UI correctly
+protocol timerProtocol {
+    func timerFired(timer: TimerModel)
+    func timerEnded(timer: TimerModel)
+}
 
 enum AlertNoise {
     case ChurchBell
@@ -28,7 +35,7 @@ enum BaseColor {
     case Gray
 }
 
-class TimerModel: NSObject {
+class TimerModel: NSObject, AVAudioPlayerDelegate {
     
     var name: String
     var active: Bool
@@ -41,6 +48,10 @@ class TimerModel: NSObject {
     var UUID: String
     var colorScheme: BaseColor
     var alarmRepetitions: Int
+    var audioPlaying: Bool
+    var player: AVAudioPlayer = AVAudioPlayer()
+    var countDownTimer: NSTimer = NSTimer()
+    var delegate: timerProtocol? = nil
     
     init(withName name: String, duration: Int, UUID: String, color: BaseColor) {
         self.name = name
@@ -51,16 +62,12 @@ class TimerModel: NSObject {
         self.audioAlert = AlertNoise.ChurchBell
         self.colorScheme = color
         alarmRepetitions = 1
+        self.audioPlaying = false
         super.init()
     }
     
     convenience override init() {
         self.init(withName: "Tap Timer 1", duration: 10, UUID: NSUUID().UUIDString, color: .Red)
-    }
-    
-    func resetTimer() {
-        active = false
-        paused = false
     }
     
     func percentageThroughTimer() -> Double {
@@ -128,6 +135,103 @@ class TimerModel: NSObject {
             return ["lightColor": UIColor.flatGreenColor(), "darkColor": UIColor.flatGreenColorDark()]
         case .Gray:
             return ["lightColor": UIColor.flatGrayColor(), "darkColor": UIColor.flatGrayColorDark()]
+        }
+    }
+    
+    //Mark: - Audio methods
+    func loadAudio(){
+        print("loading audio")
+        let audioFile = self.alertAudio()
+        
+        let audioPath = NSBundle.mainBundle().pathForResource(audioFile.0, ofType: audioFile.1)!
+        
+        do {
+            try player = AVAudioPlayer(contentsOfURL: NSURL(fileURLWithPath: audioPath))
+            player.delegate = self
+        } catch {
+            print("Error: \(error) in loadind audio file")
+        }
+        
+    }
+    
+    func playAudio(loops: Int) {
+        
+        print("playing audio")
+        
+        player.numberOfLoops = loops
+        player.currentTime = 0.0
+        player.play()
+        
+        audioPlaying = true
+    }
+    
+    //MARK: - AVPlayer Delegate
+    func audioPlayerDidFinishPlaying(player: AVAudioPlayer, successfully flag: Bool) {
+        audioPlaying = false
+    }
+    
+    func start() {
+        active = true
+        paused = false
+        countDownTimer = NSTimer.scheduledTimerWithTimeInterval(0.01, target: self, selector: #selector(self.timerFired), userInfo: nil, repeats: true)
+        timerStartTime = NSDate()
+        timerEndTime = NSDate().dateByAddingTimeInterval(NSTimeInterval(duration))
+    }
+    
+    func pause() {
+        active = false
+        paused = true
+        setPausedRemaining()
+        countDownTimer.invalidate()
+    }
+    
+    func restart() {
+        active = true
+        paused = false
+        countDownTimer = NSTimer.scheduledTimerWithTimeInterval(0.01, target: self, selector: #selector(self.timerFired), userInfo: nil, repeats: true)
+        timerStartTime = NSDate()
+        timerEndTime = NSDate().dateByAddingTimeInterval(NSTimeInterval(duration))
+        
+        guard let remaining = remainingWhenPaused else {
+            print("No paused remaining time")
+            return
+        }
+        
+        timerEndTime = NSDate().dateByAddingTimeInterval(NSTimeInterval(remaining))
+    }
+    
+    func reset() {
+        active = false
+        paused = false
+        countDownTimer.invalidate()
+        timerStartTime = nil
+        timerEndTime = nil
+    }
+    
+    
+    func timerFired() {
+        //update timer
+        guard let timerEndTime = timerEndTime else {
+            print("No timer end time available")
+            return
+        }
+        
+        //count down timer ended
+        if NSDate().compare(timerEndTime) == NSComparisonResult.OrderedDescending {
+            
+            if !Helper.didNotificationFire(self) {
+                loadAudio()
+                playAudio(alarmRepetitions - 1)
+            }
+            
+            reset()
+            self.delegate?.timerEnded(self)
+            Helper.removeNotificationFromSchedule(self)
+            
+        } else {
+            
+            self.delegate?.timerFired(self)
+            
         }
     }
     
