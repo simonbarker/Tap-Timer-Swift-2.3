@@ -17,13 +17,7 @@ class ViewController: UIViewController, timerProtocol {
     var settingsConstraints = [NSLayoutConstraint]()
     var timerConstraints = [NSLayoutConstraint]()
 
-    /*@IBOutlet var timerLeadingConstraint: NSLayoutConstraint!
-    @IBOutlet var timerTrailingContraint: NSLayoutConstraint!
-    @IBOutlet var timerTopContraint: NSLayoutConstraint!
-    @IBOutlet var timerBottomContraint: NSLayoutConstraint!
- 
-    @IBOutlet var timerView: TimerView!*/
-    var timerView: TimerView!
+    var focussedTimerView: TimerView!
     
     @IBOutlet var alarmRepetitionsSlider: UISlider!
     @IBOutlet var alarmRepetitionsSliderLabel: UILabel!
@@ -58,17 +52,17 @@ class ViewController: UIViewController, timerProtocol {
         }
         
         //set up timer view
-        timerView = TimerView.init()
+        focussedTimerView = TimerView.init()
         
-        timerView.frame = self.view.bounds
+        focussedTimerView.frame = self.view.bounds
         
         let colors = timer.getColorScheme()
-        timerView.setColorScheme(colorLight: colors["lightColor"]!, colorDark: colors["darkColor"]!)
-        timerView.setTimeRemainingLabel(timer.duration)
-        timerView.setCountDownBarFromPercentage(1.0)
-        timerView.layer.zPosition = 100 //make sure the timer view sits on top of the settings panel
-        timerView.translatesAutoresizingMaskIntoConstraints = false
-        self.view.addSubview(timerView)
+        focussedTimerView.setColorScheme(colorLight: colors["lightColor"]!, colorDark: colors["darkColor"]!)
+        focussedTimerView.setTimeRemainingLabel(timer.duration)
+        focussedTimerView.setCountDownBarFromPercentage(1.0)
+        focussedTimerView.layer.zPosition = 100 //make sure the timer view sits on top of the settings panel
+        focussedTimerView.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(focussedTimerView)
         
         //set up gesture recognisers for timer
         let singleTapGestureRecogniser = UITapGestureRecognizer(target: self, action: #selector(self.singleTapDetected(_:)))
@@ -81,10 +75,10 @@ class ViewController: UIViewController, timerProtocol {
         let panGestureRecogniser = UIPanGestureRecognizer(target: self, action: #selector(self.panDetected(_:)))
         let pinchGestureRecogniser = UIPinchGestureRecognizer(target: self, action: #selector(self.pinchDetected(_:)))
         
-        timerView.addGestureRecognizer(singleTapGestureRecogniser)
-        timerView.addGestureRecognizer(doubleTapGestureRecogniser)
-        timerView.addGestureRecognizer(panGestureRecogniser)
-        timerView.addGestureRecognizer(pinchGestureRecogniser)
+        focussedTimerView.addGestureRecognizer(singleTapGestureRecogniser)
+        focussedTimerView.addGestureRecognizer(doubleTapGestureRecogniser)
+        focussedTimerView.addGestureRecognizer(panGestureRecogniser)
+        focussedTimerView.addGestureRecognizer(pinchGestureRecogniser)
         
         //grab original images from sound UIButton
         for i in (200...205) {
@@ -170,8 +164,8 @@ class ViewController: UIViewController, timerProtocol {
         if sender.state == .Ended && settingsMode == false {
             //reset timer
             timer.reset()
-            timerView.reset()
-            timerView.setTimeRemainingLabel(timer.duration)
+            focussedTimerView.reset()
+            focussedTimerView.setTimeRemainingLabel(timer.duration)
             
             //remove notification
             Helper.removeNotificationFromSchedule(timer)
@@ -209,11 +203,11 @@ class ViewController: UIViewController, timerProtocol {
         
         if mode == "settings" {
             addSettingsModeConstraints()
-            self.timerView.timerLabel.hidden = true
+            self.focussedTimerView.timerLabel.hidden = true
         }
         if mode == "timer" {
             addTimerModeConstraints()
-            self.timerView.timerLabel.hidden = false
+            self.focussedTimerView.timerLabel.hidden = false
         }
         
         UIView.animateWithDuration(0.2, delay: 0, options: [UIViewAnimationOptions.CurveEaseIn] , animations: {
@@ -228,7 +222,7 @@ class ViewController: UIViewController, timerProtocol {
         
         //only let timer time be changed if not active
         if timer.active == false {
-            let location = sender.locationInView(timerView)
+            let location = sender.locationInView(focussedTimerView)
             //let velocity = sender.velocityInView(timerView)
             let screenHeight = self.view.frame.size.height
             
@@ -240,8 +234,8 @@ class ViewController: UIViewController, timerProtocol {
                 
                 timer.duration = duration
                 timer.reset()
-                timerView.reset()
-                timerView.setTimeRemainingLabel(duration)
+                focussedTimerView.reset()
+                focussedTimerView.setTimeRemainingLabel(duration)
                 
             }
         }
@@ -269,7 +263,7 @@ class ViewController: UIViewController, timerProtocol {
             
             let colors = timer.getColorScheme()
             
-            timerView.setColorScheme(colorLight: colors["lightColor"]!, colorDark: colors["darkColor"]!)
+            focussedTimerView.setColorScheme(colorLight: colors["lightColor"]!, colorDark: colors["darkColor"]!)
             
             //change color of the highlighted sound button
             for i in (200...205) {
@@ -331,18 +325,18 @@ class ViewController: UIViewController, timerProtocol {
     
     //Timer protocol delegate methods
     func timerFired(timer: TimerModel) {
-        timerView.setCountDownBarFromPercentage(timer.percentageThroughTimer())
-        timerView.setTimeRemainingLabel(timer.timeFromEndTime())
+        focussedTimerView.setCountDownBarFromPercentage(timer.percentageThroughTimer())
+        focussedTimerView.setTimeRemainingLabel(timer.timeFromEndTime())
     }
     func timerEnded(timer: TimerModel) {
-        timerView.setTimeRemainingLabel(timer.duration)
-        timerView.reset()
+        focussedTimerView.setTimeRemainingLabel(timer.duration)
+        focussedTimerView.reset()
     }
     
     //MARK: - Layout Constraints
     func addTimerModeConstraints() {
 
-        let views = ["timerView": timerView]
+        let views = ["timerView": focussedTimerView]
         
         let timerHorizontalConstraints = NSLayoutConstraint.constraintsWithVisualFormat(
             "H:|-0-[timerView]-0-|",
@@ -364,7 +358,7 @@ class ViewController: UIViewController, timerProtocol {
     
     func addSettingsModeConstraints() {
         
-        let views = ["timerView": timerView]
+        let views = ["timerView": focussedTimerView]
         
         let timerHorizontalConstraints = NSLayoutConstraint.constraintsWithVisualFormat(
             "H:|-75-[timerView]-75-|",
