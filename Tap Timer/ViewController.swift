@@ -13,13 +13,17 @@ class ViewController: UIViewController, timerProtocol {
     
     var timers = [TimerModel]()
     var timerViews = [TimerView]()
+    
+    var settingsConstraints = [NSLayoutConstraint]()
+    var timerConstraints = [NSLayoutConstraint]()
 
-    @IBOutlet var timerLeadingConstraint: NSLayoutConstraint!
+    /*@IBOutlet var timerLeadingConstraint: NSLayoutConstraint!
     @IBOutlet var timerTrailingContraint: NSLayoutConstraint!
     @IBOutlet var timerTopContraint: NSLayoutConstraint!
     @IBOutlet var timerBottomContraint: NSLayoutConstraint!
-    
-    @IBOutlet var timerView: TimerView!
+ 
+    @IBOutlet var timerView: TimerView!*/
+    var timerView: TimerView!
     
     @IBOutlet var alarmRepetitionsSlider: UISlider!
     @IBOutlet var alarmRepetitionsSliderLabel: UILabel!
@@ -43,7 +47,6 @@ class ViewController: UIViewController, timerProtocol {
         
         //initial view set up
         setupSettingsView()
-        changeViewModeTo("timer")
         
         //create the timers
         let timerColorSchemes = [BaseColor.SkyBlue, BaseColor.Purple, BaseColor.Red, BaseColor.Yellow, BaseColor.Green, BaseColor.Gray]
@@ -55,11 +58,17 @@ class ViewController: UIViewController, timerProtocol {
         }
         
         //set up timer view
+        timerView = TimerView.init()
+        
+        timerView.frame = self.view.bounds
+        
         let colors = timer.getColorScheme()
         timerView.setColorScheme(colorLight: colors["lightColor"]!, colorDark: colors["darkColor"]!)
         timerView.setTimeRemainingLabel(timer.duration)
         timerView.setCountDownBarFromPercentage(1.0)
         timerView.layer.zPosition = 100 //make sure the timer view sits on top of the settings panel
+        timerView.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(timerView)
         
         //set up gesture recognisers for timer
         let singleTapGestureRecogniser = UITapGestureRecognizer(target: self, action: #selector(self.singleTapDetected(_:)))
@@ -87,7 +96,8 @@ class ViewController: UIViewController, timerProtocol {
         highlightCorrectSoundButtonForTimer(timer)
         
         //for developemnt purposes
-        changeViewModeTo("settings")
+        addTimerModeConstraints()
+        
         
     }
     
@@ -197,20 +207,12 @@ class ViewController: UIViewController, timerProtocol {
     //MARK: - Toggle view mode between settings and timer
     func changeViewModeTo(mode: String){
         
-        let constraints = [timerLeadingConstraint, timerTrailingContraint, timerTopContraint, timerBottomContraint]
-        
         if mode == "settings" {
-            constraints[0].constant = 55
-            constraints[1].constant = 55
-            constraints[2].constant = 105
-            constraints[3].constant = 85
+            addSettingsModeConstraints()
             self.timerView.timerLabel.hidden = true
         }
         if mode == "timer" {
-            constraints[0].constant = -20
-            constraints[1].constant = -20
-            constraints[2].constant = 0
-            constraints[3].constant = 0
+            addTimerModeConstraints()
             self.timerView.timerLabel.hidden = false
         }
         
@@ -219,7 +221,6 @@ class ViewController: UIViewController, timerProtocol {
         }) { (true) in
             
         }
-        
     }
     
     //MARK: - Set timer methods
@@ -337,6 +338,52 @@ class ViewController: UIViewController, timerProtocol {
         timerView.setTimeRemainingLabel(timer.duration)
         timerView.reset()
     }
+    
+    //MARK: - Layout Constraints
+    func addTimerModeConstraints() {
+
+        let views = ["timerView": timerView]
+        
+        let timerHorizontalConstraints = NSLayoutConstraint.constraintsWithVisualFormat(
+            "H:|-0-[timerView]-0-|",
+            options: [],
+            metrics: nil,
+            views: views)
+        settingsConstraints += timerHorizontalConstraints
+    
+        let timerVerticalConstraints = NSLayoutConstraint.constraintsWithVisualFormat(
+            "V:|-0-[timerView]-0-|",
+            options: [],
+            metrics: nil,
+            views: views)
+        settingsConstraints += timerVerticalConstraints
+
+        NSLayoutConstraint.deactivateConstraints(timerConstraints)
+        NSLayoutConstraint.activateConstraints(settingsConstraints)
+    }
+    
+    func addSettingsModeConstraints() {
+        
+        let views = ["timerView": timerView]
+        
+        let timerHorizontalConstraints = NSLayoutConstraint.constraintsWithVisualFormat(
+            "H:|-75-[timerView]-75-|",
+            options: [],
+            metrics: nil,
+            views: views)
+        timerConstraints += timerHorizontalConstraints
+        
+        let timerVerticalConstraints = NSLayoutConstraint.constraintsWithVisualFormat(
+            "V:|-105-[timerView]-85-|",
+            options: [],
+            metrics: nil,
+            views: views)
+        timerConstraints += timerVerticalConstraints
+        
+        NSLayoutConstraint.deactivateConstraints(settingsConstraints)
+        NSLayoutConstraint.activateConstraints(timerConstraints)
+    }
+    
 }
 
 

@@ -17,7 +17,31 @@ class TimerView: UIView {
     @IBOutlet var countDownBar: UIView!
     @IBOutlet var countDownBarTopSpaceConstraint: NSLayoutConstraint!
     
-    override func awakeFromNib() {
+    override init(frame: CGRect) {
+        // 1. setup any properties here
+        
+        // 2. call super.init(frame:)
+        super.init(frame: frame)
+        
+        // 3. Setup view from .xib file
+        xibSetup()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        // 1. setup any properties here
+        
+        // 2. call super.init(coder:)
+        super.init(coder: aDecoder)
+        
+        // 3. Setup view from .xib file
+        xibSetup()
+    }
+    
+    /*override func awakeFromNib() {
+        
+    }*/
+    
+    func xibSetup() {
         contentView = loadViewFromNib()
         
         // use bounds not frame or it'll be offset
@@ -37,7 +61,6 @@ class TimerView: UIView {
         self.layer.shadowOpacity = 0.25
         self.layer.shadowOffset = CGSizeMake(2, 3)
         self.layer.shadowRadius = 4
-        
     }
     
     func loadViewFromNib() -> UIView {
@@ -106,3 +129,4 @@ class TimerView: UIView {
     */
 
 }
+

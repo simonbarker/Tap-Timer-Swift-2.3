@@ -214,10 +214,6 @@
                                     <segue destination="VkC-z6-rkg" kind="presentation" id="ksZ-5P-pnV"/>
                                 </connections>
                             </button>
-                            <view tag="1" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nMV-F1-LMw" customClass="TimerView" customModule="Tap_Timer" customModuleProvider="target">
-                                <rect key="frame" x="71" y="105" width="178" height="378"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
                         </subviews>
                         <color key="backgroundColor" red="0.42655369639396667" green="0.47584608197212219" blue="0.48026475310325623" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
@@ -231,13 +227,11 @@
                             <constraint firstItem="LkG-J8-MT0" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="85" id="Qit-GU-NFD"/>
                             <constraint firstItem="dVR-fq-JXF" firstAttribute="top" secondItem="fca-P5-0Cu" secondAttribute="bottom" constant="10" id="QnQ-N2-han"/>
                             <constraint firstItem="4NK-Sm-kEr" firstAttribute="centerX" secondItem="vVt-Mg-1LM" secondAttribute="centerX" id="Rxs-5U-eGd"/>
-                            <constraint firstItem="nMV-F1-LMw" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="topMargin" constant="105" id="Uk4-O8-U6h"/>
                             <constraint firstItem="fyX-fJ-VGK" firstAttribute="top" secondItem="fca-P5-0Cu" secondAttribute="bottom" constant="10" id="VFC-d6-EMG"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="N64-yB-THG" secondAttribute="bottom" constant="85" id="Vzy-e7-f1r"/>
                             <constraint firstAttribute="trailing" secondItem="N64-yB-THG" secondAttribute="trailing" constant="9" id="Wxd-Mo-1v1"/>
                             <constraint firstItem="vVt-Mg-1LM" firstAttribute="centerX" secondItem="fca-P5-0Cu" secondAttribute="centerX" id="Xvj-tu-P04"/>
                             <constraint firstAttribute="trailingMargin" secondItem="fyX-fJ-VGK" secondAttribute="trailing" constant="-4" id="ZT7-sM-Y8d"/>
-                            <constraint firstItem="nMV-F1-LMw" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="55" id="bZP-oN-oWI"/>
                             <constraint firstItem="N64-yB-THG" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="85" id="cMM-py-Pbp"/>
                             <constraint firstItem="vVt-Mg-1LM" firstAttribute="leading" secondItem="dVR-fq-JXF" secondAttribute="trailing" constant="9" id="cdM-QV-qls"/>
                             <constraint firstItem="jfW-4H-nNy" firstAttribute="top" secondItem="mfD-Ky-w98" secondAttribute="bottom" constant="3" id="fWk-5S-7Oq"/>
@@ -245,20 +239,13 @@
                             <constraint firstItem="4NK-Sm-kEr" firstAttribute="top" secondItem="vVt-Mg-1LM" secondAttribute="bottom" constant="-1" id="ihd-YF-Ly1"/>
                             <constraint firstItem="jfW-4H-nNy" firstAttribute="centerX" secondItem="mfD-Ky-w98" secondAttribute="centerX" id="mPT-4Z-OhI"/>
                             <constraint firstItem="vVt-Mg-1LM" firstAttribute="top" secondItem="fca-P5-0Cu" secondAttribute="bottom" constant="6" id="uwF-G4-i9C"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="nMV-F1-LMw" secondAttribute="bottom" constant="85" id="wah-0u-WAV"/>
                             <constraint firstItem="LkG-J8-MT0" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="10" id="x8H-pq-ybo"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="nMV-F1-LMw" secondAttribute="trailing" constant="55" id="yvL-6x-8af"/>
                         </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
                         <outlet property="alarmRepetitionsSlider" destination="vVt-Mg-1LM" id="Obg-Kc-oTR"/>
                         <outlet property="alarmRepetitionsSliderLabel" destination="4NK-Sm-kEr" id="xvB-AT-bv8"/>
-                        <outlet property="timerBottomContraint" destination="wah-0u-WAV" id="K5B-ec-cNo"/>
-                        <outlet property="timerLeadingConstraint" destination="bZP-oN-oWI" id="Fji-Nk-FAS"/>
-                        <outlet property="timerTopContraint" destination="Uk4-O8-U6h" id="QUF-Go-qcW"/>
-                        <outlet property="timerTrailingContraint" destination="yvL-6x-8af" id="rSa-Ja-f8U"/>
-                        <outlet property="timerView" destination="nMV-F1-LMw" id="WGO-Wb-R0B"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
