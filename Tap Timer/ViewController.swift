@@ -11,7 +11,8 @@ import iCarousel
 
 class ViewController: UIViewController, timerProtocol {
     
-    var timers = [Int]()
+    var timers = [TimerModel]()
+    var timerViews = [TimerView]()
 
     @IBOutlet var timerLeadingConstraint: NSLayoutConstraint!
     @IBOutlet var timerTrailingContraint: NSLayoutConstraint!
@@ -20,18 +21,17 @@ class ViewController: UIViewController, timerProtocol {
     
     @IBOutlet var timerView: TimerView!
     
+    @IBOutlet var alarmRepetitionsSlider: UISlider!
+    @IBOutlet var alarmRepetitionsSliderLabel: UILabel!
+    
     //timer model
     var timer: TimerModel!
     
     //var to tell if we are in settings or timer mode - important for gestures
     var settingsMode: Bool = false
     
-    var newStartTimeMilliSeconds: Int = 0
-    
+    //array to save images to allow tinting
     var soundButtonImages: [UIImage] = []
-    
-    @IBOutlet var alarmRepetitionsSlider: UISlider!
-    @IBOutlet var alarmRepetitionsSliderLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -45,10 +45,14 @@ class ViewController: UIViewController, timerProtocol {
         setupSettingsView()
         changeViewModeTo("timer")
         
-        //create the timer
-        timer = TimerModel.init(withName: "Tap Timer 1", duration: 10, UUID: NSUUID().UUIDString, color: .SkyBlue)
-        timer.alarmRepetitions = 1
-        timer.delegate = self
+        //create the timers
+        let timerColorSchemes = [BaseColor.SkyBlue, BaseColor.Purple, BaseColor.Red, BaseColor.Yellow, BaseColor.Green, BaseColor.Gray]
+        for i in 0...5 {
+            timer = TimerModel.init(withName: "Tap Timer \(i)", duration: 10, UUID: NSUUID().UUIDString, color: timerColorSchemes[i])
+            timer.alarmRepetitions = 1
+            timer.delegate = self
+            timers.append(timer)
+        }
         
         //set up timer view
         let colors = timer.getColorScheme()
@@ -71,7 +75,7 @@ class ViewController: UIViewController, timerProtocol {
         timerView.addGestureRecognizer(singleTapGestureRecogniser)
         timerView.addGestureRecognizer(doubleTapGestureRecogniser)
         timerView.addGestureRecognizer(panGestureRecogniser)
-        self.view.addGestureRecognizer(pinchGestureRecogniser)
+        timerView.addGestureRecognizer(pinchGestureRecogniser)
         
         //grab original images from sound UIButton
         for i in (200...205) {

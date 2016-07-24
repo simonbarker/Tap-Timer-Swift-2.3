@@ -19,10 +19,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view tag="1" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nMV-F1-LMw" customClass="TimerView" customModule="Tap_Timer" customModuleProvider="target">
-                                <rect key="frame" x="71" y="105" width="178" height="378"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="1" maxValue="10" translatesAutoresizingMaskIntoConstraints="NO" id="vVt-Mg-1LM">
                                 <rect key="frame" x="30" y="47" width="260" height="31"/>
                                 <connections>
@@ -218,6 +214,10 @@
                                     <segue destination="VkC-z6-rkg" kind="presentation" id="ksZ-5P-pnV"/>
                                 </connections>
                             </button>
+                            <view tag="1" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nMV-F1-LMw" customClass="TimerView" customModule="Tap_Timer" customModuleProvider="target">
+                                <rect key="frame" x="71" y="105" width="178" height="378"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="0.42655369639396667" green="0.47584608197212219" blue="0.48026475310325623" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
