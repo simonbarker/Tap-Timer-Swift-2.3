@@ -18,6 +18,8 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
     @IBOutlet var carouselTrailingConstraint: NSLayoutConstraint!
     @IBOutlet var carouselLeadingConstraint: NSLayoutConstraint!
     
+    @IBOutlet var timerTitleTextField: UITextField!
+    
     var timers = [TimerModel]()
     var timerViews = [TimerView]()
     
@@ -57,12 +59,9 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
             timers.append(t)
         }
         
-        //set up timer views
-        for i in 0...(totalTimers - 1) {
-        }
-        
         //instantiate first timer
         timer = timers[0]
+        timerTitleTextField.text = timer.name
         
         //grab original images from sound UIButton
         for i in (200...205) {
@@ -399,7 +398,11 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
     func carousel(carousel: iCarousel, viewForItemAtIndex index: Int, reusingView view: UIView?) -> UIView
     {
         let t = TimerView.init()
-        t.frame = CGRect(x: 0, y: 0, width: 100, height: 160)
+        if isPro == true {
+            t.frame = CGRect(x: 0, y: 0, width: 100, height: 190)
+        } else {
+            t.frame = CGRect(x: 0, y: 0, width: 180, height: 342)
+        }
         
         let colors = timers[index].getColorScheme()
         t.setColorScheme(colorLight: colors["lightColor"]!, colorDark: colors["darkColor"]!)
@@ -437,6 +440,11 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
         }
         
         highlightCorrectSoundButtonForTimer(timer)
+        
+        timerTitleTextField.text = timer.name
+        
+        alarmRepetitionsSlider.setValue(Float(timer.alarmRepetitions), animated: false)
+        alarmRepetitionsSliderLabel.text = "\(timer.alarmRepetitions)"
     }
     
     override func preferredStatusBarStyle() -> UIStatusBarStyle {

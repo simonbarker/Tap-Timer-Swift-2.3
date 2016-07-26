@@ -218,11 +218,21 @@
                                 <rect key="frame" x="67" y="139" width="187" height="289"/>
                                 <color key="backgroundColor" white="1" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Timer Title" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="48d-p0-cJU">
+                                <rect key="frame" x="71" y="105" width="179" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="SWE-TI-lJq"/>
+                                </constraints>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="20"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
                         </subviews>
                         <color key="backgroundColor" red="0.42655369639396667" green="0.47584608197212219" blue="0.48026475310325623" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="trailingMargin" secondItem="vI6-h9-roK" secondAttribute="trailing" constant="50" id="2w0-gR-Otk"/>
                             <constraint firstItem="fca-P5-0Cu" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="76t-7c-op8"/>
+                            <constraint firstItem="48d-p0-cJU" firstAttribute="top" secondItem="4NK-Sm-kEr" secondAttribute="bottom" constant="11" id="8Ua-wZ-Zxz"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="vI6-h9-roK" secondAttribute="bottom" constant="140" id="9M0-3j-KMj"/>
                             <constraint firstItem="fyX-fJ-VGK" firstAttribute="leading" secondItem="vVt-Mg-1LM" secondAttribute="trailing" constant="3" id="9ln-tF-oVF"/>
                             <constraint firstItem="dVR-fq-JXF" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-4" id="BDH-Dx-Y9y"/>
@@ -230,6 +240,8 @@
                             <constraint firstItem="fca-P5-0Cu" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="Ef0-Pi-ZJW"/>
                             <constraint firstItem="fca-P5-0Cu" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="FBO-A2-whY"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="LkG-J8-MT0" secondAttribute="bottom" constant="85" id="Jad-BY-q6f"/>
+                            <constraint firstItem="48d-p0-cJU" firstAttribute="leading" secondItem="7T7-lC-Zwk" secondAttribute="trailing" constant="8" id="K0j-js-Dw8"/>
+                            <constraint firstItem="N64-yB-THG" firstAttribute="leading" secondItem="48d-p0-cJU" secondAttribute="trailing" constant="8" id="L7U-Fy-6xG"/>
                             <constraint firstItem="vI6-h9-roK" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="51" id="QX0-nj-7hN"/>
                             <constraint firstItem="LkG-J8-MT0" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="85" id="Qit-GU-NFD"/>
                             <constraint firstItem="dVR-fq-JXF" firstAttribute="top" secondItem="fca-P5-0Cu" secondAttribute="bottom" constant="10" id="QnQ-N2-han"/>
@@ -259,6 +271,7 @@
                         <outlet property="carouselLeadingConstraint" destination="QX0-nj-7hN" id="8v0-vE-WFv"/>
                         <outlet property="carouselTopConstraint" destination="sLC-6d-g6j" id="Cb1-l9-Fdi"/>
                         <outlet property="carouselTrailingConstraint" destination="2w0-gR-Otk" id="xmY-Du-h3d"/>
+                        <outlet property="timerTitleTextField" destination="48d-p0-cJU" id="ihD-1V-4cM"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
