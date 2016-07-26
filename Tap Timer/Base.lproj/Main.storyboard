@@ -214,16 +214,23 @@
                                     <segue destination="VkC-z6-rkg" kind="presentation" id="ksZ-5P-pnV"/>
                                 </connections>
                             </button>
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vI6-h9-roK" customClass="iCarousel">
+                                <rect key="frame" x="71" y="139" width="179" height="289"/>
+                                <color key="backgroundColor" white="1" alpha="0.53154032939189189" colorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="0.42655369639396667" green="0.47584608197212219" blue="0.48026475310325623" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="vI6-h9-roK" secondAttribute="trailing" constant="50" id="2w0-gR-Otk"/>
                             <constraint firstItem="fca-P5-0Cu" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="76t-7c-op8"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="vI6-h9-roK" secondAttribute="bottom" constant="140" id="9M0-3j-KMj"/>
                             <constraint firstItem="fyX-fJ-VGK" firstAttribute="leading" secondItem="vVt-Mg-1LM" secondAttribute="trailing" constant="3" id="9ln-tF-oVF"/>
                             <constraint firstItem="dVR-fq-JXF" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-4" id="BDH-Dx-Y9y"/>
                             <constraint firstItem="mfD-Ky-w98" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="C5e-nh-5Vb"/>
                             <constraint firstItem="fca-P5-0Cu" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="Ef0-Pi-ZJW"/>
                             <constraint firstItem="fca-P5-0Cu" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="FBO-A2-whY"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="LkG-J8-MT0" secondAttribute="bottom" constant="85" id="Jad-BY-q6f"/>
+                            <constraint firstItem="vI6-h9-roK" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="51" id="QX0-nj-7hN"/>
                             <constraint firstItem="LkG-J8-MT0" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="85" id="Qit-GU-NFD"/>
                             <constraint firstItem="dVR-fq-JXF" firstAttribute="top" secondItem="fca-P5-0Cu" secondAttribute="bottom" constant="10" id="QnQ-N2-han"/>
                             <constraint firstItem="4NK-Sm-kEr" firstAttribute="centerX" secondItem="vVt-Mg-1LM" secondAttribute="centerX" id="Rxs-5U-eGd"/>
@@ -238,6 +245,7 @@
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="jfW-4H-nNy" secondAttribute="bottom" constant="8" id="hCY-ZT-DBw"/>
                             <constraint firstItem="4NK-Sm-kEr" firstAttribute="top" secondItem="vVt-Mg-1LM" secondAttribute="bottom" constant="-1" id="ihd-YF-Ly1"/>
                             <constraint firstItem="jfW-4H-nNy" firstAttribute="centerX" secondItem="mfD-Ky-w98" secondAttribute="centerX" id="mPT-4Z-OhI"/>
+                            <constraint firstItem="vI6-h9-roK" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="119" id="sLC-6d-g6j"/>
                             <constraint firstItem="vVt-Mg-1LM" firstAttribute="top" secondItem="fca-P5-0Cu" secondAttribute="bottom" constant="6" id="uwF-G4-i9C"/>
                             <constraint firstItem="LkG-J8-MT0" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="10" id="x8H-pq-ybo"/>
                         </constraints>
@@ -246,6 +254,11 @@
                     <connections>
                         <outlet property="alarmRepetitionsSlider" destination="vVt-Mg-1LM" id="Obg-Kc-oTR"/>
                         <outlet property="alarmRepetitionsSliderLabel" destination="4NK-Sm-kEr" id="xvB-AT-bv8"/>
+                        <outlet property="carousel" destination="vI6-h9-roK" id="umo-7m-GaO"/>
+                        <outlet property="carouselBottomConstraint" destination="9M0-3j-KMj" id="Lrz-3U-eMX"/>
+                        <outlet property="carouselLeadingConstraint" destination="QX0-nj-7hN" id="8v0-vE-WFv"/>
+                        <outlet property="carouselTopConstraint" destination="sLC-6d-g6j" id="Cb1-l9-Fdi"/>
+                        <outlet property="carouselTrailingConstraint" destination="2w0-gR-Otk" id="xmY-Du-h3d"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
