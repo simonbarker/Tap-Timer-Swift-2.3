@@ -58,7 +58,7 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
             timers.append(t)
         }
         
-        //set up timer view
+        //set up timer views
         for i in 0...5 {
             let t = TimerView.init()
             t.frame = CGRect(x: 0, y: 0, width: 100, height: 160)
@@ -96,7 +96,7 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
         carousel.dataSource = self
         carousel.type = .CoverFlow
         carousel.bounces = false
-        //carousel.clipsToBounds = true
+        carousel.clipsToBounds = true
         
         settingsMode = true
     }
@@ -170,8 +170,8 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
         if sender.state == .Ended && settingsMode == false {
             //reset timer
             timer.reset()
-            focussedTimerView.reset()
-            focussedTimerView.setTimeRemainingLabel(timer.duration)
+            displayedTimer.reset()
+            displayedTimer.setTimeRemainingLabel(timer.duration)
             
             //remove notification
             Helper.removeNotificationFromSchedule(timer)
@@ -210,22 +210,21 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
         //let carouselConstraints = [carouselTopConstraint, carouselBottomConstraint, carouselLeadingConstraint, carouselTrailingConstraint]
         
         if mode == "settings" {
-            displayedTimer.removeFromSuperview()
-            
-            self.focussedTimerView.timerLabel.hidden = true
+            addSettingsModeConstraints()
+            animatedLayoutIfNeeded(true)
         }
         if mode == "timer" {
             
-            let t = TimerView.init()
-            t.frame = self.view.bounds
+            displayedTimer = TimerView.init()
+            displayedTimer.frame = CGRect(x: (self.view.bounds.size.width)/2 - 50, y: (self.view.bounds.size.height)/2 - 80, width: 100, height: 160)
             
             let colors = timer.getColorScheme()
-            t.setColorScheme(colorLight: colors["lightColor"]!, colorDark: colors["darkColor"]!)
-            t.setTimeRemainingLabel(timer.duration)
-            t.setCountDownBarFromPercentage(1.0)
-            t.layer.zPosition = 100 //make sure the timer view sits on top of the settings panel
-            t.timerLabel.hidden = false
-            //t.translatesAutoresizingMaskIntoConstraints = false
+            displayedTimer.setColorScheme(colorLight: colors["lightColor"]!, colorDark: colors["darkColor"]!)
+            displayedTimer.setTimeRemainingLabel(timer.duration)
+            displayedTimer.setCountDownBarFromPercentage(1.0)
+            displayedTimer.layer.zPosition = 100 //make sure the timer view sits on top of the settings panel
+            displayedTimer.timerLabel.hidden = false
+            displayedTimer.translatesAutoresizingMaskIntoConstraints = false
             
             //set up gesture recognisers for timer
             let singleTapGestureRecogniser = UITapGestureRecognizer(target: self, action: #selector(self.singleTapDetected(_:)))
@@ -237,21 +236,27 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
             let panGestureRecogniser = UIPanGestureRecognizer(target: self, action: #selector(self.panDetected(_:)))
             let pinchGestureRecogniser = UIPinchGestureRecognizer(target: self, action: #selector(self.pinchDetected(_:)))
             
-            t.addGestureRecognizer(singleTapGestureRecogniser)
-            t.addGestureRecognizer(doubleTapGestureRecogniser)
-            t.addGestureRecognizer(panGestureRecogniser)
-            t.addGestureRecognizer(pinchGestureRecogniser)
+            displayedTimer.addGestureRecognizer(singleTapGestureRecogniser)
+            displayedTimer.addGestureRecognizer(doubleTapGestureRecogniser)
+            displayedTimer.addGestureRecognizer(panGestureRecogniser)
+            displayedTimer.addGestureRecognizer(pinchGestureRecogniser)
             
-            self.view.addSubview(t)
+            self.view.addSubview(displayedTimer)
             
-            displayedTimer = t
+            addTimerModeConstraints()
+            animatedLayoutIfNeeded(false)
             
         }
         
+    }
+    
+    func animatedLayoutIfNeeded(removeView: Bool){
         UIView.animateWithDuration(0.2, delay: 0, options: [UIViewAnimationOptions.CurveEaseIn] , animations: {
             self.view.layoutIfNeeded()
         }) { (true) in
-            
+            if removeView == true {
+                self.displayedTimer.removeFromSuperview()
+            }
         }
     }
     
@@ -260,7 +265,7 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
         
         //only let timer time be changed if not active
         if timer.active == false {
-            let location = sender.locationInView(focussedTimerView)
+            let location = sender.locationInView(displayedTimer)
             //let velocity = sender.velocityInView(timerView)
             let screenHeight = self.view.frame.size.height
             
@@ -272,8 +277,8 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
                 
                 timer.duration = duration
                 timer.reset()
-                focussedTimerView.reset()
-                focussedTimerView.setTimeRemainingLabel(duration)
+                displayedTimer.reset()
+                displayedTimer.setTimeRemainingLabel(duration)
                 
             }
         }
@@ -356,25 +361,21 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
         // Dispose of any resources that can be recreated.
     }
     
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return UIStatusBarStyle.LightContent
-    }
-    
     
     //Timer protocol delegate methods
     func timerFired(timer: TimerModel) {
-        focussedTimerView.setCountDownBarFromPercentage(timer.percentageThroughTimer())
-        focussedTimerView.setTimeRemainingLabel(timer.timeFromEndTime())
+        displayedTimer.setCountDownBarFromPercentage(timer.percentageThroughTimer())
+        displayedTimer.setTimeRemainingLabel(timer.timeFromEndTime())
     }
     func timerEnded(timer: TimerModel) {
-        focussedTimerView.setTimeRemainingLabel(timer.duration)
-        focussedTimerView.reset()
+        displayedTimer.setTimeRemainingLabel(timer.duration)
+        displayedTimer.reset()
     }
     
     //MARK: - Layout Constraints
     func addSettingsModeConstraints() {
 
-        let views = ["timerView": focussedTimerView]
+        let views = ["timerView": displayedTimer]
         
         let timerHorizontalConstraints = NSLayoutConstraint.constraintsWithVisualFormat(
             "H:|-75-[timerView]-75-|",
@@ -396,7 +397,7 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
     
     func addTimerModeConstraints() {
         
-        let views = ["timerView": focussedTimerView]
+        let views = ["timerView": displayedTimer]
         
         let timerHorizontalConstraints = NSLayoutConstraint.constraintsWithVisualFormat(
             "H:|-0-[timerView]-0-|",
@@ -412,12 +413,10 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
             views: views)
         timerConstraints += timerVerticalConstraints
         
-        NSLayoutConstraint.deactivateConstraints(settingsConstraints)
         NSLayoutConstraint.activateConstraints(timerConstraints)
     }
-    
-    
-    
+
+    //MARK: - Carousel Delegate and Datasoure Methods
     func numberOfItemsInCarousel(carousel: iCarousel) -> Int
     {
         return timerViews.count
@@ -440,6 +439,15 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
     func carouselCurrentItemIndexDidChange(carousel: iCarousel) {
         focussedTimerView = timerViews[carousel.currentItemIndex]
         timer = timers[carousel.currentItemIndex]
+        
+        //update sound buttons
+        //clear previously highlighted buttons
+        for i in (200...205) {
+            let button = self.view.viewWithTag(i) as? UIButton
+            button?.imageView?.image = soundButtonImages[i-200]
+        }
+        
+        highlightCorrectSoundButtonForTimer(timer)
     }
     
 }
