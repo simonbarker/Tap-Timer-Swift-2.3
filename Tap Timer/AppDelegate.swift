@@ -9,7 +9,7 @@
 import UIKit
 import AVFoundation
 
-var isPro: Bool = false
+var isPro: Bool = true
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {

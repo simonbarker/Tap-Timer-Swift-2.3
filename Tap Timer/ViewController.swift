@@ -24,34 +24,33 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
     var settingsConstraints = [NSLayoutConstraint]()
     var timerConstraints = [NSLayoutConstraint]()
 
-    var focussedTimerView: TimerView!
     var displayedTimer: TimerView!
     
     @IBOutlet var alarmRepetitionsSlider: UISlider!
     @IBOutlet var alarmRepetitionsSliderLabel: UILabel!
     
-    //timer model
     var timer: TimerModel!
     
-    //var to tell if we are in settings or timer mode - important for gestures
     var settingsMode: Bool = false
     
-    //array to save images to allow tinting
+    //array to save images to allow button tinting reset
     var soundButtonImages: [UIImage] = []
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         //initial view set up
-        setupSettingsView()
+        Helper.addBackgroundGradient(self.view)
         
         //create the timers
         let timerColorSchemes = [BaseColor.SkyBlue, BaseColor.Purple, BaseColor.Red, BaseColor.Yellow, BaseColor.Green, BaseColor.Gray]
-        for i in 0...5 {
+        
+        var totalTimers = 1
+        if isPro == true {
+            totalTimers = 6
+        }
+        
+        for i in 0...(totalTimers - 1) {
             let t = TimerModel.init(withName: "Tap Timer \(i)", duration: 10, UUID: NSUUID().UUIDString, color: timerColorSchemes[i])
             t.alarmRepetitions = 1
             t.delegate = self
@@ -59,27 +58,10 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
         }
         
         //set up timer views
-        for i in 0...5 {
-            let t = TimerView.init()
-            t.frame = CGRect(x: 0, y: 0, width: 100, height: 160)
-            
-            let colors = timers[i].getColorScheme()
-            t.setColorScheme(colorLight: colors["lightColor"]!, colorDark: colors["darkColor"]!)
-            t.setTimeRemainingLabel(timers[i].duration)
-            t.setCountDownBarFromPercentage(1.0)
-            t.layer.zPosition = 100 //make sure the timer view sits on top of the settings panel
-            t.timerLabel.hidden = true
-            //t.translatesAutoresizingMaskIntoConstraints = false
-            
-            //set up gesture recognisers for timer
-            let pinchGestureRecogniser = UIPinchGestureRecognizer(target: self, action: #selector(self.pinchDetected(_:)))
-            
-            t.addGestureRecognizer(pinchGestureRecogniser)
-            timerViews.append(t)
+        for i in 0...(totalTimers - 1) {
         }
         
         //instantiate first timer
-        focussedTimerView = timerViews[0]
         timer = timers[0]
         
         //grab original images from sound UIButton
@@ -120,10 +102,6 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
         
         let button = self.view.viewWithTag(tag) as? UIButton
         Helper.addButtonTint(button!, timerColorScheme: timer.getColorScheme())
-    }
-    
-    func setupSettingsView() {
-        Helper.addBackgroundGradient(self.view)
     }
     
     //MARK: - Gesture recognisers
@@ -306,7 +284,9 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
             
             let colors = timer.getColorScheme()
             
-            focussedTimerView.setColorScheme(colorLight: colors["lightColor"]!, colorDark: colors["darkColor"]!)
+            let t = carousel.currentItemView as? TimerView
+            
+            t!.setColorScheme(colorLight: colors["lightColor"]!, colorDark: colors["darkColor"]!)
             
             //change color of the highlighted sound button
             for i in (200...205) {
@@ -356,13 +336,7 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
         alarmRepetitionsSliderLabel.text = "\(Int(sender.value))"
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    
-    //Timer protocol delegate methods
+    //MARK: - Timer protocol delegate methods
     func timerFired(timer: TimerModel) {
         displayedTimer.setCountDownBarFromPercentage(timer.percentageThroughTimer())
         displayedTimer.setTimeRemainingLabel(timer.timeFromEndTime())
@@ -419,12 +393,28 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
     //MARK: - Carousel Delegate and Datasoure Methods
     func numberOfItemsInCarousel(carousel: iCarousel) -> Int
     {
-        return timerViews.count
+        return timers.count
     }
     
     func carousel(carousel: iCarousel, viewForItemAtIndex index: Int, reusingView view: UIView?) -> UIView
     {
-        return timerViews[index]
+        let t = TimerView.init()
+        t.frame = CGRect(x: 0, y: 0, width: 100, height: 160)
+        
+        let colors = timers[index].getColorScheme()
+        t.setColorScheme(colorLight: colors["lightColor"]!, colorDark: colors["darkColor"]!)
+        t.setTimeRemainingLabel(timers[index].duration)
+        t.setCountDownBarFromPercentage(1.0)
+        t.layer.zPosition = 100 //make sure the timer view sits on top of the settings panel
+        t.timerLabel.hidden = true
+        //t.translatesAutoresizingMaskIntoConstraints = false
+        
+        //set up gesture recognisers for timer
+        let pinchGestureRecogniser = UIPinchGestureRecognizer(target: self, action: #selector(self.pinchDetected(_:)))
+        
+        t.addGestureRecognizer(pinchGestureRecogniser)
+        
+        return t
     }
     
     func carousel(carousel: iCarousel, valueForOption option: iCarouselOption, withDefault value: CGFloat) -> CGFloat
@@ -437,7 +427,6 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
     }
     
     func carouselCurrentItemIndexDidChange(carousel: iCarousel) {
-        focussedTimerView = timerViews[carousel.currentItemIndex]
         timer = timers[carousel.currentItemIndex]
         
         //update sound buttons
@@ -450,6 +439,9 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
         highlightCorrectSoundButtonForTimer(timer)
     }
     
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return UIStatusBarStyle.LightContent
+    }
 }
 
 

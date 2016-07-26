@@ -214,8 +214,8 @@
                                     <segue destination="VkC-z6-rkg" kind="presentation" id="ksZ-5P-pnV"/>
                                 </connections>
                             </button>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vI6-h9-roK" customClass="iCarousel">
-                                <rect key="frame" x="71" y="139" width="179" height="289"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vI6-h9-roK" customClass="iCarousel">
+                                <rect key="frame" x="67" y="139" width="187" height="289"/>
                                 <color key="backgroundColor" white="1" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
