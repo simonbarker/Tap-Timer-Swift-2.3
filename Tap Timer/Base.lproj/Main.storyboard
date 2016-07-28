@@ -51,6 +51,9 @@
                                 <state key="normal" title="View Tour">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
+                                <connections>
+                                    <segue destination="qnS-Qv-Hv2" kind="presentation" id="z5q-se-B6i"/>
+                                </connections>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="LkG-J8-MT0">
                                 <rect key="frame" x="10" y="105" width="53" height="378"/>
@@ -277,6 +280,36 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="573" y="570"/>
+        </scene>
+        <!--Tour View Controller-->
+        <scene sceneID="scM-Og-TKR">
+            <objects>
+                <viewController id="qnS-Qv-Hv2" customClass="TourViewController" customModule="Tap_Timer" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="evD-74-Los"/>
+                        <viewControllerLayoutGuide type="bottom" id="Kgl-ch-y27"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="WG4-XI-B4D">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aKf-4O-D73">
+                                <rect key="frame" x="235" y="28" width="65" height="30"/>
+                                <state key="normal" title="Skip Tour"/>
+                                <connections>
+                                    <action selector="skipTourButttonTapped:" destination="qnS-Qv-Hv2" eventType="touchUpInside" id="6XP-Cl-jSA"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <outlet property="skipTourButton" destination="aKf-4O-D73" id="eSa-ai-eix"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="geq-VK-LNh" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="573" y="1266"/>
         </scene>
         <!--Upgrade To Pro View Controller-->
         <scene sceneID="gyS-hY-srB">

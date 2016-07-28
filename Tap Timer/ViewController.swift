@@ -186,11 +186,11 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
         
         //let carouselConstraints = [carouselTopConstraint, carouselBottomConstraint, carouselLeadingConstraint, carouselTrailingConstraint]
         
-        if mode == "settings" {
+        if mode == "settings" && settingsMode != true {
             addSettingsModeConstraints()
-            animatedLayoutIfNeeded(true)
+            animatedLayoutIfNeeded(removeView: true)
         }
-        if mode == "timer" {
+        if mode == "timer" && settingsMode != false {
             
             displayedTimer = TimerView.init()
             displayedTimer.frame = CGRect(x: (self.view.bounds.size.width)/2 - 50, y: (self.view.bounds.size.height)/2 - 80, width: 100, height: 160)
@@ -221,13 +221,13 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
             self.view.addSubview(displayedTimer)
             
             addTimerModeConstraints()
-            animatedLayoutIfNeeded(false)
+            animatedLayoutIfNeeded(removeView: false)
             
         }
         
     }
     
-    func animatedLayoutIfNeeded(removeView: Bool){
+    func animatedLayoutIfNeeded(removeView removeView: Bool){
         UIView.animateWithDuration(0.2, delay: 0, options: [UIViewAnimationOptions.CurveEaseIn] , animations: {
             self.view.layoutIfNeeded()
         }) { (true) in
@@ -348,6 +348,8 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
     //MARK: - Layout Constraints
     func addSettingsModeConstraints() {
 
+        settingsConstraints.removeAll()
+        
         let views = ["timerView": displayedTimer]
         
         let timerHorizontalConstraints = NSLayoutConstraint.constraintsWithVisualFormat(
@@ -369,6 +371,8 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
     }
     
     func addTimerModeConstraints() {
+        
+        timerConstraints.removeAll()
         
         let views = ["timerView": displayedTimer]
         
