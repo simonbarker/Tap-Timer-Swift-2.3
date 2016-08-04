@@ -72,20 +72,34 @@ class TimerModel: NSObject, AVAudioPlayerDelegate {
     
     func percentageThroughTimer() -> Double {
         
-        guard let timerEnd = timerEndTime as NSDate! else {
-            print("No timerEndTimer set")
-            return 0.0
+        if active == false && paused == false {
+            print("1")
+            return 1.0
+        } else if active == false && paused == true {
+            print("2")
+            print("remaining: \(remainingWhenPaused)")
+            print("dur: \(duration)")
+            return Double(remainingWhenPaused!/duration)
+        } else if active == true && paused == false {
+            guard let timerEnd = timerEndTime as NSDate! else {
+                print("No timerEndTime set 1")
+                return 0.0
+            }
+            
+            let timeRemaing = timerEnd.timeIntervalSinceNow
+            
+            return timeRemaing/Double(duration)
+        } else {
+            print("4")
+            return Double(remainingWhenPaused!/duration)
         }
         
-        let timeRemaing = timerEnd.timeIntervalSinceNow
-        
-        return timeRemaing/Double(duration)
     }
     
     func timeFromEndTime() -> Int {
         
         guard let timerEnd = timerEndTime as NSDate! else {
-            print("No timerEndTimer set")
+            print("No timerEndTime set 2")
             return 0
         }
         
@@ -97,7 +111,7 @@ class TimerModel: NSObject, AVAudioPlayerDelegate {
     func setPausedRemaining() {
         
         guard let timerEnd = timerEndTime as NSDate! else {
-            print("No timerEndTimer set")
+            print("No timerEndTime set 3")
             return
         }
         
@@ -232,6 +246,25 @@ class TimerModel: NSObject, AVAudioPlayerDelegate {
             
             self.delegate?.timerFired(self)
             
+        }
+    }
+    
+    func timeToDisplay() -> Int {
+        /*states
+        active      paused      time to display
+        false       false       duration
+        false       true        time remaining when paused
+        true        false       time to end
+        true        true        time remaining when paused
+        */
+        if active == false && paused == false {
+            return duration
+        } else if active == false && paused == true {
+            return remainingWhenPaused!
+        } else if active == true && paused == false {
+            return self.timeFromEndTime()
+        } else {
+            return remainingWhenPaused!
         }
     }
     

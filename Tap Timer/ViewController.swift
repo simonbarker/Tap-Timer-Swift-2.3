@@ -9,7 +9,7 @@
 import UIKit
 import iCarousel
 
-class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCarouselDelegate {
+class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCarouselDelegate, UITextFieldDelegate {
     
     @IBOutlet var carousel: iCarousel!
     
@@ -57,11 +57,33 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
             t.alarmRepetitions = 1
             t.delegate = self
             timers.append(t)
+            
+            let tView = TimerView.init()
+            if isPro == true {
+                tView.frame = CGRect(x: 0, y: 0, width: 100, height: 190)
+            } else {
+                tView.frame = CGRect(x: 0, y: 0, width: 180, height: 342)
+            }
+            
+            let colors = t.getColorScheme()
+            tView.setColorScheme(colorLight: colors["lightColor"]!, colorDark: colors["darkColor"]!)
+            tView.setTimeRemainingLabel(t.duration)
+            tView.setCountDownBarFromPercentage(1)
+            tView.layer.zPosition = 100 //make sure the timer view sits on top of the settings panel
+            tView.timerLabel.hidden = true
+            
+            //set up gesture recognisers for timer
+            let pinchGestureRecogniser = UIPinchGestureRecognizer(target: self, action: #selector(self.pinchDetected(_:)))
+            
+            tView.addGestureRecognizer(pinchGestureRecogniser)
+            
+            timerViews.append(tView)
         }
         
         //instantiate first timer
         timer = timers[0]
         timerTitleTextField.text = timer.name
+        timerTitleTextField.delegate = self
         
         //grab original images from sound UIButton
         for i in (200...205) {
@@ -119,7 +141,6 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
                     
                     Helper.registerTimerNotification(timer)
                     
-                    
                 } else if timer.active == false && timer.paused == true {
                     
                     //start timer
@@ -127,7 +148,7 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
                     
                     Helper.registerTimerNotification(timer)
                     
-                    
+
                 } else {
                     
                     //pause timer
@@ -184,8 +205,6 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
     //MARK: - Toggle view mode between settings and timer
     func changeViewModeTo(mode: String){
         
-        //let carouselConstraints = [carouselTopConstraint, carouselBottomConstraint, carouselLeadingConstraint, carouselTrailingConstraint]
-        
         if mode == "settings" && settingsMode != true {
             addSettingsModeConstraints()
             animatedLayoutIfNeeded(removeView: true)
@@ -197,8 +216,10 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
             
             let colors = timer.getColorScheme()
             displayedTimer.setColorScheme(colorLight: colors["lightColor"]!, colorDark: colors["darkColor"]!)
-            displayedTimer.setTimeRemainingLabel(timer.duration)
-            displayedTimer.setCountDownBarFromPercentage(1.0)
+            displayedTimer.setCountDownBarFromPercentage(timer.percentageThroughTimer())
+            
+            displayedTimer.setTimeRemainingLabel(timer.timeToDisplay())
+            
             displayedTimer.layer.zPosition = 100 //make sure the timer view sits on top of the settings panel
             displayedTimer.timerLabel.hidden = false
             displayedTimer.translatesAutoresizingMaskIntoConstraints = false
@@ -337,12 +358,39 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
     
     //MARK: - Timer protocol delegate methods
     func timerFired(timer: TimerModel) {
-        displayedTimer.setCountDownBarFromPercentage(timer.percentageThroughTimer())
-        displayedTimer.setTimeRemainingLabel(timer.timeFromEndTime())
+        
+        guard let index = timers.indexOf(timer) else {
+            print("Index of timer object not found in timers array")
+            return
+        }
+
+        timerViews[index].setCountDownBarFromPercentage(timer.percentageThroughTimer())
+        timerViews[index].setTimeRemainingLabel(timer.timeToDisplay())
+        
+        //update displayed timer if this timer is the current timer
+        if carousel.currentItemIndex == index {
+            displayedTimer.setCountDownBarFromPercentage(timer.percentageThroughTimer())
+            displayedTimer.setTimeRemainingLabel(timer.timeToDisplay())
+        }
+        
     }
+    
     func timerEnded(timer: TimerModel) {
-        displayedTimer.setTimeRemainingLabel(timer.duration)
-        displayedTimer.reset()
+        
+        guard let index = timers.indexOf(timer) else {
+            print("Index of timer object not found in timers array")
+            return
+        }
+        
+        timerViews[index].setTimeRemainingLabel(timer.duration)
+        timerViews[index].reset()
+        
+        //update displayed timer if this timer is the current timer
+        if carousel.currentItemIndex == index {
+            displayedTimer.setTimeRemainingLabel(timer.duration)
+            displayedTimer.reset()
+        }
+        
     }
     
     //MARK: - Layout Constraints
@@ -401,27 +449,7 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
     
     func carousel(carousel: iCarousel, viewForItemAtIndex index: Int, reusingView view: UIView?) -> UIView
     {
-        let t = TimerView.init()
-        if isPro == true {
-            t.frame = CGRect(x: 0, y: 0, width: 100, height: 190)
-        } else {
-            t.frame = CGRect(x: 0, y: 0, width: 180, height: 342)
-        }
-        
-        let colors = timers[index].getColorScheme()
-        t.setColorScheme(colorLight: colors["lightColor"]!, colorDark: colors["darkColor"]!)
-        t.setTimeRemainingLabel(timers[index].duration)
-        t.setCountDownBarFromPercentage(1.0)
-        t.layer.zPosition = 100 //make sure the timer view sits on top of the settings panel
-        t.timerLabel.hidden = true
-        //t.translatesAutoresizingMaskIntoConstraints = false
-        
-        //set up gesture recognisers for timer
-        let pinchGestureRecogniser = UIPinchGestureRecognizer(target: self, action: #selector(self.pinchDetected(_:)))
-        
-        t.addGestureRecognizer(pinchGestureRecogniser)
-        
-        return t
+        return timerViews[index]
     }
     
     func carousel(carousel: iCarousel, valueForOption option: iCarouselOption, withDefault value: CGFloat) -> CGFloat
@@ -454,6 +482,24 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
         return UIStatusBarStyle.LightContent
     }
+    
+    //MARK: - Keyboard dismissal
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        
+        textField.resignFirstResponder()
+        
+        return true
+    }
+    
+    func textFieldDidEndEditing(textField: UITextField) {
+        timer.name = timerTitleTextField.text!
+    }
+    
+    
 }
 
 
