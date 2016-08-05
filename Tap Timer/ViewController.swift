@@ -208,21 +208,27 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
         if mode == "settings" && settingsMode != true {
             addSettingsModeConstraints()
             animatedLayoutIfNeeded(removeView: true)
+            
+            guard let index = timers.indexOf(timer) else {
+                print("Index of timer object not found in timers array")
+                return
+            }
+                
+            timerViews[index].setCountDownBarFromPercentage(timer.percentageThroughTimer())
         }
         if mode == "timer" && settingsMode != false {
             
+            //this is the most upsetting block of code I've ever written - it works but it's ugly
             displayedTimer = TimerView.init()
-            displayedTimer.frame = CGRect(x: (self.view.bounds.size.width)/2 - 50, y: (self.view.bounds.size.height)/2 - 80, width: 100, height: 160)
-            
+            self.displayedTimer.translatesAutoresizingMaskIntoConstraints = false
+            displayedTimer.frame = CGRect(x: (self.view.bounds.size.width)/2, y: (self.view.bounds.size.height)/2, width: 1, height: 1)
             let colors = timer.getColorScheme()
             displayedTimer.setColorScheme(colorLight: colors["lightColor"]!, colorDark: colors["darkColor"]!)
-            displayedTimer.setCountDownBarFromPercentage(timer.percentageThroughTimer())
             
             displayedTimer.setTimeRemainingLabel(timer.timeToDisplay())
             
             displayedTimer.layer.zPosition = 100 //make sure the timer view sits on top of the settings panel
             displayedTimer.timerLabel.hidden = false
-            displayedTimer.translatesAutoresizingMaskIntoConstraints = false
             
             //set up gesture recognisers for timer
             let singleTapGestureRecogniser = UITapGestureRecognizer(target: self, action: #selector(self.singleTapDetected(_:)))
@@ -241,15 +247,21 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
             
             self.view.addSubview(displayedTimer)
             
+            //make the view small before making it full screen so that is grows from the center of the screen
+            addSettingsModeConstraints()
+            self.view.layoutIfNeeded()
+            
             addTimerModeConstraints()
             animatedLayoutIfNeeded(removeView: false)
+            
+            displayedTimer.setCountDownBarFromPercentage(timer.percentageThroughTimer())
             
         }
         
     }
     
     func animatedLayoutIfNeeded(removeView removeView: Bool){
-        UIView.animateWithDuration(0.2, delay: 0, options: [UIViewAnimationOptions.CurveEaseIn] , animations: {
+        UIView.animateWithDuration(0.3, delay: 0, options: [UIViewAnimationOptions.CurveEaseIn] , animations: {
             self.view.layoutIfNeeded()
         }) { (true) in
             if removeView == true {
@@ -396,6 +408,15 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
     //MARK: - Layout Constraints
     func addSettingsModeConstraints() {
 
+        print("addSettingsModeConstraints")
+        print("settingsConstraints.count: \(settingsConstraints.count)")
+        print("timerConstraints.count: \(timerConstraints.count)")
+        
+        if timerConstraints.count != 0 {
+            NSLayoutConstraint.deactivateConstraints(timerConstraints)
+        }
+        
+        timerConstraints.removeAll()
         settingsConstraints.removeAll()
         
         let views = ["timerView": displayedTimer]
@@ -406,21 +427,29 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
             metrics: nil,
             views: views)
         settingsConstraints += timerHorizontalConstraints
-    
+        
         let timerVerticalConstraints = NSLayoutConstraint.constraintsWithVisualFormat(
             "V:|-105-[timerView]-85-|",
             options: [],
             metrics: nil,
             views: views)
         settingsConstraints += timerVerticalConstraints
-
-        NSLayoutConstraint.deactivateConstraints(timerConstraints)
+            
         NSLayoutConstraint.activateConstraints(settingsConstraints)
     }
     
     func addTimerModeConstraints() {
         
+        print("addTimerModeConstraints")
+        print("settingsConstraints.count: \(settingsConstraints.count)")
+        print("timerConstraints.count: \(timerConstraints.count)")
+        
+        if settingsConstraints.count != 0 {
+            NSLayoutConstraint.deactivateConstraints(settingsConstraints)
+        }
+        
         timerConstraints.removeAll()
+        settingsConstraints.removeAll()
         
         let views = ["timerView": displayedTimer]
         

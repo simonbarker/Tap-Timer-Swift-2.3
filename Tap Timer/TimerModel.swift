@@ -73,13 +73,9 @@ class TimerModel: NSObject, AVAudioPlayerDelegate {
     func percentageThroughTimer() -> Double {
         
         if active == false && paused == false {
-            print("1")
             return 1.0
         } else if active == false && paused == true {
-            print("2")
-            print("remaining: \(remainingWhenPaused)")
-            print("dur: \(duration)")
-            return Double(remainingWhenPaused!/duration)
+            return Double(Double(remainingWhenPaused!)/Double(duration))
         } else if active == true && paused == false {
             guard let timerEnd = timerEndTime as NSDate! else {
                 print("No timerEndTime set 1")
@@ -90,7 +86,6 @@ class TimerModel: NSObject, AVAudioPlayerDelegate {
             
             return timeRemaing/Double(duration)
         } else {
-            print("4")
             return Double(remainingWhenPaused!/duration)
         }
         
@@ -220,6 +215,7 @@ class TimerModel: NSObject, AVAudioPlayerDelegate {
         countDownTimer.invalidate()
         timerStartTime = nil
         timerEndTime = nil
+        
     }
     
     
