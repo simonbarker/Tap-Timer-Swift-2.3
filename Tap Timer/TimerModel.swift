@@ -233,14 +233,10 @@ class TimerModel: NSObject, AVAudioPlayerDelegate {
         
         //count down timer ended
         if NSDate().compare(timerEndTime) == NSComparisonResult.OrderedDescending {
-            print("Timer Ended")
             
             if Helper.appInForeground() == true {
-                print("about to play audio")
                 loadAudio()
                 playAudio(alarmRepetitions - 1)
-            } else {
-                print("app not in foreground")
             }
             
             /*if Helper.didNotificationFire(self) == false {

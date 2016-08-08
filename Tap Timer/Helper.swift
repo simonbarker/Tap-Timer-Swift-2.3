@@ -39,8 +39,6 @@ class Helper: NSObject {
         notification.soundName = "\(timer.alertAudio().0).\(timer.alertAudio().1)"
         notification.userInfo = ["title": timer.name, "UUID": timer.UUID]
         
-        print("registered Notification")
-        
         UIApplication.sharedApplication().scheduleLocalNotification(notification)
     }
     
@@ -51,7 +49,6 @@ class Helper: NSObject {
         for notification in scheduledNotifications! { // loop through notifications...
             if (notification.userInfo!["UUID"] as! String == timer.UUID) { // ...and cancel the notification that corresponds to this TodoItem instance (matched by UUID)
                 UIApplication.sharedApplication().cancelLocalNotification(notification) // there should be a maximum of one match on UUID
-                print("removed Notification")
                 break
             }
         }

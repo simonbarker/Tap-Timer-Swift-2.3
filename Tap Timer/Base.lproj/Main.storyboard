@@ -316,7 +316,7 @@
                                     <constraint firstAttribute="height" constant="33" id="meO-aX-elD"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Drag up to set timer duration" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vu2-Y5-gY0">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Drag up with two fingers to set timer duration" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vu2-Y5-gY0">
                                 <rect key="frame" x="40" y="294" width="240" height="59"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="59" id="IBe-oY-ao6"/>

@@ -242,6 +242,7 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
             doubleTapGestureRecogniser.numberOfTapsRequired = 2
             singleTapGestureRecogniser.requireGestureRecognizerToFail(doubleTapGestureRecogniser)
             let panGestureRecogniser = UIPanGestureRecognizer(target: self, action: #selector(self.panDetected(_:)))
+            panGestureRecogniser.minimumNumberOfTouches = 2
             let pinchGestureRecogniser = UIPinchGestureRecognizer(target: self, action: #selector(self.pinchDetected(_:)))
             
             displayedTimer.addGestureRecognizer(singleTapGestureRecogniser)
