@@ -44,7 +44,34 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
         //initial view set up
         Helper.addBackgroundGradient(self.view)
         
-        //create the timers
+        createTimers()
+        
+        //instantiate first timer
+        timer = timers[0]
+        timerTitleTextField.text = timer.name
+        timerTitleTextField.delegate = self
+        
+        //grab original images from sound UIButton
+        for i in (200...205) {
+            let button = self.view.viewWithTag(i) as? UIButton
+            soundButtonImages.append((button!.imageView?.image)!)
+        }
+        
+        //highlight correct sound
+        highlightCorrectSoundButtonForTimer(timer)
+        
+        //setup carousel
+        carousel.delegate = self
+        carousel.dataSource = self
+        carousel.type = .CoverFlow
+        carousel.bounces = false
+        carousel.clipsToBounds = true
+        
+        settingsMode = true
+    }
+    
+    func createTimers() {
+        
         let timerColorSchemes = [BaseColor.SkyBlue, BaseColor.Purple, BaseColor.Red, BaseColor.Yellow, BaseColor.Green, BaseColor.Gray]
         
         var totalTimers = 1
@@ -79,29 +106,6 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
             
             timerViews.append(tView)
         }
-        
-        //instantiate first timer
-        timer = timers[0]
-        timerTitleTextField.text = timer.name
-        timerTitleTextField.delegate = self
-        
-        //grab original images from sound UIButton
-        for i in (200...205) {
-            let button = self.view.viewWithTag(i) as? UIButton
-            soundButtonImages.append((button!.imageView?.image)!)
-        }
-        
-        //highlight correct sound
-        highlightCorrectSoundButtonForTimer(timer)
-        
-        //setup carousel
-        carousel.delegate = self
-        carousel.dataSource = self
-        carousel.type = .CoverFlow
-        carousel.bounces = false
-        carousel.clipsToBounds = true
-        
-        settingsMode = true
     }
     
     func highlightCorrectSoundButtonForTimer(timer: TimerModel) {
@@ -226,9 +230,9 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
             displayedTimer.setColorScheme(colorLight: colors["lightColor"]!, colorDark: colors["darkColor"]!)
             
             displayedTimer.setTimeRemainingLabel(timer.timeToDisplay())
+            displayedTimer.timerLabel.hidden = false
             
             displayedTimer.layer.zPosition = 100 //make sure the timer view sits on top of the settings panel
-            displayedTimer.timerLabel.hidden = false
             
             //set up gesture recognisers for timer
             let singleTapGestureRecogniser = UITapGestureRecognizer(target: self, action: #selector(self.singleTapDetected(_:)))
@@ -407,10 +411,6 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
     
     //MARK: - Layout Constraints
     func addSettingsModeConstraints() {
-
-        print("addSettingsModeConstraints")
-        print("settingsConstraints.count: \(settingsConstraints.count)")
-        print("timerConstraints.count: \(timerConstraints.count)")
         
         if timerConstraints.count != 0 {
             NSLayoutConstraint.deactivateConstraints(timerConstraints)
@@ -439,10 +439,6 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
     }
     
     func addTimerModeConstraints() {
-        
-        print("addTimerModeConstraints")
-        print("settingsConstraints.count: \(settingsConstraints.count)")
-        print("timerConstraints.count: \(timerConstraints.count)")
         
         if settingsConstraints.count != 0 {
             NSLayoutConstraint.deactivateConstraints(settingsConstraints)

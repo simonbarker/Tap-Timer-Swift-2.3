@@ -63,6 +63,13 @@ class TimerModel: NSObject, AVAudioPlayerDelegate {
         self.colorScheme = color
         alarmRepetitions = 1
         self.audioPlaying = false
+        
+        let sess = AVAudioSession.sharedInstance()
+        if sess.otherAudioPlaying {
+            _ = try? sess.setCategory(AVAudioSessionCategoryAmbient, withOptions: [.MixWithOthers])
+            _ = try? sess.setActive(true, withOptions: [])
+        }
+        
         super.init()
     }
     
@@ -149,7 +156,7 @@ class TimerModel: NSObject, AVAudioPlayerDelegate {
     
     //Mark: - Audio methods
     func loadAudio(){
-        print("loading audio")
+        
         let audioFile = self.alertAudio()
         
         let audioPath = NSBundle.mainBundle().pathForResource(audioFile.0, ofType: audioFile.1)!
@@ -164,9 +171,7 @@ class TimerModel: NSObject, AVAudioPlayerDelegate {
     }
     
     func playAudio(loops: Int) {
-        
-        print("playing audio")
-        
+
         player.numberOfLoops = loops
         player.currentTime = 0.0
         player.play()
@@ -228,11 +233,23 @@ class TimerModel: NSObject, AVAudioPlayerDelegate {
         
         //count down timer ended
         if NSDate().compare(timerEndTime) == NSComparisonResult.OrderedDescending {
+            print("Timer Ended")
             
-            if !Helper.didNotificationFire(self) {
+            if Helper.appInForeground() == true {
+                print("about to play audio")
                 loadAudio()
                 playAudio(alarmRepetitions - 1)
+            } else {
+                print("app not in foreground")
             }
+            
+            /*if Helper.didNotificationFire(self) == false {
+                print("Playing audio")
+                loadAudio()
+                playAudio(alarmRepetitions - 1)
+            } else {
+                print("Not playing audio")
+            }*/
             
             reset()
             self.delegate?.timerEnded(self)

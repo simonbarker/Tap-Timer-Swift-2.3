@@ -1,20 +1,19 @@
 //
-//  UpgradeToProViewController.swift
+//  TourOneViewController.swift
 //  Tap Timer
 //
-//  Created by Simon Barker on 22/07/2016.
+//  Created by Simon Barker on 05/08/2016.
 //  Copyright © 2016 sbarker. All rights reserved.
 //
 
 import UIKit
 
-class UpgradeToProViewController: UIViewController {
+class TourOneViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        Helper.addBackgroundGradient(self.view)
-        
+
+        // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {
@@ -22,15 +21,10 @@ class UpgradeToProViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func closeButtonTapped(sender: AnyObject) {
+    @IBAction func skipButtonPressed(sender: AnyObject) {
         self.dismissViewControllerAnimated(true, completion: nil)
     }
 
-    @IBAction func upgradeToProTapped(sender: AnyObject) {
-        isPro = true
-        self.dismissViewControllerAnimated(true, completion: nil)
-    }
-    
     /*
     // MARK: - Navigation
 
@@ -44,4 +38,5 @@ class UpgradeToProViewController: UIViewController {
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
         return UIStatusBarStyle.LightContent
     }
+
 }

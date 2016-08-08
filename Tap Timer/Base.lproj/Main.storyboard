@@ -52,7 +52,7 @@
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
-                                    <segue destination="qnS-Qv-Hv2" kind="presentation" id="z5q-se-B6i"/>
+                                    <segue destination="V5D-7J-Ze9" kind="presentation" id="CUL-X9-kNK"/>
                                 </connections>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="LkG-J8-MT0">
@@ -281,35 +281,278 @@
             </objects>
             <point key="canvasLocation" x="573" y="570"/>
         </scene>
-        <!--Tour View Controller-->
-        <scene sceneID="scM-Og-TKR">
+        <!--Tour Page View Controller-->
+        <scene sceneID="Vfm-cM-RGg">
             <objects>
-                <viewController id="qnS-Qv-Hv2" customClass="TourViewController" customModule="Tap_Timer" customModuleProvider="target" sceneMemberID="viewController">
+                <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="V5D-7J-Ze9" customClass="TourPageViewController" customModule="Tap_Timer" customModuleProvider="target" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2by-JG-Usl" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="573" y="1269"/>
+        </scene>
+        <!--Tour One View Controller-->
+        <scene sceneID="JYt-X3-t2U">
+            <objects>
+                <viewController storyboardIdentifier="TourScreen1" useStoryboardIdentifierAsRestorationIdentifier="YES" id="kf6-xm-BkC" customClass="TourOneViewController" customModule="Tap_Timer" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="evD-74-Los"/>
-                        <viewControllerLayoutGuide type="bottom" id="Kgl-ch-y27"/>
+                        <viewControllerLayoutGuide type="top" id="5Mn-pM-33o"/>
+                        <viewControllerLayoutGuide type="bottom" id="OiC-ke-EKJ"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="WG4-XI-B4D">
+                    <view key="view" contentMode="scaleToFill" id="HkE-ua-OjM">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aKf-4O-D73">
-                                <rect key="frame" x="235" y="28" width="65" height="30"/>
-                                <state key="normal" title="Skip Tour"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Tour overlay" translatesAutoresizingMaskIntoConstraints="NO" id="bci-mc-aun">
+                                <rect key="frame" x="-4" y="0.0" width="328" height="568"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Arrow Up" translatesAutoresizingMaskIntoConstraints="NO" id="oJ1-kg-4XD">
+                                <rect key="frame" x="36" y="361" width="248" height="146"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="146" id="0s5-YC-b1V"/>
+                                </constraints>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Pagination" translatesAutoresizingMaskIntoConstraints="NO" id="lNc-wn-TcG">
+                                <rect key="frame" x="36" y="515" width="248" height="33"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="33" id="meO-aX-elD"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Drag up to set timer duration" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vu2-Y5-gY0">
+                                <rect key="frame" x="40" y="294" width="240" height="59"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="59" id="IBe-oY-ao6"/>
+                                    <constraint firstAttribute="width" constant="240" id="agd-AQ-xP8"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="21"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JDE-XN-dbz">
+                                <rect key="frame" x="241" y="28" width="63" height="30"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
+                                <state key="normal" title="Skip Tour">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
                                 <connections>
-                                    <action selector="skipTourButttonTapped:" destination="qnS-Qv-Hv2" eventType="touchUpInside" id="6XP-Cl-jSA"/>
+                                    <action selector="skipButtonPressed:" destination="kf6-xm-BkC" eventType="touchUpInside" id="Zhh-6E-uOm"/>
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="lNc-wn-TcG" firstAttribute="leading" secondItem="HkE-ua-OjM" secondAttribute="leadingMargin" constant="20" id="5a0-YV-HKk"/>
+                            <constraint firstItem="bci-mc-aun" firstAttribute="leading" secondItem="HkE-ua-OjM" secondAttribute="leadingMargin" constant="-20" id="8r9-H1-qVM"/>
+                            <constraint firstItem="JDE-XN-dbz" firstAttribute="trailing" secondItem="HkE-ua-OjM" secondAttribute="trailingMargin" id="Dos-7b-rKR"/>
+                            <constraint firstItem="OiC-ke-EKJ" firstAttribute="top" secondItem="lNc-wn-TcG" secondAttribute="bottom" constant="20" id="Io8-nG-qX8"/>
+                            <constraint firstItem="lNc-wn-TcG" firstAttribute="top" secondItem="oJ1-kg-4XD" secondAttribute="bottom" constant="8" id="M89-m0-2uM"/>
+                            <constraint firstItem="oJ1-kg-4XD" firstAttribute="leading" secondItem="HkE-ua-OjM" secondAttribute="leadingMargin" constant="20" id="OOx-XI-S7g"/>
+                            <constraint firstItem="JDE-XN-dbz" firstAttribute="top" secondItem="5Mn-pM-33o" secondAttribute="bottom" constant="8" id="OXh-J1-w6A"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="oJ1-kg-4XD" secondAttribute="trailing" constant="20" id="Pg8-m0-NM6"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="lNc-wn-TcG" secondAttribute="trailing" constant="20" id="bA9-fK-s9x"/>
+                            <constraint firstItem="oJ1-kg-4XD" firstAttribute="top" secondItem="Vu2-Y5-gY0" secondAttribute="bottom" constant="8" id="iJC-WB-4xD"/>
+                            <constraint firstItem="Vu2-Y5-gY0" firstAttribute="centerX" secondItem="HkE-ua-OjM" secondAttribute="centerX" id="lcD-me-Wr1"/>
+                            <constraint firstItem="OiC-ke-EKJ" firstAttribute="top" secondItem="bci-mc-aun" secondAttribute="bottom" id="tDq-Pa-P6w"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="bci-mc-aun" secondAttribute="trailing" constant="-20" id="uaF-Mp-cYM"/>
+                            <constraint firstItem="bci-mc-aun" firstAttribute="top" secondItem="HkE-ua-OjM" secondAttribute="topMargin" id="xCR-od-GyW"/>
+                        </constraints>
                     </view>
-                    <connections>
-                        <outlet property="skipTourButton" destination="aKf-4O-D73" id="eSa-ai-eix"/>
-                    </connections>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="geq-VK-LNh" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6K6-nf-Snf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="573" y="1266"/>
+            <point key="canvasLocation" x="298" y="1960"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="Igi-o3-2g2">
+            <objects>
+                <viewController storyboardIdentifier="TourScreen2" useStoryboardIdentifierAsRestorationIdentifier="YES" id="zw1-WZ-x7a" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="hKv-hn-uw6"/>
+                        <viewControllerLayoutGuide type="bottom" id="Goc-8D-nFz"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="uv7-pX-agd">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Tour overlay" translatesAutoresizingMaskIntoConstraints="NO" id="PWF-MQ-JvG">
+                                <rect key="frame" x="-4" y="0.0" width="328" height="568"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Pagination 2" translatesAutoresizingMaskIntoConstraints="NO" id="d7M-VD-UWe">
+                                <rect key="frame" x="32" y="515" width="256" height="33"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="33" id="bhc-2C-ne8"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Double tap anywhere to reset timer" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Syv-RB-Opk">
+                                <rect key="frame" x="40" y="344" width="240" height="59"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="59" id="aBz-8Z-3hn"/>
+                                    <constraint firstAttribute="width" constant="240" id="gvY-yH-1AY"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="21"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tap anywhere to start timer" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Qt-9f-jHb">
+                                <rect key="frame" x="40" y="231" width="240" height="59"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="240" id="Pee-kB-UGn"/>
+                                    <constraint firstAttribute="height" constant="59" id="tby-YB-fYM"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="21"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="Goc-8D-nFz" firstAttribute="top" secondItem="PWF-MQ-JvG" secondAttribute="bottom" id="AUu-Si-Bas"/>
+                            <constraint firstItem="3Qt-9f-jHb" firstAttribute="centerX" secondItem="uv7-pX-agd" secondAttribute="centerX" id="CEO-b0-Oyg"/>
+                            <constraint firstItem="Syv-RB-Opk" firstAttribute="centerX" secondItem="uv7-pX-agd" secondAttribute="centerX" id="EGr-kf-zpy"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="PWF-MQ-JvG" secondAttribute="trailing" constant="-20" id="Fga-qJ-ig6"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="d7M-VD-UWe" secondAttribute="trailing" constant="16" id="Kgl-Ca-t0v"/>
+                            <constraint firstItem="PWF-MQ-JvG" firstAttribute="leading" secondItem="uv7-pX-agd" secondAttribute="leadingMargin" constant="-20" id="Ppo-X4-myi"/>
+                            <constraint firstItem="d7M-VD-UWe" firstAttribute="leading" secondItem="uv7-pX-agd" secondAttribute="leadingMargin" constant="16" id="R5D-oO-iSI"/>
+                            <constraint firstItem="d7M-VD-UWe" firstAttribute="top" secondItem="Syv-RB-Opk" secondAttribute="bottom" constant="112" id="bHk-Wk-VoO"/>
+                            <constraint firstItem="PWF-MQ-JvG" firstAttribute="top" secondItem="uv7-pX-agd" secondAttribute="topMargin" id="jA4-5N-6tJ"/>
+                            <constraint firstItem="Syv-RB-Opk" firstAttribute="top" secondItem="3Qt-9f-jHb" secondAttribute="bottom" constant="54" id="uYI-tZ-PjU"/>
+                            <constraint firstItem="Goc-8D-nFz" firstAttribute="top" secondItem="d7M-VD-UWe" secondAttribute="bottom" constant="20" id="ve7-MS-pPX"/>
+                        </constraints>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6Le-o2-Uy4" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="653" y="1960"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="Pwj-Z0-8Oy">
+            <objects>
+                <viewController storyboardIdentifier="TourScreen3" useStoryboardIdentifierAsRestorationIdentifier="YES" id="7jz-Nb-iJF" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="lXl-2T-vrm"/>
+                        <viewControllerLayoutGuide type="bottom" id="MXx-hl-VbC"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="HmB-EZ-4yC">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Tour overlay" translatesAutoresizingMaskIntoConstraints="NO" id="0Qo-eD-7oT">
+                                <rect key="frame" x="-4" y="0.0" width="328" height="568"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Pagination 3" translatesAutoresizingMaskIntoConstraints="NO" id="Qh7-8A-4HB">
+                                <rect key="frame" x="28" y="515" width="264" height="33"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="33" id="1sZ-hg-tIT"/>
+                                </constraints>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Pinch Arrows" translatesAutoresizingMaskIntoConstraints="NO" id="d6h-45-OHy">
+                                <rect key="frame" x="36" y="149" width="248" height="270"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="248" id="dx1-Iv-1oN"/>
+                                    <constraint firstAttribute="height" constant="270" id="tzN-Tw-h3Z"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pinch to reveal timer settings" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7LM-M8-oCq">
+                                <rect key="frame" x="40" y="438" width="240" height="59"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="59" id="Iup-Ja-IMZ"/>
+                                    <constraint firstAttribute="width" constant="240" id="Xxw-Ji-xK1"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="21"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Qh7-8A-4HB" firstAttribute="leading" secondItem="HmB-EZ-4yC" secondAttribute="leadingMargin" constant="12" id="1w7-OD-Kos"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Qh7-8A-4HB" secondAttribute="trailing" constant="12" id="4gA-3Y-7qB"/>
+                            <constraint firstItem="0Qo-eD-7oT" firstAttribute="leading" secondItem="HmB-EZ-4yC" secondAttribute="leadingMargin" constant="-20" id="4mh-td-JSK"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="0Qo-eD-7oT" secondAttribute="trailing" constant="-20" id="9Hm-KI-oqq"/>
+                            <constraint firstItem="0Qo-eD-7oT" firstAttribute="top" secondItem="HmB-EZ-4yC" secondAttribute="topMargin" id="G4K-cY-ucX"/>
+                            <constraint firstItem="MXx-hl-VbC" firstAttribute="top" secondItem="Qh7-8A-4HB" secondAttribute="bottom" constant="20" id="GDP-DE-OYe"/>
+                            <constraint firstItem="7LM-M8-oCq" firstAttribute="centerX" secondItem="HmB-EZ-4yC" secondAttribute="centerX" id="IbB-yn-Qos"/>
+                            <constraint firstItem="Qh7-8A-4HB" firstAttribute="top" secondItem="7LM-M8-oCq" secondAttribute="bottom" constant="18" id="mkT-fD-CAQ"/>
+                            <constraint firstItem="MXx-hl-VbC" firstAttribute="top" secondItem="0Qo-eD-7oT" secondAttribute="bottom" id="olI-7C-8IZ"/>
+                            <constraint firstItem="d6h-45-OHy" firstAttribute="centerX" secondItem="HmB-EZ-4yC" secondAttribute="centerX" id="qKM-yV-eaJ"/>
+                            <constraint firstItem="d6h-45-OHy" firstAttribute="centerY" secondItem="HmB-EZ-4yC" secondAttribute="centerY" id="tcs-pL-uNM"/>
+                        </constraints>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="kCP-xP-pKW" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1006" y="1960"/>
+        </scene>
+        <!--Tour Four View Controller-->
+        <scene sceneID="UVJ-Nv-wRX">
+            <objects>
+                <viewController storyboardIdentifier="TourScreen4" useStoryboardIdentifierAsRestorationIdentifier="YES" id="qIH-9B-kPE" customClass="TourFourViewController" customModule="Tap_Timer" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="NdL-Oc-Fn5"/>
+                        <viewControllerLayoutGuide type="bottom" id="flm-aR-w8R"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="ZAv-1f-3fg">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Tour Settings Overlay-1" translatesAutoresizingMaskIntoConstraints="NO" id="3na-CR-6bh">
+                                <rect key="frame" x="-4" y="0.0" width="328" height="568"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Reverse Pinch Arrows" translatesAutoresizingMaskIntoConstraints="NO" id="zrp-oT-eRi">
+                                <rect key="frame" x="36" y="149" width="248" height="270"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="248" id="Le7-BO-NGa"/>
+                                    <constraint firstAttribute="height" constant="270" id="ShW-Ef-gqC"/>
+                                </constraints>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Pagination 4" translatesAutoresizingMaskIntoConstraints="NO" id="hF8-my-EMB">
+                                <rect key="frame" x="20" y="515" width="280" height="33"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="33" id="WQS-GW-YJn"/>
+                                </constraints>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eo9-Lg-he8">
+                                <rect key="frame" x="123" y="487" width="75" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="75" id="SdF-UW-0XT"/>
+                                    <constraint firstAttribute="height" constant="30" id="osv-bP-Lnn"/>
+                                </constraints>
+                                <state key="normal" title="Finish Tour">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="finishTourTapped:" destination="qIH-9B-kPE" eventType="touchUpInside" id="Dpe-kr-Q3w"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Zoom to view timer" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r3C-SS-ort">
+                                <rect key="frame" x="70" y="448" width="181" height="25"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="21"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="3na-CR-6bh" firstAttribute="top" secondItem="ZAv-1f-3fg" secondAttribute="topMargin" id="0lZ-sZ-3ST"/>
+                            <constraint firstItem="eo9-Lg-he8" firstAttribute="top" secondItem="r3C-SS-ort" secondAttribute="bottom" constant="14" id="2lG-nu-TvN"/>
+                            <constraint firstItem="3na-CR-6bh" firstAttribute="leading" secondItem="ZAv-1f-3fg" secondAttribute="leadingMargin" constant="-20" id="FDT-pu-WIM"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="3na-CR-6bh" secondAttribute="trailing" constant="-20" id="JrI-59-9sY"/>
+                            <constraint firstItem="flm-aR-w8R" firstAttribute="top" secondItem="hF8-my-EMB" secondAttribute="bottom" constant="20" id="SgJ-S9-qXi"/>
+                            <constraint firstItem="hF8-my-EMB" firstAttribute="leading" secondItem="ZAv-1f-3fg" secondAttribute="leadingMargin" constant="4" id="afx-4c-fa8"/>
+                            <constraint firstItem="hF8-my-EMB" firstAttribute="top" secondItem="eo9-Lg-he8" secondAttribute="bottom" constant="-2" id="bAr-iG-kjz"/>
+                            <constraint firstItem="r3C-SS-ort" firstAttribute="centerX" secondItem="ZAv-1f-3fg" secondAttribute="centerX" id="cFy-lR-J2O"/>
+                            <constraint firstItem="zrp-oT-eRi" firstAttribute="centerY" secondItem="ZAv-1f-3fg" secondAttribute="centerY" id="htl-vo-2PD"/>
+                            <constraint firstItem="flm-aR-w8R" firstAttribute="top" secondItem="3na-CR-6bh" secondAttribute="bottom" id="o06-L6-bf4"/>
+                            <constraint firstItem="zrp-oT-eRi" firstAttribute="centerX" secondItem="ZAv-1f-3fg" secondAttribute="centerX" id="ow5-4P-BVM"/>
+                            <constraint firstItem="eo9-Lg-he8" firstAttribute="centerX" secondItem="ZAv-1f-3fg" secondAttribute="centerX" id="w5s-1E-E7H"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="hF8-my-EMB" secondAttribute="trailing" constant="4" id="xkd-Q0-bAw"/>
+                        </constraints>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="BxY-xa-WsR" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1359" y="1960"/>
         </scene>
         <!--Upgrade To Pro View Controller-->
         <scene sceneID="gyS-hY-srB">
@@ -391,6 +634,9 @@
                                 <state key="normal" title="Upgrade to Pro &gt;">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="upgradeToProTapped:" destination="VkC-z6-rkg" eventType="touchUpInside" id="vka-mt-DaR"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="soH-hC-pje">
                                 <rect key="frame" x="16" y="28" width="25" height="25"/>
@@ -448,6 +694,7 @@
     </scenes>
     <resources>
         <image name="Alien" width="37" height="54"/>
+        <image name="Arrow Up" width="68" height="134"/>
         <image name="Bell" width="50" height="50"/>
         <image name="Blue Swatch" width="53" height="53"/>
         <image name="Boxing bell" width="49" height="30"/>
@@ -458,10 +705,18 @@
         <image name="Grey Swatch" width="53" height="53"/>
         <image name="Horn" width="49" height="46"/>
         <image name="Interval Timer Group" width="71" height="124"/>
+        <image name="Pagination" width="68" height="11"/>
+        <image name="Pagination 2" width="68" height="11"/>
+        <image name="Pagination 3" width="68" height="11"/>
+        <image name="Pagination 4" width="68" height="11"/>
+        <image name="Pinch Arrows" width="214" height="257"/>
         <image name="Purple Swatch" width="53" height="53"/>
         <image name="Red Swatch" width="53" height="53"/>
         <image name="Repetition Icon" width="48" height="43"/>
+        <image name="Reverse Pinch Arrows" width="224" height="248"/>
         <image name="Timer Windows" width="259" height="247"/>
+        <image name="Tour Settings Overlay-1" width="375" height="667"/>
+        <image name="Tour overlay" width="375" height="667"/>
         <image name="Yellow Swatch" width="53" height="53"/>
     </resources>
 </document>

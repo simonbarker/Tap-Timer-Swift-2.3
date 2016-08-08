@@ -1,32 +1,30 @@
 //
-//  TourViewController.swift
+//  TourFourViewController.swift
 //  Tap Timer
 //
-//  Created by Simon Barker on 26/07/2016.
+//  Created by Simon Barker on 05/08/2016.
 //  Copyright © 2016 sbarker. All rights reserved.
 //
 
 import UIKit
 
-class TourViewController: UIViewController {
+class TourFourViewController: UIViewController {
 
-    @IBOutlet var skipTourButton: UIButton!
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
     }
-    
-    @IBAction func skipTourButttonTapped(sender: AnyObject) {
-        self.dismissViewControllerAnimated(true, completion: nil)
-    }
-    
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return UIStatusBarStyle.LightContent
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
     }
     
 
+    @IBAction func finishTourTapped(sender: AnyObject) {
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
     /*
     // MARK: - Navigation
 
@@ -36,5 +34,9 @@ class TourViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return UIStatusBarStyle.LightContent
+    }
 
 }

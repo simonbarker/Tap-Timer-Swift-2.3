@@ -9,13 +9,12 @@
 import UIKit
 import AVFoundation
 
-var isPro: Bool = true
+var isPro: Bool = false
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
@@ -28,6 +27,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         application.registerUserNotificationSettings(UIUserNotificationSettings(forTypes: [.Alert, .Badge, .Sound], categories: nil))
         
         UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
+        
+        //check pro
+        isPro = TTDefaultsHelper.checkIfPro()
+        isPro = true
         
         return true
     }
