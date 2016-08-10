@@ -188,7 +188,7 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
         
         if sender.state == .Ended && settingsMode == false {
             //reset timer
-            timer.reset()
+            timer.clearTimer()
             displayedTimer.reset()
             displayedTimer.setTimeRemainingLabel(timer.duration)
             
@@ -308,7 +308,7 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
                 let duration = Int(1 * exp(((1-(abs(location.y))/screenHeight))*9.5))
                 
                 timer.duration = duration
-                timer.reset()
+                timer.clearTimer()
                 displayedTimer.reset()
                 displayedTimer.setTimeRemainingLabel(duration)
                 
@@ -404,11 +404,21 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
     }
     
     @IBAction func timerRepeatMinusTapped(sender: AnyObject) {
-        
+        if timer.timerRepetitions == 0 {
+            return
+        } else {
+            timer.timerRepetitions -= 1
+            timerRepeatLabel.text = "\(timer.timerRepetitions)"
+        }
     }
     
     @IBAction func timerRepeatPlusTapped(sender: AnyObject) {
-        
+        if timer.timerRepetitions == 99 {
+            return
+        } else {
+            timer.timerRepetitions += 1
+            timerRepeatLabel.text = "\(timer.timerRepetitions)"
+        }
     }
     
     
@@ -541,6 +551,7 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
         timerTitleTextField.text = timer.name
         
         alarmRepeatLabel.text = "\(timer.alarmRepetitions)"
+        timerRepeatLabel.text = "\(timer.timerRepetitions)"
     }
     
     override func preferredStatusBarStyle() -> UIStatusBarStyle {

@@ -48,6 +48,8 @@ class TimerModel: NSObject, AVAudioPlayerDelegate {
     var UUID: String
     var colorScheme: BaseColor
     var alarmRepetitions: Int
+    var timerRepetitions: Int
+    var currentTimerRepetition: Int
     var audioPlaying: Bool
     var player: AVAudioPlayer = AVAudioPlayer()
     var countDownTimer: NSTimer = NSTimer()
@@ -61,8 +63,10 @@ class TimerModel: NSObject, AVAudioPlayerDelegate {
         self.UUID = UUID
         self.audioAlert = AlertNoise.ChurchBell
         self.colorScheme = color
-        alarmRepetitions = 1
+        self.alarmRepetitions = 1
         self.audioPlaying = false
+        self.timerRepetitions = 0
+        self.currentTimerRepetition = 0
         
         let sess = AVAudioSession.sharedInstance()
         if sess.otherAudioPlaying {
@@ -220,7 +224,15 @@ class TimerModel: NSObject, AVAudioPlayerDelegate {
         countDownTimer.invalidate()
         timerStartTime = nil
         timerEndTime = nil
-        
+    }
+    
+    func clearTimer() {
+        active = false
+        paused = false
+        countDownTimer.invalidate()
+        timerStartTime = nil
+        timerEndTime = nil
+        currentTimerRepetition = 0
     }
     
     
@@ -239,17 +251,18 @@ class TimerModel: NSObject, AVAudioPlayerDelegate {
                 playAudio(alarmRepetitions - 1)
             }
             
-            /*if Helper.didNotificationFire(self) == false {
-                print("Playing audio")
-                loadAudio()
-                playAudio(alarmRepetitions - 1)
-            } else {
-                print("Not playing audio")
-            }*/
+            self.reset()
             
-            reset()
             self.delegate?.timerEnded(self)
             Helper.removeNotificationFromSchedule(self)
+            
+            //check repetition count
+            if currentTimerRepetition != timerRepetitions {
+                currentTimerRepetition += 1
+                self.start()
+            } else {
+                currentTimerRepetition = 0
+            }
             
         } else {
             
