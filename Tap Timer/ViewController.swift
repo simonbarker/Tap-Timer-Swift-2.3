@@ -19,6 +19,7 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
     @IBOutlet var carouselLeadingConstraint: NSLayoutConstraint!
     
     @IBOutlet var timerTitleTextField: UITextField!
+    @IBOutlet var timerRepeatLabel: UILabel!
     
     var timers = [TimerModel]()
     var timerViews = [TimerView]()
@@ -28,8 +29,7 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
 
     var displayedTimer: TimerView!
     
-    @IBOutlet var alarmRepetitionsSlider: UISlider!
-    @IBOutlet var alarmRepetitionsSliderLabel: UILabel!
+    @IBOutlet var alarmRepeatLabel: UILabel!
     
     var timer: TimerModel!
     
@@ -385,10 +385,32 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
         }
     }
     
-    @IBAction func sliderMoved(sender: UISlider) {
-        timer.alarmRepetitions = Int(sender.value)
-        alarmRepetitionsSliderLabel.text = "\(Int(sender.value))"
+    @IBAction func alarmRepeatMinusTapped(sender: AnyObject) {
+        if timer.alarmRepetitions == 1 {
+            return
+        } else {
+            timer.alarmRepetitions -= 1
+            alarmRepeatLabel.text = "\(timer.alarmRepetitions)"
+        }
     }
+    
+    @IBAction func alarmRepeatPlusTapped(sender: AnyObject) {
+        if timer.alarmRepetitions == 10 {
+            return
+        } else {
+            timer.alarmRepetitions += 1
+            alarmRepeatLabel.text = "\(timer.alarmRepetitions)"
+        }
+    }
+    
+    @IBAction func timerRepeatMinusTapped(sender: AnyObject) {
+        
+    }
+    
+    @IBAction func timerRepeatPlusTapped(sender: AnyObject) {
+        
+    }
+    
     
     //MARK: - Timer protocol delegate methods
     func timerFired(timer: TimerModel) {
@@ -518,8 +540,7 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
         
         timerTitleTextField.text = timer.name
         
-        alarmRepetitionsSlider.setValue(Float(timer.alarmRepetitions), animated: false)
-        alarmRepetitionsSliderLabel.text = "\(timer.alarmRepetitions)"
+        alarmRepeatLabel.text = "\(timer.alarmRepetitions)"
     }
     
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
