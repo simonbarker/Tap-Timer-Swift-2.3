@@ -38,6 +38,11 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
     //array to save images to allow button tinting reset
     var soundButtonImages: [UIImage] = []
     
+    @IBOutlet var proFeaturesButton: UIButton!
+    @IBOutlet var createIntervalButton: UIButton!
+    @IBOutlet var intervalIcon: UIImageView!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -45,6 +50,18 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
         Helper.addBackgroundGradient(self.view)
         
         createTimers()
+        
+        if isPro == true {
+            timerTitleTextField.hidden = false
+            createIntervalButton.hidden = false
+            intervalIcon.hidden = false
+            proFeaturesButton.hidden = true
+        } else {
+            timerTitleTextField.hidden = true
+            createIntervalButton.hidden = true
+            intervalIcon.hidden = true
+            proFeaturesButton.hidden = false
+        }
         
         //instantiate first timer
         timer = timers[0]

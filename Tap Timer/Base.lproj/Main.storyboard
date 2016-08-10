@@ -47,7 +47,11 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jfW-4H-nNy">
-                                <rect key="frame" x="126" y="530" width="68" height="30"/>
+                                <rect key="frame" x="126" y="543" width="68" height="17"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="68" id="EXn-nn-Dka"/>
+                                    <constraint firstAttribute="height" constant="17" id="c7k-Ho-22n"/>
+                                </constraints>
                                 <state key="normal" title="View Tour">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
@@ -230,12 +234,23 @@
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="20"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Interval Icon" translatesAutoresizingMaskIntoConstraints="NO" id="aGN-HO-hL6">
+                                <rect key="frame" x="80" y="479" width="161" height="4"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XmC-Sz-SMX">
+                                <rect key="frame" x="87" y="453" width="147" height="30"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
+                                <state key="normal" title="Create Interval Timer &gt;">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.42655369639396667" green="0.47584608197212219" blue="0.48026475310325623" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="trailingMargin" secondItem="vI6-h9-roK" secondAttribute="trailing" constant="50" id="2w0-gR-Otk"/>
                             <constraint firstItem="fca-P5-0Cu" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="76t-7c-op8"/>
                             <constraint firstItem="48d-p0-cJU" firstAttribute="top" secondItem="4NK-Sm-kEr" secondAttribute="bottom" constant="11" id="8Ua-wZ-Zxz"/>
+                            <constraint firstItem="XmC-Sz-SMX" firstAttribute="centerX" secondItem="aGN-HO-hL6" secondAttribute="centerX" id="90e-Qr-83H"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="vI6-h9-roK" secondAttribute="bottom" constant="140" id="9M0-3j-KMj"/>
                             <constraint firstItem="fyX-fJ-VGK" firstAttribute="leading" secondItem="vVt-Mg-1LM" secondAttribute="trailing" constant="3" id="9ln-tF-oVF"/>
                             <constraint firstItem="dVR-fq-JXF" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-4" id="BDH-Dx-Y9y"/>
@@ -251,17 +266,21 @@
                             <constraint firstItem="4NK-Sm-kEr" firstAttribute="centerX" secondItem="vVt-Mg-1LM" secondAttribute="centerX" id="Rxs-5U-eGd"/>
                             <constraint firstItem="fyX-fJ-VGK" firstAttribute="top" secondItem="fca-P5-0Cu" secondAttribute="bottom" constant="10" id="VFC-d6-EMG"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="N64-yB-THG" secondAttribute="bottom" constant="85" id="Vzy-e7-f1r"/>
+                            <constraint firstItem="aGN-HO-hL6" firstAttribute="bottom" secondItem="LkG-J8-MT0" secondAttribute="bottom" id="WA2-BM-FwP"/>
                             <constraint firstAttribute="trailing" secondItem="N64-yB-THG" secondAttribute="trailing" constant="9" id="Wxd-Mo-1v1"/>
                             <constraint firstItem="vVt-Mg-1LM" firstAttribute="centerX" secondItem="fca-P5-0Cu" secondAttribute="centerX" id="Xvj-tu-P04"/>
                             <constraint firstAttribute="trailingMargin" secondItem="fyX-fJ-VGK" secondAttribute="trailing" constant="-4" id="ZT7-sM-Y8d"/>
+                            <constraint firstItem="jfW-4H-nNy" firstAttribute="top" secondItem="mfD-Ky-w98" secondAttribute="bottom" constant="16" id="bgK-oB-k6y"/>
                             <constraint firstItem="N64-yB-THG" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="85" id="cMM-py-Pbp"/>
                             <constraint firstItem="vVt-Mg-1LM" firstAttribute="leading" secondItem="dVR-fq-JXF" secondAttribute="trailing" constant="9" id="cdM-QV-qls"/>
-                            <constraint firstItem="jfW-4H-nNy" firstAttribute="top" secondItem="mfD-Ky-w98" secondAttribute="bottom" constant="3" id="fWk-5S-7Oq"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="jfW-4H-nNy" secondAttribute="bottom" constant="8" id="hCY-ZT-DBw"/>
+                            <constraint firstItem="N64-yB-THG" firstAttribute="leading" secondItem="aGN-HO-hL6" secondAttribute="trailing" constant="17" id="egR-n4-Dof"/>
                             <constraint firstItem="4NK-Sm-kEr" firstAttribute="top" secondItem="vVt-Mg-1LM" secondAttribute="bottom" constant="-1" id="ihd-YF-Ly1"/>
-                            <constraint firstItem="jfW-4H-nNy" firstAttribute="centerX" secondItem="mfD-Ky-w98" secondAttribute="centerX" id="mPT-4Z-OhI"/>
+                            <constraint firstItem="jfW-4H-nNy" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="orl-jx-cvP"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="jfW-4H-nNy" secondAttribute="bottom" constant="8" id="ptb-LI-ZSL"/>
+                            <constraint firstItem="aGN-HO-hL6" firstAttribute="top" secondItem="XmC-Sz-SMX" secondAttribute="bottom" constant="-4" id="s6f-7B-2iM"/>
                             <constraint firstItem="vI6-h9-roK" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="119" id="sLC-6d-g6j"/>
                             <constraint firstItem="vVt-Mg-1LM" firstAttribute="top" secondItem="fca-P5-0Cu" secondAttribute="bottom" constant="6" id="uwF-G4-i9C"/>
+                            <constraint firstItem="aGN-HO-hL6" firstAttribute="leading" secondItem="LkG-J8-MT0" secondAttribute="trailing" constant="17" id="vlf-97-LEh"/>
                             <constraint firstItem="LkG-J8-MT0" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="10" id="x8H-pq-ybo"/>
                         </constraints>
                     </view>
@@ -274,6 +293,9 @@
                         <outlet property="carouselLeadingConstraint" destination="QX0-nj-7hN" id="8v0-vE-WFv"/>
                         <outlet property="carouselTopConstraint" destination="sLC-6d-g6j" id="Cb1-l9-Fdi"/>
                         <outlet property="carouselTrailingConstraint" destination="2w0-gR-Otk" id="xmY-Du-h3d"/>
+                        <outlet property="createIntervalButton" destination="XmC-Sz-SMX" id="w49-EA-66N"/>
+                        <outlet property="intervalIcon" destination="aGN-HO-hL6" id="MAx-6B-OcA"/>
+                        <outlet property="proFeaturesButton" destination="mfD-Ky-w98" id="Cta-L4-A8U"/>
                         <outlet property="timerTitleTextField" destination="48d-p0-cJU" id="ihD-1V-4cM"/>
                     </connections>
                 </viewController>
@@ -704,6 +726,7 @@
         <image name="Green Swatch" width="53" height="53"/>
         <image name="Grey Swatch" width="53" height="53"/>
         <image name="Horn" width="49" height="46"/>
+        <image name="Interval Icon" width="200" height="4"/>
         <image name="Interval Timer Group" width="71" height="124"/>
         <image name="Pagination" width="68" height="11"/>
         <image name="Pagination 2" width="68" height="11"/>
