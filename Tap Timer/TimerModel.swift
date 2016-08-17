@@ -17,25 +17,25 @@ protocol timerProtocol {
     func timerEnded(timer: TimerModel)
 }
 
-enum AlertNoise {
-    case ChurchBell
-    case DogBark
-    case BoxingBell
-    case Horn
-    case Alien
-    case Car
+enum AlertNoise: String {
+    case ChurchBell = "ChurchBell"
+    case DogBark = "DogBark"
+    case BoxingBell = "BoxingBell"
+    case Horn = "Horn"
+    case Alien = "Alien"
+    case Car = "Car"
 }
 
-enum BaseColor {
-    case SkyBlue
-    case Red
-    case Purple
-    case Yellow
-    case Green
-    case Gray
+enum BaseColor: String {
+    case SkyBlue = "SkyBlue"
+    case Red = "Red"
+    case Purple = "Purple"
+    case Yellow = "Yellow"
+    case Green = "Green"
+    case Gray = "Gray"
 }
 
-class TimerModel: NSObject, AVAudioPlayerDelegate {
+class TimerModel: NSObject, NSCoding, AVAudioPlayerDelegate {
     
     var name: String
     var active: Bool
@@ -55,17 +55,17 @@ class TimerModel: NSObject, AVAudioPlayerDelegate {
     var countDownTimer: NSTimer = NSTimer()
     var delegate: timerProtocol? = nil
     
-    init(withName name: String, duration: Int, UUID: String, color: BaseColor) {
+    init(withName name: String, duration: Int, UUID: String, color: BaseColor, alertNoise: AlertNoise, timerRepetitions: Int, alarmRepetitions: Int) {
         self.name = name
         self.active = false
         self.paused = false
         self.duration = duration
         self.UUID = UUID
-        self.audioAlert = AlertNoise.ChurchBell
+        self.audioAlert = alertNoise
         self.colorScheme = color
-        self.alarmRepetitions = 1
+        self.alarmRepetitions = alarmRepetitions
         self.audioPlaying = false
-        self.timerRepetitions = 0
+        self.timerRepetitions = timerRepetitions
         self.currentTimerRepetition = 0
         
         let sess = AVAudioSession.sharedInstance()
@@ -78,7 +78,74 @@ class TimerModel: NSObject, AVAudioPlayerDelegate {
     }
     
     convenience override init() {
-        self.init(withName: "Tap Timer 1", duration: 10, UUID: NSUUID().UUIDString, color: .Red)
+        self.init(withName: "Tap Timer 1", duration: 10, UUID: NSUUID().UUIDString, color: .Red, alertNoise: .ChurchBell, timerRepetitions: 1, alarmRepetitions: 0)
+    }
+    
+    // MARK: NSCoding
+    
+    required convenience init? (coder decoder: NSCoder) {
+        print("in init coder")
+        guard let name = decoder.decodeObjectForKey("name") as? String
+        else {
+            print("init coder name guard failed")
+            return nil
+        }
+        guard let duration = decoder.decodeObjectForKey("duration") as? Int
+        else {
+            print("init coder duration guard failed")
+            return nil
+        }
+        guard let audioAlertRawValue = decoder.decodeObjectForKey("audioAlert") as? String
+        else {
+            print("init coder audioAlert guard failed")
+            return nil
+        }
+        guard let UUID = decoder.decodeObjectForKey("UUID") as? String
+        else {
+            print("init coder UUID guard failed")
+            return nil
+        }
+        guard let colorSchemeRawValue = decoder.decodeObjectForKey("colorScheme") as? String
+        else {
+            print("init coder colorScheme guard failed")
+            return nil
+        }
+        guard let alarmRepetitions = decoder.decodeObjectForKey("alarmRepetitions") as? Int
+        else {
+            print("init coder alarmRepetitions guard failed")
+            return nil
+        }
+        guard let timerRepetitions = decoder.decodeObjectForKey("timerRepetitions") as? Int
+        else {
+            print("init coder timerRepetitions guard failed")
+            return nil
+        }
+        
+        guard let audioAlert = AlertNoise(rawValue: audioAlertRawValue)
+            else{
+                print("No AlertNoise rawValue case found")
+                return nil
+        }
+        guard let colorScheme = BaseColor(rawValue: colorSchemeRawValue)
+            else{
+                print("No BaseColor rawValue case found")
+                return nil
+        }
+        
+        print("initCoder guards passed, initing timer")
+        print("\(name), \(duration), \(UUID), \(colorScheme), \(audioAlert), \(timerRepetitions), \(alarmRepetitions)")
+        
+        self.init(withName: name, duration: duration, UUID: UUID, color: colorScheme, alertNoise: audioAlert, timerRepetitions: timerRepetitions, alarmRepetitions: alarmRepetitions)
+    }
+    
+    func encodeWithCoder(coder: NSCoder) {
+        coder.encodeObject(self.name, forKey: "name")
+        coder.encodeObject(self.duration, forKey: "duration")
+        coder.encodeObject(self.audioAlert.rawValue, forKey: "audioAlert")
+        coder.encodeObject(self.UUID, forKey: "UUID")
+        coder.encodeObject(self.colorScheme.rawValue, forKey: "colorScheme")
+        coder.encodeObject(self.alarmRepetitions, forKey: "alarmRepetitions")
+        coder.encodeObject(self.timerRepetitions, forKey: "timerRepetitions")
     }
     
     func percentageThroughTimer() -> Double {

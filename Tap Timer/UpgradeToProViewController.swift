@@ -8,8 +8,15 @@
 
 import UIKit
 
+//protocol tells primary view controller that user has upgraded to pro
+protocol proUpgradeDelegate {
+    func upgradedToPro(upgradeSucessful: Bool)
+}
+
 class UpgradeToProViewController: UIViewController {
 
+    var delegate: proUpgradeDelegate? = nil
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -28,6 +35,8 @@ class UpgradeToProViewController: UIViewController {
 
     @IBAction func upgradeToProTapped(sender: AnyObject) {
         isPro = true
+        TTDefaultsHelper.upgradeToPro()
+        self.delegate?.upgradedToPro(true)
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     

@@ -30,7 +30,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         //check pro
         isPro = TTDefaultsHelper.checkIfPro()
-        isPro = true
         
         return true
     }

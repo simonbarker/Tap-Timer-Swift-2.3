@@ -9,7 +9,7 @@
 import UIKit
 import iCarousel
 
-class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCarouselDelegate, UITextFieldDelegate {
+class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCarouselDelegate, UITextFieldDelegate, proUpgradeDelegate {
     
     @IBOutlet var carousel: iCarousel!
     
@@ -20,6 +20,7 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
     
     @IBOutlet var timerTitleTextField: UITextField!
     @IBOutlet var timerRepeatLabel: UILabel!
+    @IBOutlet var alarmRepeatLabel: UILabel!
     
     var timers = [TimerModel]()
     var timerViews = [TimerView]()
@@ -28,8 +29,6 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
     var timerConstraints = [NSLayoutConstraint]()
 
     var displayedTimer: TimerView!
-    
-    @IBOutlet var alarmRepeatLabel: UILabel!
     
     var timer: TimerModel!
     
@@ -51,6 +50,13 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
         
         createTimers()
         
+        print("Timers made, now setting up views")
+        
+        setupUI()
+        
+    }
+    
+    func setupUI() {
         if isPro == true {
             timerTitleTextField.hidden = false
             createIntervalButton.hidden = false
@@ -67,6 +73,8 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
         timer = timers[0]
         timerTitleTextField.text = timer.name
         timerTitleTextField.delegate = self
+        alarmRepeatLabel.text = "\(timer.alarmRepetitions)"
+        timerRepeatLabel.text = "\(timer.timerRepetitions)"
         
         //grab original images from sound UIButton
         for i in (200...205) {
@@ -77,7 +85,6 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
         //highlight correct sound
         highlightCorrectSoundButtonForTimer(timer)
         
-        //setup carousel
         carousel.delegate = self
         carousel.dataSource = self
         carousel.type = .CoverFlow
@@ -96,12 +103,41 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
             totalTimers = 6
         }
         
-        for i in 0...(totalTimers - 1) {
-            let t = TimerModel.init(withName: "Tap Timer \(i)", duration: 10, UUID: NSUUID().UUIDString, color: timerColorSchemes[i])
-            t.alarmRepetitions = 1
-            t.delegate = self
-            timers.append(t)
+        //look for timers in NSUserDefaults
+        let savedTimers = TTDefaultsHelper.getSavedTimers()
+        
+        if savedTimers.count == 0 {
+            //if no timers in defaults then create and save them
             
+            print("savedTimers.count == 0 so none found - creating them instead")
+            
+            for i in 0...(totalTimers - 1) {
+                
+                let t = TimerModel.init(withName: "Tap Timer \(i)", duration: 10, UUID: NSUUID().UUIDString, color: timerColorSchemes[i], alertNoise: AlertNoise.Car, timerRepetitions: 0, alarmRepetitions: 0)
+                t.alarmRepetitions = 1
+                t.delegate = self
+                timers.append(t)
+            }
+            
+            print("Made timers")
+            
+            TTDefaultsHelper.saveTimers(timers)
+            
+            
+        } else {
+            //if there are timers in defaults then load them up
+            
+            print("Timers found so no need to create them")
+            
+            timers = savedTimers
+            
+            print("Timers.count = \(timers.count)")
+        }
+        
+        //have timers so just make the views
+        
+        for t in timers {
+            t.delegate = self
             let tView = TimerView.init()
             if isPro == true {
                 tView.frame = CGRect(x: 0, y: 0, width: 100, height: 190)
@@ -123,6 +159,7 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
             
             timerViews.append(tView)
         }
+        
     }
     
     func highlightCorrectSoundButtonForTimer(timer: TimerModel) {
@@ -349,6 +386,9 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
                     Helper.addButtonTint(button!, timerColorScheme: timer.getColorScheme())
                 }
             }
+            
+            //update defaults
+            TTDefaultsHelper.saveTimers(timers)
         }
     }
     
@@ -382,6 +422,9 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
             
             timer.loadAudio()
             timer.playAudio(0)//play audio once to indicate that it has been changed
+            
+            //update defaults
+            TTDefaultsHelper.saveTimers(timers)
         }
     }
     
@@ -391,6 +434,8 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
         } else {
             timer.alarmRepetitions -= 1
             alarmRepeatLabel.text = "\(timer.alarmRepetitions)"
+            //update defaults
+            TTDefaultsHelper.saveTimers(timers)
         }
     }
     
@@ -400,6 +445,8 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
         } else {
             timer.alarmRepetitions += 1
             alarmRepeatLabel.text = "\(timer.alarmRepetitions)"
+            //update defaults
+            TTDefaultsHelper.saveTimers(timers)
         }
     }
     
@@ -409,6 +456,8 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
         } else {
             timer.timerRepetitions -= 1
             timerRepeatLabel.text = "\(timer.timerRepetitions)"
+            //update defaults
+            TTDefaultsHelper.saveTimers(timers)
         }
     }
     
@@ -418,6 +467,8 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
         } else {
             timer.timerRepetitions += 1
             timerRepeatLabel.text = "\(timer.timerRepetitions)"
+            //update defaults
+            TTDefaultsHelper.saveTimers(timers)
         }
     }
     
@@ -457,6 +508,21 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
             displayedTimer.reset()
         }
         
+    }
+    
+    //MARK: - proUpgradeDelegate methods
+    func upgradedToPro(upgradeSucessful: Bool) {
+        print("Upgraded to pro delegate method called")
+        if upgradeSucessful == true {
+            print("Upgrading")
+            TTDefaultsHelper.removeAllTimers()
+            timers.removeAll()
+            timerViews.removeAll()
+            
+            createTimers()
+            setupUI()
+            carousel.reloadData()
+        }
     }
     
     //MARK: - Layout Constraints
@@ -524,6 +590,7 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
     
     func carousel(carousel: iCarousel, viewForItemAtIndex index: Int, reusingView view: UIView?) -> UIView
     {
+        print(carousel.itemWidth)
         return timerViews[index]
     }
     
@@ -534,6 +601,14 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
             return value * 0.7
         }
         return value
+    }
+    
+    func carouselItemWidth(carousel: iCarousel) -> CGFloat {
+        if isPro == true {
+            return 100.0
+        } else {
+            return 190.0
+        }
     }
     
     func carouselCurrentItemIndexDidChange(carousel: iCarousel) {
@@ -567,6 +642,9 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
         
         textField.resignFirstResponder()
         
+        //update defaults
+        TTDefaultsHelper.saveTimers(timers)
+        
         return true
     }
     
@@ -574,6 +652,14 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
         timer.name = timerTitleTextField.text!
     }
     
+    //MARK: - Segue Navigation
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "ShowProFeaturesSegue"{
+            if let vc = segue.destinationViewController as? UpgradeToProViewController {
+                vc.delegate = self
+            }
+        }
+    }
     
 }
 
