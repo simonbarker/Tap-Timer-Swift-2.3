@@ -136,13 +136,34 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
         
         //have timers so just make the views
         
+        print("carousel dims, width: \(carousel.frame.width) height: \(carousel.frame.height)")
+        
+        let phoneType = Helper.detectPhoneScreenSize()
+        
         for t in timers {
             t.delegate = self
             let tView = TimerView.init()
+            
             if isPro == true {
-                tView.frame = CGRect(x: 0, y: 0, width: 100, height: 190)
+                if phoneType == "4" {
+                    tView.frame = CGRect(x: 0, y: 0, width: 100, height: 160)
+                } else if phoneType == "5" {
+                    tView.frame = CGRect(x: 0, y: 0, width: 100, height: 160)
+                } else if phoneType == "6" {
+                    tView.frame = CGRect(x: 0, y: 0, width: 100, height: 190)
+                } else { //6+
+                    tView.frame = CGRect(x: 0, y: 0, width: 125, height: 260)
+                }
             } else {
-                tView.frame = CGRect(x: 0, y: 0, width: 180, height: 342)
+                if phoneType == "4" {
+                    tView.frame = CGRect(x: 0, y: 0, width: 100, height: 160)
+                } else if phoneType == "5" {
+                    tView.frame = CGRect(x: 0, y: 0, width: 160, height: 280)
+                } else if phoneType == "6" {
+                    tView.frame = CGRect(x: 0, y: 0, width: 160, height: 280)
+                } else { //6+
+                    tView.frame = CGRect(x: 0, y: 0, width: 200, height: 400)
+                }
             }
             
             let colors = t.getColorScheme()
@@ -542,15 +563,21 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
             options: [],
             metrics: nil,
             views: views)
+        for constraint in timerHorizontalConstraints{
+            constraint.identifier = "timerHorizontalConstraints.settingsMode"
+        }
         settingsConstraints += timerHorizontalConstraints
         
         let timerVerticalConstraints = NSLayoutConstraint.constraintsWithVisualFormat(
-            "V:|-105-[timerView]-85-|",
+            "V:|-65-[timerView]-45-|",
             options: [],
             metrics: nil,
             views: views)
+        for constraint in timerVerticalConstraints{
+            constraint.identifier = "timerVerticalConstraints.settingsMode"
+        }
         settingsConstraints += timerVerticalConstraints
-            
+        
         NSLayoutConstraint.activateConstraints(settingsConstraints)
     }
     
@@ -570,6 +597,9 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
             options: [],
             metrics: nil,
             views: views)
+        for constraint in timerHorizontalConstraints{
+            constraint.identifier = "timerHorizontalConstraints.timerMode"
+        }
         timerConstraints += timerHorizontalConstraints
         
         let timerVerticalConstraints = NSLayoutConstraint.constraintsWithVisualFormat(
@@ -577,6 +607,9 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
             options: [],
             metrics: nil,
             views: views)
+        for constraint in timerVerticalConstraints{
+            constraint.identifier = "timerVerticalConstraints.timerMode"
+        }
         timerConstraints += timerVerticalConstraints
         
         NSLayoutConstraint.activateConstraints(timerConstraints)
@@ -590,7 +623,6 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
     
     func carousel(carousel: iCarousel, viewForItemAtIndex index: Int, reusingView view: UIView?) -> UIView
     {
-        print(carousel.itemWidth)
         return timerViews[index]
     }
     

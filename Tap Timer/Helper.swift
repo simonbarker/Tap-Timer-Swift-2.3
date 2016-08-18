@@ -76,4 +76,18 @@ class Helper: NSObject {
             return false
         }
     }
+    
+    static func detectPhoneScreenSize() -> String {
+        let screenBounds = UIScreen.mainScreen().bounds
+
+        if screenBounds.width == 320 && screenBounds.height == 480 {
+            return "4"
+        } else if screenBounds.width == 320 && screenBounds.height == 568 {
+            return "5"
+        } else if screenBounds.width == 375 && screenBounds.height == 667 {
+            return "6"
+        } else { //6+ so 414 x 736
+            return "6+"
+        }
+    }
 }

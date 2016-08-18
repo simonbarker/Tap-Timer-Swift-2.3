@@ -17,6 +17,7 @@
 		B01A49EF1D35319F00FE087D /* TimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B01A49EE1D35319F00FE087D /* TimerView.swift */; };
 		B02E24D11D35344D001C3243 /* TimerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B02E24D01D35344D001C3243 /* TimerView.xib */; };
 		B02E24D31D355FA9001C3243 /* TimerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B02E24D21D355FA9001C3243 /* TimerModel.swift */; };
+		B04B58901D65F2BC000F3F96 /* CreateIntervalTimerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B04B588F1D65F2BC000F3F96 /* CreateIntervalTimerViewController.swift */; };
 		B05540A41D3EC0E8007A6519 /* ChameleonFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B05540A31D3EC0E8007A6519 /* ChameleonFramework.framework */; };
 		B0596F091D54CD42002D5A49 /* SwiftyUserDefaults.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0596F081D54CD42002D5A49 /* SwiftyUserDefaults.framework */; };
 		B0596F0B1D54CDEB002D5A49 /* TTDefaultsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0596F0A1D54CDEB002D5A49 /* TTDefaultsHelper.swift */; };
@@ -43,6 +44,7 @@
 		B01A49EE1D35319F00FE087D /* TimerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimerView.swift; sourceTree = "<group>"; };
 		B02E24D01D35344D001C3243 /* TimerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TimerView.xib; sourceTree = "<group>"; };
 		B02E24D21D355FA9001C3243 /* TimerModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimerModel.swift; sourceTree = "<group>"; };
+		B04B588F1D65F2BC000F3F96 /* CreateIntervalTimerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateIntervalTimerViewController.swift; sourceTree = "<group>"; };
 		B05540A31D3EC0E8007A6519 /* ChameleonFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ChameleonFramework.framework; path = "Pods/../build/Debug-iphoneos/ChameleonFramework/ChameleonFramework.framework"; sourceTree = "<group>"; };
 		B0596F081D54CD42002D5A49 /* SwiftyUserDefaults.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyUserDefaults.framework; path = "../../../Library/Developer/Xcode/DerivedData/Tap_Timer-bgdhtsdhdhgpnlfehrfmwdpneslg/Build/Products/Debug-iphonesimulator/SwiftyUserDefaults/SwiftyUserDefaults.framework"; sourceTree = "<group>"; };
 		B0596F0A1D54CDEB002D5A49 /* TTDefaultsHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TTDefaultsHelper.swift; path = ../TTDefaultsHelper.swift; sourceTree = "<group>"; };
@@ -121,6 +123,7 @@
 				B0F54CA41D4238AA006BF224 /* Helper.swift */,
 				B0596F0A1D54CDEB002D5A49 /* TTDefaultsHelper.swift */,
 				B01A49E01D35308100FE087D /* Main.storyboard */,
+				B04B588F1D65F2BC000F3F96 /* CreateIntervalTimerViewController.swift */,
 				B0596F0E1D54D68B002D5A49 /* TourPageViewController.swift */,
 				B0596F101D54F5DB002D5A49 /* TourOneViewController.swift */,
 				B0596F121D54F692002D5A49 /* TourFourViewController.swift */,
@@ -259,6 +262,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B04B58901D65F2BC000F3F96 /* CreateIntervalTimerViewController.swift in Sources */,
 				B0596F131D54F692002D5A49 /* TourFourViewController.swift in Sources */,
 				B0F54CA31D423884006BF224 /* UpgradeToProViewController.swift in Sources */,
 				B0596F0B1D54CDEB002D5A49 /* TTDefaultsHelper.swift in Sources */,
