@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		391E3707D5F72B98C8E0603A /* Pods_Tap_Timer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46D8505C7376F5F4F91F8605 /* Pods_Tap_Timer.framework */; };
+		B000125F1D6EDCB100BF4737 /* IntervalModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B000125E1D6EDCB100BF4737 /* IntervalModel.swift */; };
+		B00012621D6EF16200BF4737 /* IntervalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00012601D6EF16200BF4737 /* IntervalView.swift */; };
+		B00012631D6EF16200BF4737 /* IntervalView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B00012611D6EF16200BF4737 /* IntervalView.xib */; };
 		B00737ED1D412F6200D46510 /* Car Horn.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B00737EC1D412F6200D46510 /* Car Horn.mp3 */; };
 		B01A49DD1D35308100FE087D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B01A49DC1D35308100FE087D /* AppDelegate.swift */; };
 		B01A49DF1D35308100FE087D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B01A49DE1D35308100FE087D /* ViewController.swift */; };
@@ -33,6 +36,9 @@
 /* Begin PBXFileReference section */
 		46D8505C7376F5F4F91F8605 /* Pods_Tap_Timer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Tap_Timer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		85F630B3E4B92732EE2DB595 /* Pods-Tap Timer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tap Timer.release.xcconfig"; path = "Pods/Target Support Files/Pods-Tap Timer/Pods-Tap Timer.release.xcconfig"; sourceTree = "<group>"; };
+		B000125E1D6EDCB100BF4737 /* IntervalModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntervalModel.swift; sourceTree = "<group>"; };
+		B00012601D6EF16200BF4737 /* IntervalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntervalView.swift; sourceTree = "<group>"; };
+		B00012611D6EF16200BF4737 /* IntervalView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IntervalView.xib; sourceTree = "<group>"; };
 		B00737EC1D412F6200D46510 /* Car Horn.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Car Horn.mp3"; sourceTree = "<group>"; };
 		B01A49D91D35308100FE087D /* Tap Timer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Tap Timer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B01A49DC1D35308100FE087D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -127,6 +133,9 @@
 				B0596F0E1D54D68B002D5A49 /* TourPageViewController.swift */,
 				B0596F101D54F5DB002D5A49 /* TourOneViewController.swift */,
 				B0596F121D54F692002D5A49 /* TourFourViewController.swift */,
+				B00012601D6EF16200BF4737 /* IntervalView.swift */,
+				B00012611D6EF16200BF4737 /* IntervalView.xib */,
+				B000125E1D6EDCB100BF4737 /* IntervalModel.swift */,
 				B02E24D01D35344D001C3243 /* TimerView.xib */,
 				B01A49EE1D35319F00FE087D /* TimerView.swift */,
 				B01A49E31D35308100FE087D /* Assets.xcassets */,
@@ -204,6 +213,7 @@
 				B01A49E41D35308100FE087D /* Assets.xcassets in Resources */,
 				B02E24D11D35344D001C3243 /* TimerView.xib in Resources */,
 				B01A49E21D35308100FE087D /* Main.storyboard in Resources */,
+				B00012631D6EF16200BF4737 /* IntervalView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -270,6 +280,8 @@
 				B02E24D31D355FA9001C3243 /* TimerModel.swift in Sources */,
 				B01A49DF1D35308100FE087D /* ViewController.swift in Sources */,
 				B0596F0F1D54D68B002D5A49 /* TourPageViewController.swift in Sources */,
+				B000125F1D6EDCB100BF4737 /* IntervalModel.swift in Sources */,
+				B00012621D6EF16200BF4737 /* IntervalView.swift in Sources */,
 				B01A49DD1D35308100FE087D /* AppDelegate.swift in Sources */,
 				B0F54CA51D4238AA006BF224 /* Helper.swift in Sources */,
 				B0596F111D54F5DB002D5A49 /* TourOneViewController.swift in Sources */,

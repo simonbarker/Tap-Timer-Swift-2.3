@@ -255,6 +255,7 @@ class TimerModel: NSObject, NSCoding, AVAudioPlayerDelegate {
         audioPlaying = false
     }
     
+    //MARK: - Timer control methods
     func start() {
         active = true
         paused = false

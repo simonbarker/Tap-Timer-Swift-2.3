@@ -35,6 +35,8 @@ class TTDefaultsHelper: NSObject {
         Defaults[.isPro] = true
     }
     
+    //MARK: - Timer Methods
+    
     static func saveTimers(timers: [TimerModel]) {
         print("TTDefaultsHelper Saving timers")
         let savedData = NSKeyedArchiver.archivedDataWithRootObject(timers)
@@ -61,6 +63,39 @@ class TTDefaultsHelper: NSObject {
     static func removeAllTimers() {
         let defaults = NSUserDefaults.standardUserDefaults()
         defaults.remove("timers")
+    }
+    
+    //MARK: - Interval Timer Methods
+    
+    static func saveIntervalTimers(intervalTimers: [IntervalModel]) {
+        print("TTDefaultsHelper Saving intervals")
+        let savedData = NSKeyedArchiver.archivedDataWithRootObject(intervalTimers)
+        let defaults = NSUserDefaults.standardUserDefaults()
+        defaults.setObject(savedData, forKey: "intervals")
+    }
+    
+    static func getSavedIntervalTimers() -> [IntervalModel] {
+        let defaults = NSUserDefaults.standardUserDefaults()
+        
+        if let savedIntervalTimers = defaults.objectForKey("intervals") as? NSData {
+            print("TTDefaultsHelper found interval timers, returning interval timers")
+            let intervalTimers = NSKeyedUnarchiver.unarchiveObjectWithData(savedIntervalTimers) as! [IntervalModel]
+            return intervalTimers
+        }
+        print("TTDefaultsHelper found no interval timers, returning empty timers")
+        
+        return [IntervalModel]()
+    }
+    
+    static func createIntervalWithTimers(timer1: TimerModel, timer2: TimerModel) {
+        var intervalTimers = getSavedIntervalTimers()
+        
+        let newIntervalTimer = IntervalModel(withName: "Interval Timer", timer1: timer1, timer2: timer2, intervalRepetitions: 1)
+        
+        intervalTimers.append(newIntervalTimer)
+        
+        saveIntervalTimers(intervalTimers)
+        
     }
     
 }

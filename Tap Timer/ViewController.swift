@@ -9,7 +9,7 @@
 import UIKit
 import iCarousel
 
-class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCarouselDelegate, UITextFieldDelegate, proUpgradeDelegate {
+class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCarouselDelegate, UITextFieldDelegate, proUpgradeDelegate, intervalProtocol {
     
     @IBOutlet var carousel: iCarousel!
     
@@ -24,13 +24,17 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
     
     var timers = [TimerModel]()
     var timerViews = [TimerView]()
+    var intervalTimers = [IntervalModel]()
+    var intervalViews = [IntervalView]()
     
     var settingsConstraints = [NSLayoutConstraint]()
     var timerConstraints = [NSLayoutConstraint]()
 
     var displayedTimer: TimerView!
+    var displayedInterval: IntervalView!
     
     var timer: TimerModel!
+    var intervalTimer: IntervalModel!
     
     var settingsMode: Bool = false
     
@@ -50,7 +54,7 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
         
         createTimers()
         
-        print("Timers made, now setting up views")
+        createIntervalTimers()
         
         setupUI()
         
@@ -108,9 +112,6 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
         
         if savedTimers.count == 0 {
             //if no timers in defaults then create and save them
-            
-            print("savedTimers.count == 0 so none found - creating them instead")
-            
             for i in 0...(totalTimers - 1) {
                 
                 let t = TimerModel.init(withName: "Tap Timer \(i)", duration: 10, UUID: NSUUID().UUIDString, color: timerColorSchemes[i], alertNoise: AlertNoise.Car, timerRepetitions: 0, alarmRepetitions: 0)
@@ -119,25 +120,15 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
                 timers.append(t)
             }
             
-            print("Made timers")
-            
             TTDefaultsHelper.saveTimers(timers)
             
             
         } else {
             //if there are timers in defaults then load them up
-            
-            print("Timers found so no need to create them")
-            
             timers = savedTimers
-            
-            print("Timers.count = \(timers.count)")
         }
         
         //have timers so just make the views
-        
-        print("carousel dims, width: \(carousel.frame.width) height: \(carousel.frame.height)")
-        
         let phoneType = Helper.detectPhoneScreenSize()
         
         for t in timers {
@@ -171,7 +162,9 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
             tView.setTimeRemainingLabel(t.duration)
             tView.setCountDownBarFromPercentage(1)
             tView.layer.zPosition = 100 //make sure the timer view sits on top of the settings panel
-            tView.timerLabel.hidden = true
+            tView.timerLabel.hidden = false
+            tView.timerLabel.font = tView.timerLabel.font.fontWithSize(20.0)
+            
             
             //set up gesture recognisers for timer
             let pinchGestureRecogniser = UIPinchGestureRecognizer(target: self, action: #selector(self.pinchDetected(_:)))
@@ -179,6 +172,90 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
             tView.addGestureRecognizer(pinchGestureRecogniser)
             
             timerViews.append(tView)
+        }
+        
+    }
+    
+    func createIntervalTimers() {
+        
+        let savedIntervals = TTDefaultsHelper.getSavedIntervalTimers()
+        
+        if savedIntervals.count != 0 {
+            
+            intervalTimers = savedIntervals
+            
+            for i in savedIntervals {
+                
+                i.delegate = self
+                
+                let timer1 = i.timer1
+                let timer2 = i.timer2
+                
+                let tView = TimerView.init()
+                
+                let phoneType = Helper.detectPhoneScreenSize()
+                if phoneType == "4" {
+                    tView.frame = CGRect(x: 0, y: 0, width: 100, height: 80)
+                } else if phoneType == "5" {
+                    tView.frame = CGRect(x: 0, y: 0, width: 100, height: 80)
+                } else if phoneType == "6" {
+                    tView.frame = CGRect(x: 0, y: 0, width: 100, height: 95)
+                } else { //6+
+                    tView.frame = CGRect(x: 0, y: 0, width: 125, height: 130)
+                }
+                
+                let colors = timer1.getColorScheme()
+                tView.setColorScheme(colorLight: colors["lightColor"]!, colorDark: colors["darkColor"]!)
+                tView.setTimeRemainingLabel(timer1.duration)
+                tView.setCountDownBarFromPercentage(1)
+                tView.layer.zPosition = 100 //make sure the timer view sits on top of the settings panel
+                tView.timerLabel.hidden = false
+                tView.timerLabel.font = tView.timerLabel.font.fontWithSize(20.0)
+                
+                
+                let tView2 = TimerView.init()
+                
+                if phoneType == "4" {
+                    tView2.frame = CGRect(x: 0, y: 80, width: 100, height: 80)
+                } else if phoneType == "5" {
+                    tView2.frame = CGRect(x: 0, y: 80, width: 100, height: 80)
+                } else if phoneType == "6" {
+                    tView2.frame = CGRect(x: 0, y: 95, width: 100, height: 95)
+                } else { //6+
+                    tView2.frame = CGRect(x: 0, y: 130, width: 125, height: 130)
+                }
+                
+                let colors2 = timer2.getColorScheme()
+                tView2.setColorScheme(colorLight: colors2["lightColor"]!, colorDark: colors2["darkColor"]!)
+                tView2.setTimeRemainingLabel(timer2.duration)
+                tView2.setCountDownBarFromPercentage(1)
+                tView2.layer.zPosition = 100 //make sure the timer view sits on top of the settings panel
+                tView2.timerLabel.hidden = false
+                tView2.timerLabel.font = tView.timerLabel.font.fontWithSize(20.0)
+                
+                let intervalView = IntervalView()
+                
+                if phoneType == "4" {
+                    intervalView.frame = CGRect(x: 0, y: 0, width: 100, height: 160)
+                } else if phoneType == "5" {
+                    intervalView.frame = CGRect(x: 0, y: 0, width: 100, height: 160)
+                } else if phoneType == "6" {
+                    intervalView.frame = CGRect(x: 0, y: 0, width: 100, height: 190)
+                } else { //6+
+                    intervalView.frame = CGRect(x: 0, y: 0, width: 125, height: 260)
+                }
+                intervalView.addSubview(tView)
+                intervalView.addSubview(tView2)
+                
+                //set up gesture recognisers for timer
+                let pinchGestureRecogniser = UIPinchGestureRecognizer(target: self, action: #selector(self.intervalTimerPinchDetected(_:)))
+                
+                intervalView.addGestureRecognizer(pinchGestureRecogniser)
+                
+                intervalViews.append(intervalView)
+                
+            }
+            
         }
         
     }
@@ -208,35 +285,42 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
     func singleTapDetected(sender: UITapGestureRecognizer) {
         
         if sender.state == .Ended && settingsMode == false {
-            if timer.audioPlaying == true {
-                timer.player.stop()
-                timer.audioPlaying = false
-            } else {
-                
-                if timer.active == false && timer.paused == false {
-                    
-                    //start timer
-                    timer.start()
-                    
-                    Helper.registerTimerNotification(timer)
-                    
-                } else if timer.active == false && timer.paused == true {
-                    
-                    //start timer
-                    timer.restart()
-                    
-                    Helper.registerTimerNotification(timer)
-                    
-
+            if sender.view == displayedTimer {
+                if timer.audioPlaying == true {
+                    timer.player.stop()
+                    timer.audioPlaying = false
                 } else {
                     
-                    //pause timer
-                    timer.pause()
-                    
-                    //remove notification
-                    Helper.removeNotificationFromSchedule(timer)
-                    
+                    if timer.active == false && timer.paused == false {
+                        
+                        //start timer
+                        timer.start()
+                        
+                        Helper.registerTimerNotification(timer)
+                        
+                    } else if timer.active == false && timer.paused == true {
+                        
+                        //start timer
+                        timer.restart()
+                        
+                        Helper.registerTimerNotification(timer)
+                        
+
+                    } else {
+                        
+                        //pause timer
+                        timer.pause()
+                        
+                        //remove notification
+                        Helper.removeNotificationFromSchedule(timer)
+                        
+                    }
                 }
+            } else if sender.view == displayedInterval {
+                
+                print("Start interval")
+                intervalTimer.startIntervalTimer()
+                
             }
         }
         
@@ -245,13 +329,21 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
     func doubleTapDetected(sender: UITapGestureRecognizer) {
         
         if sender.state == .Ended && settingsMode == false {
-            //reset timer
-            timer.clearTimer()
-            displayedTimer.reset()
-            displayedTimer.setTimeRemainingLabel(timer.duration)
+            if sender.view == displayedTimer {
             
-            //remove notification
-            Helper.removeNotificationFromSchedule(timer)
+                //reset timer
+                timer.clearTimer()
+                displayedTimer.reset()
+                displayedTimer.setTimeRemainingLabel(timer.duration)
+                
+                //remove notification
+                Helper.removeNotificationFromSchedule(timer)
+                
+            } else if sender.view == displayedInterval {
+                
+                //reset interval
+                
+            }
         }
         
     }
@@ -260,6 +352,8 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
         
         if settingsMode == false {
             changeTimerBasedOnDistanceFromBottom(sender)
+            //update defaults
+            TTDefaultsHelper.saveTimers(timers)
         }
         
     }
@@ -281,12 +375,29 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
         }
     }
     
+    func intervalTimerPinchDetected(sender: UIPinchGestureRecognizer) {
+        if sender.state == .Began {
+            
+            if sender.scale < 1 {
+                
+                changeViewModeTo("intervalSettings")
+                
+                settingsMode = true
+            } else {
+                
+                changeViewModeTo("intervalTimer")
+                
+                settingsMode = false
+            }
+        }
+    }
+    
     //MARK: - Toggle view mode between settings and timer
     func changeViewModeTo(mode: String){
         
         if mode == "settings" && settingsMode != true {
-            addSettingsModeConstraints()
-            animatedLayoutIfNeeded(removeView: true)
+            addSettingsModeConstraintsToTimerView()
+            animatedLayoutIfNeeded(removeView: true, viewToRemove: displayedTimer)
             
             guard let index = timers.indexOf(timer) else {
                 print("Index of timer object not found in timers array")
@@ -328,24 +439,88 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
             self.view.addSubview(displayedTimer)
             
             //make the view small before making it full screen so that is grows from the center of the screen
-            addSettingsModeConstraints()
+            addSettingsModeConstraintsToTimerView()
             self.view.layoutIfNeeded()
             
-            addTimerModeConstraints()
+            addTimerModeConstraintsToTimerView()
             animatedLayoutIfNeeded(removeView: false)
             
             displayedTimer.setCountDownBarFromPercentage(timer.percentageThroughTimer())
             
         }
+        if mode == "intervalSettings" && settingsMode != true {
+            
+            addSettingsModeConstraintsToIntervalView()
+            animatedLayoutIfNeeded(removeView: true, viewToRemove: displayedInterval)
+            
+            /*guard let index = timers.indexOf(timer) else {
+                print("Index of timer object not found in timers array")
+                return
+            }*/
+            
+            //timerViews[index].setCountDownBarFromPercentage(timer.percentageThroughTimer())
+        }
+        if mode == "intervalTimer" && settingsMode != false {
+            
+            print("In change to interval Timer mode")
+            
+            displayedInterval = IntervalView.init()
+            self.displayedInterval.translatesAutoresizingMaskIntoConstraints = false
+            displayedInterval.frame = CGRect(x: 0, y: 0, width: 1, height: 1)
+            let colors1 = intervalTimer.timer1.getColorScheme()
+            displayedInterval.setColorScheme1(colorLight: colors1["lightColor"]!, colorDark: colors1["darkColor"]!)
+            displayedInterval.setTimeRemainingLabel1(intervalTimer.timer1.timeToDisplay())
+            displayedInterval.timer1Label.hidden = false
+            
+            let colors2 = intervalTimer.timer2.getColorScheme()
+            displayedInterval.setColorScheme2(colorLight: colors2["lightColor"]!, colorDark: colors2["darkColor"]!)
+            displayedInterval.setTimeRemainingLabel2(intervalTimer.timer2.timeToDisplay())
+            displayedInterval.timer2Label.hidden = false
+            
+            displayedInterval.layer.zPosition = 100 //make sure the timer view sits on top of the settings panel
+            
+            //set up gesture recognisers for interval
+            let singleTapGestureRecogniser = UITapGestureRecognizer(target: self, action: #selector(self.singleTapDetected(_:)))
+            singleTapGestureRecogniser.numberOfTapsRequired = 1
+            
+            let doubleTapGestureRecogniser = UITapGestureRecognizer(target: self, action: #selector(self.doubleTapDetected(_:)))
+            doubleTapGestureRecogniser.numberOfTapsRequired = 2
+            singleTapGestureRecogniser.requireGestureRecognizerToFail(doubleTapGestureRecogniser)
+            let panGestureRecogniser = UIPanGestureRecognizer(target: self, action: #selector(self.panDetected(_:)))
+            panGestureRecogniser.minimumNumberOfTouches = 2
+            let pinchGestureRecogniser = UIPinchGestureRecognizer(target: self, action: #selector(self.intervalTimerPinchDetected(_:)))
+            
+            displayedInterval.addGestureRecognizer(singleTapGestureRecogniser)
+            displayedInterval.addGestureRecognizer(doubleTapGestureRecogniser)
+            displayedInterval.addGestureRecognizer(panGestureRecogniser)
+            displayedInterval.addGestureRecognizer(pinchGestureRecogniser)
+            
+            self.view.addSubview(displayedInterval)
+            
+            //make the view small before making it full screen so that is grows from the center of the screen
+            addSettingsModeConstraintsToIntervalView()
+            self.view.layoutIfNeeded()
+            
+            addTimerModeConstraintsToIntervalView()
+            animatedLayoutIfNeeded(removeView: false)
+            
+            displayedInterval.setCountDownBar1FromPercentage(intervalTimer.timer1.percentageThroughTimer())
+            displayedInterval.setCountDownBar2FromPercentage(intervalTimer.timer2.percentageThroughTimer())
+
+        }
         
     }
     
-    func animatedLayoutIfNeeded(removeView removeView: Bool){
+    func animatedLayoutIfNeeded(removeView removeView: Bool, viewToRemove: UIView?=nil){
         UIView.animateWithDuration(0.3, delay: 0, options: [UIViewAnimationOptions.CurveEaseIn] , animations: {
             self.view.layoutIfNeeded()
         }) { (true) in
             if removeView == true {
-                self.displayedTimer.removeFromSuperview()
+                if viewToRemove == self.displayedInterval {
+                    self.displayedInterval.removeFromSuperview()
+                } else {
+                    self.displayedTimer.removeFromSuperview()
+                }
             }
         }
     }
@@ -531,6 +706,32 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
         
     }
     
+    //MARK: - Interval protocol delegate methods
+    func intervalTimerFired(interval: IntervalModel, timer: TimerModel) {
+        guard let index = intervalTimers.indexOf(interval) else {
+            print("Index of interval not found")
+            return
+        }
+        
+        print("Index \(index)")
+        
+        intervalViews[index].setTimeRemainingLabel1(timer.timeToDisplay())
+        intervalViews[index].setCountDownBar1FromPercentage(timer.percentageThroughTimer())
+        
+        //update displayed timer if this timer is the current timer
+        if carousel.currentItemIndex == index + timers.count {
+            print("index + timers.count \(index + timers.count)")
+            displayedInterval.setCountDownBar1FromPercentage(timer.percentageThroughTimer())
+            displayedInterval.setTimeRemainingLabel1(timer.timeToDisplay())
+        }
+        
+        
+    }
+    
+    func intervalTimerEnded(interval: IntervalModel, timer: TimerModel) {
+        
+    }
+    
     //MARK: - proUpgradeDelegate methods
     func upgradedToPro(upgradeSucessful: Bool) {
         print("Upgraded to pro delegate method called")
@@ -547,7 +748,7 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
     }
     
     //MARK: - Layout Constraints
-    func addSettingsModeConstraints() {
+    func addSettingsModeConstraintsToTimerView() {
         
         if timerConstraints.count != 0 {
             NSLayoutConstraint.deactivateConstraints(timerConstraints)
@@ -581,7 +782,7 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
         NSLayoutConstraint.activateConstraints(settingsConstraints)
     }
     
-    func addTimerModeConstraints() {
+    func addTimerModeConstraintsToTimerView() {
         
         if settingsConstraints.count != 0 {
             NSLayoutConstraint.deactivateConstraints(settingsConstraints)
@@ -615,15 +816,95 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
         NSLayoutConstraint.activateConstraints(timerConstraints)
     }
 
+    
+
+    
+    func addSettingsModeConstraintsToIntervalView() {
+        
+        if timerConstraints.count != 0 {
+            NSLayoutConstraint.deactivateConstraints(timerConstraints)
+        }
+        
+        timerConstraints.removeAll()
+        settingsConstraints.removeAll()
+        
+        let views = ["timerView": displayedInterval]
+        
+        let timerHorizontalConstraints = NSLayoutConstraint.constraintsWithVisualFormat(
+            "H:|-75-[timerView]-75-|",
+            options: [],
+            metrics: nil,
+            views: views)
+        for constraint in timerHorizontalConstraints{
+            constraint.identifier = "intervalHorizontalConstraints.settingsMode"
+        }
+        settingsConstraints += timerHorizontalConstraints
+        
+        let timerVerticalConstraints = NSLayoutConstraint.constraintsWithVisualFormat(
+            "V:|-65-[timerView]-45-|",
+            options: [],
+            metrics: nil,
+            views: views)
+        for constraint in timerVerticalConstraints{
+            constraint.identifier = "intervalVerticalConstraints.settingsMode"
+        }
+        settingsConstraints += timerVerticalConstraints
+        
+        NSLayoutConstraint.activateConstraints(settingsConstraints)
+    }
+    
+    func addTimerModeConstraintsToIntervalView() {
+        
+        if settingsConstraints.count != 0 {
+            NSLayoutConstraint.deactivateConstraints(settingsConstraints)
+        }
+        
+        timerConstraints.removeAll()
+        settingsConstraints.removeAll()
+        
+        let views = ["timerView": displayedInterval]
+        
+        let timerHorizontalConstraints = NSLayoutConstraint.constraintsWithVisualFormat(
+            "H:|-0-[timerView]-0-|",
+            options: [],
+            metrics: nil,
+            views: views)
+        for constraint in timerHorizontalConstraints{
+            constraint.identifier = "intervalHorizontalConstraints.timerMode"
+        }
+        timerConstraints += timerHorizontalConstraints
+        
+        let timerVerticalConstraints = NSLayoutConstraint.constraintsWithVisualFormat(
+            "V:|-0-[timerView]-0-|",
+            options: [],
+            metrics: nil,
+            views: views)
+        for constraint in timerVerticalConstraints{
+            constraint.identifier = "intervalVerticalConstraints.timerMode"
+        }
+        timerConstraints += timerVerticalConstraints
+        
+        NSLayoutConstraint.activateConstraints(timerConstraints)
+    }
+    
+    
+    
+    
+    
     //MARK: - Carousel Delegate and Datasoure Methods
     func numberOfItemsInCarousel(carousel: iCarousel) -> Int
     {
-        return timers.count
+        return timers.count + intervalTimers.count
     }
     
     func carousel(carousel: iCarousel, viewForItemAtIndex index: Int, reusingView view: UIView?) -> UIView
     {
-        return timerViews[index]
+        
+        if index < timers.count {
+            return timerViews[index]
+        } else {
+            return intervalViews[index - timers.count]
+        }
     }
     
     func carousel(carousel: iCarousel, valueForOption option: iCarouselOption, withDefault value: CGFloat) -> CGFloat
@@ -644,21 +925,31 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
     }
     
     func carouselCurrentItemIndexDidChange(carousel: iCarousel) {
-        timer = timers[carousel.currentItemIndex]
         
-        //update sound buttons
-        //clear previously highlighted buttons
-        for i in (200...205) {
-            let button = self.view.viewWithTag(i) as? UIButton
-            button?.imageView?.image = soundButtonImages[i-200]
+        if carousel.currentItemIndex < timers.count {
+            
+            timer = timers[carousel.currentItemIndex]
+            
+            //update sound buttons
+            //clear previously highlighted buttons
+            for i in (200...205) {
+                let button = self.view.viewWithTag(i) as? UIButton
+                button?.imageView?.image = soundButtonImages[i-200]
+            }
+            
+            highlightCorrectSoundButtonForTimer(timer)
+            
+            timerTitleTextField.text = timer.name
+            
+            alarmRepeatLabel.text = "\(timer.alarmRepetitions)"
+            timerRepeatLabel.text = "\(timer.timerRepetitions)"
+        } else {
+            
+            intervalTimer = intervalTimers[carousel.currentItemIndex - timers.count]
+            
+            timerTitleTextField.text = intervalTimer.name
+            
         }
-        
-        highlightCorrectSoundButtonForTimer(timer)
-        
-        timerTitleTextField.text = timer.name
-        
-        alarmRepeatLabel.text = "\(timer.alarmRepetitions)"
-        timerRepeatLabel.text = "\(timer.timerRepetitions)"
     }
     
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
