@@ -78,11 +78,60 @@ class IntervalModel: NSObject, timerProtocol {
         coder.encodeObject(self.intervalRepetitions, forKey: "intervalRepetitions")
     }
     
-    func startIntervalTimer() {
-        print("Starting timer1")
+    func start() {
         currentActiveTimer.start()
+        active = true
+        paused = false
+        currentIntervalRepetition += 1
     }
     
+    func pause() {
+        currentActiveTimer.pause()
+        active = false
+        paused = true
+    }
+    
+    func restart() {
+        currentActiveTimer.restart()
+        active = true
+        paused = false
+    }
+    
+    func clearInterval() {
+        active = false
+        paused = false
+        timer1.clearTimer()
+        timer2.clearTimer()
+        currentActiveTimer = timer1
+        currentIntervalRepetition = 0
+    }
+    
+    func audioPlaying() -> Bool {
+        if timer1.audioPlaying == true || timer2.audioPlaying == true {
+            return true
+        }
+        return false
+    }
+    
+    func stopAudio() {
+        if timer1.audioPlaying == true {
+            timer1.player.stop()
+            timer1.audioPlaying = false
+        } else if timer2.audioPlaying == true {
+            timer2.player.stop()
+            timer2.audioPlaying = false
+        }
+    }
+    
+    func decreaseAlarmRepetitions() {
+        timer1.alarmRepetitions -= 1
+        timer2.alarmRepetitions -= 1
+    }
+    
+    func increaseAlarmRepetitions() {
+        timer1.alarmRepetitions += 1
+        timer2.alarmRepetitions += 1
+    }
     
     //MARK: - Timer protocol delegate methods
     func timerFired(timer: TimerModel) {
@@ -93,8 +142,8 @@ class IntervalModel: NSObject, timerProtocol {
     
     func timerEnded(timer: TimerModel) {
         
-        print("timer ended")
         currentActiveTimer.reset()
+        
         if currentActiveTimer == timer1 {
             //need to run timer2
             currentActiveTimer = timer2
@@ -107,9 +156,13 @@ class IntervalModel: NSObject, timerProtocol {
             } else {
                 currentIntervalRepetition = 0
             }
+            currentIntervalRepetition += 1
+            self.delegate?.intervalTimerEnded(self, timer: timer)
+            currentActiveTimer = timer1
         }
         
     }
+    
     
     
     

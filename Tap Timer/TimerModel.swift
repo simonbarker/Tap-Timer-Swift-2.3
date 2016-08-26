@@ -259,6 +259,7 @@ class TimerModel: NSObject, NSCoding, AVAudioPlayerDelegate {
     func start() {
         active = true
         paused = false
+        currentTimerRepetition += 1
         countDownTimer = NSTimer.scheduledTimerWithTimeInterval(0.01, target: self, selector: #selector(self.timerFired), userInfo: nil, repeats: true)
         timerStartTime = NSDate()
         timerEndTime = NSDate().dateByAddingTimeInterval(NSTimeInterval(duration))
@@ -321,16 +322,15 @@ class TimerModel: NSObject, NSCoding, AVAudioPlayerDelegate {
             
             self.reset()
             
-            self.delegate?.timerEnded(self)
-            Helper.removeNotificationFromSchedule(self)
-            
             //check repetition count
-            if currentTimerRepetition != timerRepetitions {
-                currentTimerRepetition += 1
+            if currentTimerRepetition < timerRepetitions {
                 self.start()
             } else {
                 currentTimerRepetition = 0
             }
+            
+            self.delegate?.timerEnded(self)
+            Helper.removeNotificationFromSchedule(self)
             
         } else {
             

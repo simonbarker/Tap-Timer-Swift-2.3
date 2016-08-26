@@ -16,6 +16,7 @@ class TimerView: UIView {
     @IBOutlet var timerLabel: UILabel!
     @IBOutlet var countDownBar: UIView!
     @IBOutlet var countDownBarTopSpaceConstraint: NSLayoutConstraint!
+    @IBOutlet var timerRepetitionLabel: UILabel!
     
     override init(frame: CGRect) {
         // 1. setup any properties here
@@ -57,10 +58,22 @@ class TimerView: UIView {
         countDownBar.layer.zPosition = 3
         timerLabel.layer.zPosition = 4
         
-        self.layer.shadowColor = UIColor.blackColor().CGColor
-        self.layer.shadowOpacity = 0.25
-        self.layer.shadowOffset = CGSizeMake(2, 3)
-        self.layer.shadowRadius = 4
+        dropshadow(true)
+    }
+    
+    func dropshadow(state: Bool) {
+        if state == true {
+            self.layer.shadowColor = UIColor.blackColor().CGColor
+            self.layer.shadowOpacity = 0.25
+            self.layer.shadowOffset = CGSizeMake(2, 3)
+            self.layer.shadowRadius = 4
+        } else {
+            self.layer.shadowColor = UIColor.blackColor().CGColor
+            self.layer.shadowOpacity = 0.0
+            self.layer.shadowOffset = CGSizeMake(2, 3)
+            self.layer.shadowRadius = 4
+        }
+        
     }
     
     func loadViewFromNib() -> UIView {

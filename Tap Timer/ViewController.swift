@@ -164,7 +164,8 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
             tView.layer.zPosition = 100 //make sure the timer view sits on top of the settings panel
             tView.timerLabel.hidden = false
             tView.timerLabel.font = tView.timerLabel.font.fontWithSize(20.0)
-            
+            tView.timerRepetitionLabel.text = "0 / \(t.timerRepetitions)"
+            tView.timerRepetitionLabel.font = tView.timerRepetitionLabel.font.fontWithSize(10.0)
             
             //set up gesture recognisers for timer
             let pinchGestureRecogniser = UIPinchGestureRecognizer(target: self, action: #selector(self.pinchDetected(_:)))
@@ -183,76 +184,59 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
         if savedIntervals.count != 0 {
             
             intervalTimers = savedIntervals
+            let phoneType = Helper.detectPhoneScreenSize()
             
             for i in savedIntervals {
                 
                 i.delegate = self
-                
                 let timer1 = i.timer1
                 let timer2 = i.timer2
                 
-                let tView = TimerView.init()
-                
-                let phoneType = Helper.detectPhoneScreenSize()
-                if phoneType == "4" {
-                    tView.frame = CGRect(x: 0, y: 0, width: 100, height: 80)
-                } else if phoneType == "5" {
-                    tView.frame = CGRect(x: 0, y: 0, width: 100, height: 80)
-                } else if phoneType == "6" {
-                    tView.frame = CGRect(x: 0, y: 0, width: 100, height: 95)
-                } else { //6+
-                    tView.frame = CGRect(x: 0, y: 0, width: 125, height: 130)
-                }
-                
-                let colors = timer1.getColorScheme()
-                tView.setColorScheme(colorLight: colors["lightColor"]!, colorDark: colors["darkColor"]!)
-                tView.setTimeRemainingLabel(timer1.duration)
-                tView.setCountDownBarFromPercentage(1)
-                tView.layer.zPosition = 100 //make sure the timer view sits on top of the settings panel
-                tView.timerLabel.hidden = false
-                tView.timerLabel.font = tView.timerLabel.font.fontWithSize(20.0)
-                
-                
-                let tView2 = TimerView.init()
+                let iView = IntervalView.init()
                 
                 if phoneType == "4" {
-                    tView2.frame = CGRect(x: 0, y: 80, width: 100, height: 80)
+                    iView.frame = CGRect(x: 0, y: 0, width: 100, height: 160)
                 } else if phoneType == "5" {
-                    tView2.frame = CGRect(x: 0, y: 80, width: 100, height: 80)
+                    iView.frame = CGRect(x: 0, y: 0, width: 100, height: 160)
                 } else if phoneType == "6" {
-                    tView2.frame = CGRect(x: 0, y: 95, width: 100, height: 95)
+                    iView.frame = CGRect(x: 0, y: 0, width: 100, height: 190)
                 } else { //6+
-                    tView2.frame = CGRect(x: 0, y: 130, width: 125, height: 130)
+                    iView.frame = CGRect(x: 0, y: 0, width: 125, height: 260)
                 }
+            
+                
+                let colors1 = timer1.getColorScheme()
+                iView.timer1View.setColorScheme(colorLight: colors1["lightColor"]!, colorDark: colors1["darkColor"]!)
+                iView.timer1View.setTimeRemainingLabel(timer1.duration)
+                iView.timer1View.setCountDownBarFromPercentage(1)
+                iView.timer1View.timerLabel.hidden = false
+                iView.timer1View.timerLabel.font = iView.timer1View.timerLabel.font.fontWithSize(20.0)
+                iView.timer1View.dropshadow(false)
+                iView.timer1View.timerRepetitionLabel.hidden = true
                 
                 let colors2 = timer2.getColorScheme()
-                tView2.setColorScheme(colorLight: colors2["lightColor"]!, colorDark: colors2["darkColor"]!)
-                tView2.setTimeRemainingLabel(timer2.duration)
-                tView2.setCountDownBarFromPercentage(1)
-                tView2.layer.zPosition = 100 //make sure the timer view sits on top of the settings panel
-                tView2.timerLabel.hidden = false
-                tView2.timerLabel.font = tView.timerLabel.font.fontWithSize(20.0)
+                iView.timer2View.setColorScheme(colorLight: colors2["lightColor"]!, colorDark: colors2["darkColor"]!)
+                iView.timer2View.setTimeRemainingLabel(timer2.duration)
+                iView.timer2View.setCountDownBarFromPercentage(1)
+                iView.timer2View.timerLabel.hidden = false
+                iView.timer2View.timerLabel.font = iView.timer2View.timerLabel.font.fontWithSize(20.0)
+                iView.timer2View.dropshadow(false)
+                iView.timer2View.timerRepetitionLabel.hidden = true
                 
-                let intervalView = IntervalView()
-                
-                if phoneType == "4" {
-                    intervalView.frame = CGRect(x: 0, y: 0, width: 100, height: 160)
-                } else if phoneType == "5" {
-                    intervalView.frame = CGRect(x: 0, y: 0, width: 100, height: 160)
-                } else if phoneType == "6" {
-                    intervalView.frame = CGRect(x: 0, y: 0, width: 100, height: 190)
-                } else { //6+
-                    intervalView.frame = CGRect(x: 0, y: 0, width: 125, height: 260)
-                }
-                intervalView.addSubview(tView)
-                intervalView.addSubview(tView2)
+                iView.intervalCounterLabel.text = "\(i.currentIntervalRepetition) / \(i.intervalRepetitions)"
+                iView.intervalCounterLabel.font = iView.intervalCounterLabel.font.fontWithSize(10.0)
+                iView.layer.zPosition = 100 //make sure the interval timer view sits on top of the settings panel
                 
                 //set up gesture recognisers for timer
                 let pinchGestureRecogniser = UIPinchGestureRecognizer(target: self, action: #selector(self.intervalTimerPinchDetected(_:)))
                 
-                intervalView.addGestureRecognizer(pinchGestureRecogniser)
+                iView.addGestureRecognizer(pinchGestureRecogniser)
                 
-                intervalViews.append(intervalView)
+                iView.timer1View.translatesAutoresizingMaskIntoConstraints = false
+                iView.timer2View.translatesAutoresizingMaskIntoConstraints = false
+                
+                intervalViews.append(iView)
+                
                 
             }
             
@@ -295,6 +279,7 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
                         
                         //start timer
                         timer.start()
+                        displayedTimer.timerRepetitionLabel.text = "\(timer.currentTimerRepetition) / \(timer.timerRepetitions)"
                         
                         Helper.registerTimerNotification(timer)
                         
@@ -304,7 +289,6 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
                         timer.restart()
                         
                         Helper.registerTimerNotification(timer)
-                        
 
                     } else {
                         
@@ -318,8 +302,37 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
                 }
             } else if sender.view == displayedInterval {
                 
-                print("Start interval")
-                intervalTimer.startIntervalTimer()
+                if intervalTimer.audioPlaying() == true {
+                    intervalTimer.stopAudio()
+                } else {
+                    
+                    if intervalTimer.active == false && intervalTimer.paused == false {
+                        
+                        //start timer
+                        intervalTimer.start()
+                        displayedInterval.intervalCounterLabel.text = "\(intervalTimer.currentIntervalRepetition) / \(intervalTimer.intervalRepetitions)"
+                        
+                        //Helper.registerTimerNotification(intervalTimer)
+                        
+                    } else if intervalTimer.active == false && intervalTimer.paused == true {
+                        
+                        //start timer
+                        intervalTimer.restart()
+                        
+                        //Helper.registerTimerNotification(timer)
+                        
+                        
+                    } else {
+                        
+                        //pause timer
+                        intervalTimer.pause()
+                        
+                        //remove notification
+                        //Helper.removeNotificationFromSchedule(timer)
+                        
+                    }
+                }
+                
                 
             }
         }
@@ -339,9 +352,38 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
                 //remove notification
                 Helper.removeNotificationFromSchedule(timer)
                 
+                guard let index = timers.indexOf(timer) else {
+                    print("Index of timer not found")
+                    return
+                }
+                timerViews[index].reset()
+                timerViews[index].setTimeRemainingLabel(timer.duration)
+                timerViews[index].timerRepetitionLabel.text = "0 / \(timer.timerRepetitions)"
+                displayedTimer.timerRepetitionLabel.text = timerViews[index].timerRepetitionLabel.text
+                
+                
             } else if sender.view == displayedInterval {
                 
                 //reset interval
+                intervalTimer.clearInterval()
+                displayedInterval.timer1View.setTimeRemainingLabel(intervalTimer.timer1.duration)
+                displayedInterval.timer1View.reset()
+                displayedInterval.timer2View.setTimeRemainingLabel(intervalTimer.timer2.duration)
+                displayedInterval.timer2View.reset()
+                displayedInterval.intervalCounterLabel.text = "\(intervalTimer.currentIntervalRepetition) / \(intervalTimer.intervalRepetitions)"
+                
+                //remove notification
+                //Helper.removeNotificationFromSchedule(timer)
+                
+                guard let index = intervalTimers.indexOf(intervalTimer) else {
+                    print("Index of timer not found")
+                    return
+                }
+                intervalViews[index].timer1View.setTimeRemainingLabel(intervalTimer.timer1.duration)
+                intervalViews[index].timer1View.reset()
+                intervalViews[index].timer2View.setTimeRemainingLabel(intervalTimer.timer2.duration)
+                intervalViews[index].timer2View.reset()
+                intervalViews[index].intervalCounterLabel.text = "\(intervalTimer.currentIntervalRepetition) / \(intervalTimer.intervalRepetitions)"
                 
             }
         }
@@ -352,8 +394,16 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
         
         if settingsMode == false {
             changeTimerBasedOnDistanceFromBottom(sender)
-            //update defaults
+            
             TTDefaultsHelper.saveTimers(timers)
+            
+            guard let index = timers.indexOf(timer) else {
+                print("Index of timer not found")
+                return
+            }
+            
+            timerViews[index].setTimeRemainingLabel(timer.duration)
+            
         }
         
     }
@@ -414,9 +464,9 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
             displayedTimer.frame = CGRect(x: (self.view.bounds.size.width)/2, y: (self.view.bounds.size.height)/2, width: 1, height: 1)
             let colors = timer.getColorScheme()
             displayedTimer.setColorScheme(colorLight: colors["lightColor"]!, colorDark: colors["darkColor"]!)
-            
             displayedTimer.setTimeRemainingLabel(timer.timeToDisplay())
             displayedTimer.timerLabel.hidden = false
+            displayedTimer.timerRepetitionLabel.text = "0 / \(timer.timerRepetitions)"
             
             displayedTimer.layer.zPosition = 100 //make sure the timer view sits on top of the settings panel
             
@@ -468,16 +518,21 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
             self.displayedInterval.translatesAutoresizingMaskIntoConstraints = false
             displayedInterval.frame = CGRect(x: 0, y: 0, width: 1, height: 1)
             let colors1 = intervalTimer.timer1.getColorScheme()
-            displayedInterval.setColorScheme1(colorLight: colors1["lightColor"]!, colorDark: colors1["darkColor"]!)
-            displayedInterval.setTimeRemainingLabel1(intervalTimer.timer1.timeToDisplay())
-            displayedInterval.timer1Label.hidden = false
+            displayedInterval.timer1View.setColorScheme(colorLight: colors1["lightColor"]!, colorDark: colors1["darkColor"]!)
+            displayedInterval.timer1View.setTimeRemainingLabel(intervalTimer.timer1.timeToDisplay())
+            displayedInterval.timer1View.timerLabel.hidden = false
+            displayedInterval.timer1View.dropshadow(false)
+            displayedInterval.timer1View.timerRepetitionLabel.hidden = true
             
             let colors2 = intervalTimer.timer2.getColorScheme()
-            displayedInterval.setColorScheme2(colorLight: colors2["lightColor"]!, colorDark: colors2["darkColor"]!)
-            displayedInterval.setTimeRemainingLabel2(intervalTimer.timer2.timeToDisplay())
-            displayedInterval.timer2Label.hidden = false
+            displayedInterval.timer2View.setColorScheme(colorLight: colors2["lightColor"]!, colorDark: colors2["darkColor"]!)
+            displayedInterval.timer2View.setTimeRemainingLabel(intervalTimer.timer2.timeToDisplay())
+            displayedInterval.timer2View.timerLabel.hidden = false
+            displayedInterval.timer2View.dropshadow(false)
+            displayedInterval.timer2View.timerRepetitionLabel.hidden = true
             
             displayedInterval.layer.zPosition = 100 //make sure the timer view sits on top of the settings panel
+            displayedInterval.intervalCounterLabel.text = "\(intervalTimer.currentIntervalRepetition) / \(intervalTimer.intervalRepetitions)"
             
             //set up gesture recognisers for interval
             let singleTapGestureRecogniser = UITapGestureRecognizer(target: self, action: #selector(self.singleTapDetected(_:)))
@@ -486,13 +541,10 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
             let doubleTapGestureRecogniser = UITapGestureRecognizer(target: self, action: #selector(self.doubleTapDetected(_:)))
             doubleTapGestureRecogniser.numberOfTapsRequired = 2
             singleTapGestureRecogniser.requireGestureRecognizerToFail(doubleTapGestureRecogniser)
-            let panGestureRecogniser = UIPanGestureRecognizer(target: self, action: #selector(self.panDetected(_:)))
-            panGestureRecogniser.minimumNumberOfTouches = 2
             let pinchGestureRecogniser = UIPinchGestureRecognizer(target: self, action: #selector(self.intervalTimerPinchDetected(_:)))
             
             displayedInterval.addGestureRecognizer(singleTapGestureRecogniser)
             displayedInterval.addGestureRecognizer(doubleTapGestureRecogniser)
-            displayedInterval.addGestureRecognizer(panGestureRecogniser)
             displayedInterval.addGestureRecognizer(pinchGestureRecogniser)
             
             self.view.addSubview(displayedInterval)
@@ -504,8 +556,8 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
             addTimerModeConstraintsToIntervalView()
             animatedLayoutIfNeeded(removeView: false)
             
-            displayedInterval.setCountDownBar1FromPercentage(intervalTimer.timer1.percentageThroughTimer())
-            displayedInterval.setCountDownBar2FromPercentage(intervalTimer.timer2.percentageThroughTimer())
+            displayedInterval.timer1View.setCountDownBarFromPercentage(intervalTimer.timer1.percentageThroughTimer())
+            displayedInterval.timer2View.setCountDownBarFromPercentage(intervalTimer.timer2.percentageThroughTimer())
 
         }
         
@@ -625,49 +677,105 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
     }
     
     @IBAction func alarmRepeatMinusTapped(sender: AnyObject) {
-        if timer.alarmRepetitions == 1 {
-            return
+        //check if looking at interval or timer
+        if carousel.currentItemIndex < timers.count {
+            if timer.alarmRepetitions == 1 {
+                return
+            } else {
+                timer.alarmRepetitions -= 1
+                alarmRepeatLabel.text = "\(timer.alarmRepetitions)"
+                //update defaults
+                TTDefaultsHelper.saveTimers(timers)
+            }
         } else {
-            timer.alarmRepetitions -= 1
-            alarmRepeatLabel.text = "\(timer.alarmRepetitions)"
-            //update defaults
-            TTDefaultsHelper.saveTimers(timers)
+            intervalTimer.decreaseAlarmRepetitions()
+            alarmRepeatLabel.text = "\(intervalTimer.timer1.alarmRepetitions)"
+            TTDefaultsHelper.saveIntervalTimers(intervalTimers)
         }
     }
     
     @IBAction func alarmRepeatPlusTapped(sender: AnyObject) {
-        if timer.alarmRepetitions == 10 {
-            return
+        //check if looking at interval or timer
+        if carousel.currentItemIndex < timers.count {
+            if timer.alarmRepetitions == 10 {
+                return
+            } else {
+                timer.alarmRepetitions += 1
+                alarmRepeatLabel.text = "\(timer.alarmRepetitions)"
+                //update defaults
+                TTDefaultsHelper.saveTimers(timers)
+            }
         } else {
-            timer.alarmRepetitions += 1
-            alarmRepeatLabel.text = "\(timer.alarmRepetitions)"
-            //update defaults
-            TTDefaultsHelper.saveTimers(timers)
+            intervalTimer.increaseAlarmRepetitions()
+            alarmRepeatLabel.text = "\(intervalTimer.timer1.alarmRepetitions)"
+            TTDefaultsHelper.saveIntervalTimers(intervalTimers)
         }
     }
     
     @IBAction func timerRepeatMinusTapped(sender: AnyObject) {
-        if timer.timerRepetitions == 0 {
-            return
+        //check if looking at interval or timer
+        if carousel.currentItemIndex < timers.count {
+            if timer.timerRepetitions == 0 {
+                return
+            } else {
+                timer.timerRepetitions -= 1
+                updateLabelsForTimerRepetitions()
+            }
         } else {
-            timer.timerRepetitions -= 1
-            timerRepeatLabel.text = "\(timer.timerRepetitions)"
-            //update defaults
-            TTDefaultsHelper.saveTimers(timers)
+            if intervalTimer.intervalRepetitions == 0 {
+                return
+            } else {
+                intervalTimer.intervalRepetitions -= 1
+                updateLabelsForIntervalRepetitions()
+            }
         }
     }
     
     @IBAction func timerRepeatPlusTapped(sender: AnyObject) {
-        if timer.timerRepetitions == 99 {
-            return
+        //check if looking at interval or timer
+        if carousel.currentItemIndex < timers.count {
+            if timer.timerRepetitions == 99 {
+                return
+            } else {
+                timer.timerRepetitions += 1
+                updateLabelsForTimerRepetitions()
+            }
         } else {
-            timer.timerRepetitions += 1
-            timerRepeatLabel.text = "\(timer.timerRepetitions)"
-            //update defaults
-            TTDefaultsHelper.saveTimers(timers)
+            if intervalTimer.intervalRepetitions == 99 {
+                return
+            } else {
+                intervalTimer.intervalRepetitions += 1
+                updateLabelsForIntervalRepetitions()
+            }
         }
     }
     
+    func updateLabelsForTimerRepetitions() {
+        timerRepeatLabel.text = "\(timer.timerRepetitions)"
+        //update defaults
+        TTDefaultsHelper.saveTimers(timers)
+        
+        guard let index = timers.indexOf(timer) else {
+            print("Index of timer not found in timers")
+            return
+        }
+        
+        timerViews[index].timerRepetitionLabel.text = "\(timer.currentTimerRepetition) / \(timer.timerRepetitions)"
+        
+    }
+    
+    func updateLabelsForIntervalRepetitions() {
+        timerRepeatLabel.text = "\(intervalTimer.intervalRepetitions)"
+        //update defaults
+        TTDefaultsHelper.saveIntervalTimers(intervalTimers)
+        
+        guard let index = intervalTimers.indexOf(intervalTimer) else {
+            print("Index of interval not foud in timers")
+            return
+        }
+        
+        intervalViews[index].intervalCounterLabel.text = "\(intervalTimer.currentIntervalRepetition) / \(intervalTimer.intervalRepetitions)"
+    }
     
     //MARK: - Timer protocol delegate methods
     func timerFired(timer: TimerModel) {
@@ -679,11 +787,13 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
 
         timerViews[index].setCountDownBarFromPercentage(timer.percentageThroughTimer())
         timerViews[index].setTimeRemainingLabel(timer.timeToDisplay())
+        timerViews[index].timerRepetitionLabel.text = "\(timer.currentTimerRepetition) / \(timer.timerRepetitions)"
         
         //update displayed timer if this timer is the current timer
         if carousel.currentItemIndex == index {
             displayedTimer.setCountDownBarFromPercentage(timer.percentageThroughTimer())
             displayedTimer.setTimeRemainingLabel(timer.timeToDisplay())
+            displayedTimer.timerRepetitionLabel.text = "\(timer.currentTimerRepetition) / \(timer.timerRepetitions)"
         }
         
     }
@@ -697,11 +807,13 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
         
         timerViews[index].setTimeRemainingLabel(timer.duration)
         timerViews[index].reset()
+        timerViews[index].timerRepetitionLabel.text = "\(timer.currentTimerRepetition) / \(timer.timerRepetitions)"
         
         //update displayed timer if this timer is the current timer
         if carousel.currentItemIndex == index {
             displayedTimer.setTimeRemainingLabel(timer.duration)
             displayedTimer.reset()
+            displayedTimer.timerRepetitionLabel.text = "\(timer.currentTimerRepetition) / \(timer.timerRepetitions)"
         }
         
     }
@@ -713,23 +825,51 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
             return
         }
         
-        print("Index \(index)")
-        
-        intervalViews[index].setTimeRemainingLabel1(timer.timeToDisplay())
-        intervalViews[index].setCountDownBar1FromPercentage(timer.percentageThroughTimer())
-        
-        //update displayed timer if this timer is the current timer
-        if carousel.currentItemIndex == index + timers.count {
-            print("index + timers.count \(index + timers.count)")
-            displayedInterval.setCountDownBar1FromPercentage(timer.percentageThroughTimer())
-            displayedInterval.setTimeRemainingLabel1(timer.timeToDisplay())
+        if timer == interval.timer1 {
+            intervalViews[index].timer1View.setTimeRemainingLabel(timer.timeToDisplay())
+            intervalViews[index].timer1View.setCountDownBarFromPercentage(timer.percentageThroughTimer())
+            
+            //update displayed timer if this timer is the current timer
+            if carousel.currentItemIndex == index + timers.count {
+                displayedInterval.timer1View.setCountDownBarFromPercentage(timer.percentageThroughTimer())
+                displayedInterval.timer1View.setTimeRemainingLabel(timer.timeToDisplay())
+            }
+        } else {
+            intervalViews[index].timer2View.setTimeRemainingLabel(timer.timeToDisplay())
+            intervalViews[index].timer2View.setCountDownBarFromPercentage(timer.percentageThroughTimer())
+            
+            //update displayed timer if this timer is the current timer
+            if carousel.currentItemIndex == index + timers.count {
+                displayedInterval.timer2View.setCountDownBarFromPercentage(timer.percentageThroughTimer())
+                displayedInterval.timer2View.setTimeRemainingLabel(timer.timeToDisplay())
+            }
         }
-        
         
     }
     
     func intervalTimerEnded(interval: IntervalModel, timer: TimerModel) {
+        guard let index = intervalTimers.indexOf(interval) else {
+            print("Index of interval not found")
+            return
+        }
         
+        //only want to reset the view when timer 2 completes
+        if timer == interval.timer2 {
+            intervalViews[index].timer1View.setTimeRemainingLabel(interval.timer1.duration)
+            intervalViews[index].timer1View.reset()
+            intervalViews[index].timer2View.setTimeRemainingLabel(interval.timer2.duration)
+            intervalViews[index].timer2View.reset()
+            intervalViews[index].intervalCounterLabel.text = "\(interval.currentIntervalRepetition) / \(interval.intervalRepetitions)"
+            
+            //update displayed timer if this timer is the current timer
+            if carousel.currentItemIndex == index + timers.count {
+                displayedInterval.timer1View.setTimeRemainingLabel(interval.timer1.duration)
+                displayedInterval.timer1View.reset()
+                displayedInterval.timer2View.setTimeRemainingLabel(interval.timer2.duration)
+                displayedInterval.timer2View.reset()
+                displayedInterval.intervalCounterLabel.text = "\(interval.currentIntervalRepetition) / \(interval.intervalRepetitions)"
+            }
+        }
     }
     
     //MARK: - proUpgradeDelegate methods
@@ -926,6 +1066,7 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
     
     func carouselCurrentItemIndexDidChange(carousel: iCarousel) {
         
+        //workout if we changed to a timer or interval
         if carousel.currentItemIndex < timers.count {
             
             timer = timers[carousel.currentItemIndex]
@@ -947,7 +1088,18 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
             
             intervalTimer = intervalTimers[carousel.currentItemIndex - timers.count]
             
+            //update sound buttons
+            //clear previously highlighted buttons
+            for i in (200...205) {
+                let button = self.view.viewWithTag(i) as? UIButton
+                button?.imageView?.image = soundButtonImages[i-200]
+            }
+            
+            highlightCorrectSoundButtonForTimer(intervalTimer.timer1)
+            highlightCorrectSoundButtonForTimer(intervalTimer.timer2)
+            
             timerTitleTextField.text = intervalTimer.name
+            timerRepeatLabel.text = "\(intervalTimer.intervalRepetitions)"
             
         }
     }
@@ -972,7 +1124,12 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
     }
     
     func textFieldDidEndEditing(textField: UITextField) {
-        timer.name = timerTitleTextField.text!
+        //workout if we changed to a timer or interval
+        if carousel.currentItemIndex < timers.count {
+            timer.name = timerTitleTextField.text!
+        } else {
+            intervalTimer.name = timerTitleTextField.text!
+        }
     }
     
     //MARK: - Segue Navigation

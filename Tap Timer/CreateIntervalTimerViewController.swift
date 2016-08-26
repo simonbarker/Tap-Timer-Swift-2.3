@@ -81,6 +81,7 @@ class CreateIntervalTimerViewController: UIViewController, iCarouselDataSource, 
             tView.layer.zPosition = 100 //make sure the timer view sits on top of the settings panel
             tView.timerLabel.hidden = false
             tView.timerLabel.font = tView.timerLabel.font.fontWithSize(20.0)
+            tView.timerRepetitionLabel.hidden = true
             
             tempTimerViews.append(tView)
         }

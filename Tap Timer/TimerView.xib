@@ -11,6 +11,7 @@
                 <outlet property="countDownBar" destination="7bc-xz-xi7" id="g7r-HS-1QE"/>
                 <outlet property="countDownBarTopSpaceConstraint" destination="VEM-1w-zcD" id="y3o-8y-iHc"/>
                 <outlet property="timerLabel" destination="rCk-ud-QV1" id="7if-P9-pDL"/>
+                <outlet property="timerRepetitionLabel" destination="wxk-N0-Fzc" id="WqU-hV-n0f"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -29,7 +30,20 @@
                 </label>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7bc-xz-xi7">
                     <rect key="frame" x="0.0" y="426" width="600" height="174"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wxk-N0-Fzc">
+                            <rect key="frame" x="8" y="130" width="584" height="36"/>
+                            <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="30"/>
+                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
                     <color key="backgroundColor" red="0.67455112934112549" green="0.15692374110221863" blue="0.10914970934391022" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="wxk-N0-Fzc" secondAttribute="trailing" constant="8" id="KjD-dU-dam"/>
+                        <constraint firstItem="wxk-N0-Fzc" firstAttribute="leading" secondItem="7bc-xz-xi7" secondAttribute="leading" constant="8" id="hcE-x7-dop"/>
+                        <constraint firstAttribute="bottom" secondItem="wxk-N0-Fzc" secondAttribute="bottom" constant="8" id="r3Q-al-8Kq"/>
+                    </constraints>
                 </view>
             </subviews>
             <color key="backgroundColor" red="0.85043728351593018" green="0.21816034615039825" blue="0.15920260548591614" alpha="1" colorSpace="calibratedRGB"/>

@@ -9,19 +9,13 @@
 import UIKit
 
 class IntervalView: UIView {
-
     
     @IBOutlet var contentView: UIView!
     
-    @IBOutlet var timer1Box: UIView!
-    @IBOutlet var timer1Label: UILabel!
-    @IBOutlet var countDownBar1: UIView!
-    @IBOutlet var countDownBar1TopSpaceConstraint: NSLayoutConstraint!
+    @IBOutlet var timer1View: TimerView!
+    @IBOutlet var timer2View: TimerView!
     
-    @IBOutlet var timer2Box: UIView!
-    @IBOutlet var timer2Label: UILabel!
-    @IBOutlet var countDownBar2: UIView!
-    @IBOutlet var countDownBar2TopSpaceConstraint: NSLayoutConstraint!
+    @IBOutlet var intervalCounterLabel: UILabel!
     
     @IBOutlet var timerBoxEqualHeights: NSLayoutConstraint!
     
@@ -45,6 +39,7 @@ class IntervalView: UIView {
         xibSetup()
     }
     
+    
     /*override func awakeFromNib() {
         
     }*/
@@ -62,17 +57,23 @@ class IntervalView: UIView {
         
         //set z indexes
         contentView.layer.zPosition = 1
-        timer1Box.layer.zPosition = 2
-        timer2Box.layer.zPosition = 2
-        countDownBar1.layer.zPosition = 3
-        countDownBar2.layer.zPosition = 3
-        timer1Label.layer.zPosition = 4
-        timer2Label.layer.zPosition = 4
         
-        self.layer.shadowColor = UIColor.blackColor().CGColor
-        self.layer.shadowOpacity = 0.25
-        self.layer.shadowOffset = CGSizeMake(2, 3)
-        self.layer.shadowRadius = 4
+        dropshadow(true)
+    }
+    
+    func dropshadow(state: Bool) {
+        if state == true {
+            self.layer.shadowColor = UIColor.blackColor().CGColor
+            self.layer.shadowOpacity = 0.25
+            self.layer.shadowOffset = CGSizeMake(2, 3)
+            self.layer.shadowRadius = 4
+        } else {
+            self.layer.shadowColor = UIColor.blackColor().CGColor
+            self.layer.shadowOpacity = 0.0
+            self.layer.shadowOffset = CGSizeMake(2, 3)
+            self.layer.shadowRadius = 4
+        }
+        
     }
     
     func loadViewFromNib() -> UIView {
@@ -82,98 +83,6 @@ class IntervalView: UIView {
         let view = nib.instantiateWithOwner(self, options: nil)[0] as! UIView
         
         return view
-    }
-    
-    func setTimeRemainingLabel1(seconds: Int) {
-        
-        let hours: Int = seconds / 3600
-        let minutes: Int = (seconds - (hours * 3600)) / 60
-        let remainderSeconds: Int = seconds - (60 * minutes) - (hours * 3600)
-        
-        //let remainderMilliSeconds: Int = milliSeconds - (60000 * minutes) - (remainderSeconds * 1000)
-        
-        if seconds < 3600 { //1 hour
-            timer1Label.text = String(format: "%0.2d:%.2d", minutes, remainderSeconds)
-        } else {
-            timer1Label.text = String(format: "%0.2d:%0.2d:%.2d", hours, minutes, remainderSeconds)
-        }
-        
-    }
-    
-    func setTimeRemainingLabel2(seconds: Int) {
-        
-        let hours: Int = seconds / 3600
-        let minutes: Int = (seconds - (hours * 3600)) / 60
-        let remainderSeconds: Int = seconds - (60 * minutes) - (hours * 3600)
-        
-        //let remainderMilliSeconds: Int = milliSeconds - (60000 * minutes) - (remainderSeconds * 1000)
-        
-        if seconds < 3600 { //1 hour
-            timer2Label.text = String(format: "%0.2d:%.2d", minutes, remainderSeconds)
-        } else {
-            timer2Label.text = String(format: "%0.2d:%0.2d:%.2d", hours, minutes, remainderSeconds)
-        }
-        
-    }
-    
-    func setCountDownBar1FromPercentage(percentage: Double){
-        //get timer box height
-        let timer1BoxHeight = timer1Box.frame.size.height
-
-        //calculate percentage through timer
-        var percentageDone = 1 - percentage
-        
-        //stop the contraint trying to go negative
-        if percentageDone > 1 {
-            percentageDone = 1.0
-        }
-        
-        //set constraint to that percentage of the screen height
-        countDownBar1TopSpaceConstraint.constant = timer1BoxHeight * CGFloat(percentageDone)
-        
-        UIView.animateWithDuration(0.01, delay: 0, options: [UIViewAnimationOptions.CurveLinear, UIViewAnimationOptions.AllowUserInteraction] , animations: {
-            self.contentView.layoutIfNeeded()
-        }) { (true) in
-            
-        }
-    }
-    
-    func setCountDownBar2FromPercentage(percentage: Double){
-        //get timer box height
-        let timer2BoxHeight = timer2Box.frame.size.height
-        
-        //calculate percentage through timer
-        var percentageDone = 1 - percentage
-        
-        //stop the contraint trying to go negative
-        if percentageDone > 1 {
-            percentageDone = 1.0
-        }
-        
-        //set constraint to that percentage of the screen height
-        countDownBar2TopSpaceConstraint.constant = timer2BoxHeight * CGFloat(percentageDone)
-        
-        UIView.animateWithDuration(0.01, delay: 0, options: [UIViewAnimationOptions.CurveLinear, UIViewAnimationOptions.AllowUserInteraction] , animations: {
-            self.contentView.layoutIfNeeded()
-        }) { (true) in
-            
-        }
-    }
-    
-    
-    
-    func reset(){
-        self.setCountDownBar1FromPercentage(1.0)
-    }
-    
-    func setColorScheme1(colorLight colorLight: UIColor, colorDark: UIColor) {
-        timer1Box.backgroundColor = colorLight
-        countDownBar1.backgroundColor = colorDark
-    }
-    
-    func setColorScheme2(colorLight colorLight: UIColor, colorDark: UIColor) {
-        timer2Box.backgroundColor = colorLight
-        countDownBar2.backgroundColor = colorDark
     }
     
 
