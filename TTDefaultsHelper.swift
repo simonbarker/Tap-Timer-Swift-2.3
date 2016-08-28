@@ -87,16 +87,5 @@ class TTDefaultsHelper: NSObject {
         return [IntervalModel]()
     }
     
-    static func createIntervalWithTimers(timer1: TimerModel, timer2: TimerModel) {
-        var intervalTimers = getSavedIntervalTimers()
-        
-        let newIntervalTimer = IntervalModel(withName: "Interval Timer", timer1: timer1, timer2: timer2, intervalRepetitions: 1)
-        
-        intervalTimers.append(newIntervalTimer)
-        
-        saveIntervalTimers(intervalTimers)
-        
-    }
-    
 }
 

@@ -9,6 +9,11 @@
 import UIKit
 import iCarousel
 
+//protocol tells primary view controller that user added an interval timer
+protocol intervalTimerCreationDelegate {
+    func createdIntervalTimer(intervalTimer: IntervalModel)
+}
+
 class CreateIntervalTimerViewController: UIViewController, iCarouselDataSource, iCarouselDelegate {
 
     @IBOutlet var carousel1: iCarousel!
@@ -24,6 +29,8 @@ class CreateIntervalTimerViewController: UIViewController, iCarouselDataSource, 
     
     var timer1 = TimerModel()
     var timer2 = TimerModel()
+    
+    var delegate: intervalTimerCreationDelegate? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -102,12 +109,14 @@ class CreateIntervalTimerViewController: UIViewController, iCarouselDataSource, 
     @IBAction func saveTapped(sender: AnyObject) {
         
         //make sure timers are set as vanilla single run timers
-        timer1.alarmRepetitions = 0
+        timer1.alarmRepetitions = 1
         timer1.timerRepetitions = 1
-        timer2.alarmRepetitions = 0
+        timer2.alarmRepetitions = 1
         timer2.timerRepetitions = 1
         
-        TTDefaultsHelper.createIntervalWithTimers(timer1, timer2: timer2)
+        let newIntervalTimer = IntervalModel(withName: "Interval Timer", timer1: timer1, timer2: timer2, intervalRepetitions: 1)
+        
+        self.delegate?.createdIntervalTimer(newIntervalTimer)
         
         self.dismissViewControllerAnimated(true, completion: nil)
     }
