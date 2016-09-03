@@ -153,10 +153,11 @@ class IntervalModel: NSObject, timerProtocol {
             if currentIntervalRepetition != intervalRepetitions {
                 currentActiveTimer = timer1
                 currentActiveTimer.start()
+                currentIntervalRepetition += 1
             } else {
                 currentIntervalRepetition = 0
+                active = false
             }
-            currentIntervalRepetition += 1
             self.delegate?.intervalTimerEnded(self, timer: timer)
             currentActiveTimer = timer1
         }

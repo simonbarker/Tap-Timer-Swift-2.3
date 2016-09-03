@@ -8,6 +8,7 @@
 
 import UIKit
 import iCarousel
+import AVFoundation
 
 class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCarouselDelegate, UITextFieldDelegate, proUpgradeDelegate, intervalProtocol, intervalTimerCreationDelegate {
     
@@ -45,7 +46,6 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
     @IBOutlet var proFeaturesButton: UIButton!
     @IBOutlet var createIntervalButton: UIButton!
     @IBOutlet var intervalIcon: UIImageView!
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -248,6 +248,10 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
         
         let addView = UIView()
         
+        addView.translatesAutoresizingMaskIntoConstraints = false
+        let image = UIImage(named: "addTimerButton")
+        let imageView = UIImageView(image: image)
+        
         let phoneType = Helper.detectPhoneScreenSize()
         if phoneType == "4" {
             addView.frame = CGRect(x: 0, y: 0, width: 100, height: 160)
@@ -259,8 +263,8 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
             addView.frame = CGRect(x: 0, y: 0, width: 125, height: 260)
         }
         
-        addView.translatesAutoresizingMaskIntoConstraints = false
-        addView.backgroundColor = UIColor.flatWhiteColorDark()
+        imageView.frame = CGRect(x: (addView.frame.width/2)-25, y: (addView.frame.height/2)-25, width: 50, height: 50)
+        addView.addSubview(imageView)
         
         let tapGestureRecogniser = UITapGestureRecognizer.init(target: self, action: #selector(self.addNewTimer(_:)))
         addView.addGestureRecognizer(tapGestureRecogniser)
@@ -306,22 +310,15 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
                         timer.start()
                         displayedTimer.timerRepetitionLabel.text = "\(timer.currentTimerRepetition) / \(timer.timerRepetitions)"
                         
-                        Helper.registerTimerNotification(timer)
-                        
                     } else if timer.active == false && timer.paused == true {
                         
                         //start timer
                         timer.restart()
-                        
-                        Helper.registerTimerNotification(timer)
 
                     } else {
                         
                         //pause timer
                         timer.pause()
-                        
-                        //remove notification
-                        Helper.removeNotificationFromSchedule(timer)
                         
                     }
                 }
@@ -337,14 +334,14 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
                         intervalTimer.start()
                         displayedInterval.intervalCounterLabel.text = "\(intervalTimer.currentIntervalRepetition) / \(intervalTimer.intervalRepetitions)"
                         
-                        //Helper.registerTimerNotification(intervalTimer)
+                        Helper.registerTimerNotification(intervalTimer.currentActiveTimer)
                         
                     } else if intervalTimer.active == false && intervalTimer.paused == true {
                         
                         //start timer
                         intervalTimer.restart()
                         
-                        //Helper.registerTimerNotification(timer)
+                        Helper.registerTimerNotification(intervalTimer.currentActiveTimer)
                         
                         
                     } else {
@@ -353,7 +350,7 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
                         intervalTimer.pause()
                         
                         //remove notification
-                        //Helper.removeNotificationFromSchedule(timer)
+                        Helper.removeNotificationFromSchedule(intervalTimer.currentActiveTimer)
                         
                     }
                 }
@@ -453,38 +450,58 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
     
     func deleteTimer(sender: UISwipeGestureRecognizer) {
         if sender.state == .Ended {
-            var index = carousel.currentItemIndex
             
-            //workout if we are swiping a timer or interval
-            if carousel.currentItemIndex < timers.count {
-                if timers.count > 1 {
-                    timers.removeAtIndex(index)
-                    timerViews.removeAtIndex(index)
-                }
+            if self.timers.count > 1 {
+                let deleteTimerConfirmation = UIAlertController(title: "Delete Timer", message: "Are you sure you want to delete this timer?", preferredStyle: UIAlertControllerStyle.Alert)
+                
+                deleteTimerConfirmation.addAction(UIAlertAction(title: "Ok", style: .Default, handler: { (action: UIAlertAction!) in
+                   
+                    var index = self.carousel.currentItemIndex
+                    
+                    //workout if we are swiping a timer or interval
+                    if self.carousel.currentItemIndex < self.timers.count {
+                        if self.timers.count > 1 {
+                            self.timers.removeAtIndex(index)
+                            self.timerViews.removeAtIndex(index)
+                        }
+                    } else {
+                        self.intervalTimers.removeAtIndex(index - self.timers.count)
+                        self.intervalViews.removeAtIndex(index - self.timers.count)
+                    }
+                    
+                    TTDefaultsHelper.saveTimers(self.timers)
+                    TTDefaultsHelper.saveIntervalTimers(self.intervalTimers)
+                    
+                    self.carousel.reloadData()
+                    
+                    if index == 0 {
+                        index = 1
+                    }
+                    
+                    self.carousel.scrollToItemAtIndex(index-1, animated: true)
+                    
+                    //clear previously highlighted buttons
+                    for i in (200...205) {
+                        let button = self.view.viewWithTag(i) as? UIButton
+                        button?.imageView?.image = self.soundButtonImages[i-200]
+                    }
+                    
+                    self.highlightCorrectSoundButtonForTimer(self.timer)
+                    
+                }))
+                
+                deleteTimerConfirmation.addAction(UIAlertAction(title: "Cancel", style: .Default, handler: { (action: UIAlertAction!) in
+                    
+                }))
+                presentViewController(deleteTimerConfirmation, animated: true, completion: nil)
+
             } else {
-                intervalTimers.removeAtIndex(index - timers.count)
-                intervalViews.removeAtIndex(index - timers.count)
+                if isPro {
+                    Helper.displayAlert("Can't Delete Timer", message: "You can't delete the only timer left", viewController: self)
+                }
             }
-            
-            TTDefaultsHelper.saveTimers(timers)
-            TTDefaultsHelper.saveIntervalTimers(intervalTimers)
-            
-            carousel.reloadData()
-            
-            if index == 0 {
-                index = 1
-            }
-            
-            carousel.scrollToItemAtIndex(index-1, animated: true)
-            
-            //clear previously highlighted buttons
-            for i in (200...205) {
-                let button = self.view.viewWithTag(i) as? UIButton
-                button?.imageView?.image = soundButtonImages[i-200]
-            }
-            
-            highlightCorrectSoundButtonForTimer(timer)
         }
+        
     }
     
     func intervalTimerPinchDetected(sender: UIPinchGestureRecognizer) {
@@ -550,15 +567,12 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
         
         carousel.reloadData()
         
-        carousel.scrollToItemAtIndex(timers.indexOf(newTimer)!, animated: true)
+        self.carousel.scrollToItemAtIndex(carousel.numberOfItems-1, animated: false)
         
-        //clear previously highlighted buttons
-        for i in (200...205) {
-            let button = self.view.viewWithTag(i) as? UIButton
-            button?.imageView?.image = soundButtonImages[i-200]
-        }
+        self.carousel.scrollToItemAtIndex(carousel.numberOfItems-2, animated: true)
         
-        highlightCorrectSoundButtonForTimer(timer)
+        //setUIforTimerSettings()
+        
     }
     
     //MARK: - Toggle view mode between settings and timer
@@ -722,7 +736,8 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
 
     //MARK: - IBActions
     @IBAction func colorTapped(sender: UIButton) {
-        if settingsMode {
+        //make sure this only works for timers
+        if settingsMode == true && carousel.currentItemIndex < (timers.count) {
             switch sender.tag {
             case 100:
                 timer.colorScheme = .SkyBlue
@@ -787,6 +802,7 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
             //change color of tapped button
             Helper.addButtonTint(sender, timerColorScheme: timer.getColorScheme())
             
+            Helper.activateAudioSessionInMainThread()
             timer.loadAudio()
             timer.playAudio(0)//play audio once to indicate that it has been changed
             
@@ -841,39 +857,47 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
     
     @IBAction func timerRepeatMinusTapped(sender: AnyObject) {
         //check if looking at interval or timer
-        if carousel.currentItemIndex < timers.count {
-            if timer.timerRepetitions == 0 {
-                return
+        if isPro {
+            if carousel.currentItemIndex < timers.count {
+                if timer.timerRepetitions == 1 {
+                    return
+                } else {
+                    timer.timerRepetitions -= 1
+                    updateLabelsForTimerRepetitions()
+                }
             } else {
-                timer.timerRepetitions -= 1
-                updateLabelsForTimerRepetitions()
+                if intervalTimer.intervalRepetitions == 1 {
+                    return
+                } else {
+                    intervalTimer.intervalRepetitions -= 1
+                    updateLabelsForIntervalRepetitions()
+                }
             }
         } else {
-            if intervalTimer.intervalRepetitions == 0 {
-                return
-            } else {
-                intervalTimer.intervalRepetitions -= 1
-                updateLabelsForIntervalRepetitions()
-            }
+            Helper.displayAlert("Pro Feature", message: "Timer repeat is one of our many pro feaatures", viewController: self)
         }
     }
     
     @IBAction func timerRepeatPlusTapped(sender: AnyObject) {
-        //check if looking at interval or timer
-        if carousel.currentItemIndex < timers.count {
-            if timer.timerRepetitions == 99 {
-                return
+        if isPro {
+            //check if looking at interval or timer
+            if carousel.currentItemIndex < timers.count {
+                if timer.timerRepetitions == 99 {
+                    return
+                } else {
+                    timer.timerRepetitions += 1
+                    updateLabelsForTimerRepetitions()
+                }
             } else {
-                timer.timerRepetitions += 1
-                updateLabelsForTimerRepetitions()
+                if intervalTimer.intervalRepetitions == 99 {
+                    return
+                } else {
+                    intervalTimer.intervalRepetitions += 1
+                    updateLabelsForIntervalRepetitions()
+                }
             }
         } else {
-            if intervalTimer.intervalRepetitions == 99 {
-                return
-            } else {
-                intervalTimer.intervalRepetitions += 1
-                updateLabelsForIntervalRepetitions()
-            }
+            Helper.displayAlert("Pro Feature", message: "Timer repeat is one of our many pro feaatures", viewController: self)
         }
     }
     
@@ -1253,49 +1277,107 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
     
     func carouselCurrentItemIndexDidChange(carousel: iCarousel) {
         
+        timerTitleTextField.enabled = true
+        enableRepetitionButtons()
+        
         //workout if we changed to a timer or interval
         if carousel.currentItemIndex < timers.count {
             
-            timer = timers[carousel.currentItemIndex]
+            setUIforTimerSettings()
             
-            //update sound buttons
-            //clear previously highlighted buttons
-            for i in (200...205) {
-                let button = self.view.viewWithTag(i) as? UIButton
-                button?.imageView?.image = soundButtonImages[i-200]
-            }
-            
-            highlightCorrectSoundButtonForTimer(timer)
-            
-            timerTitleTextField.text = timer.name
-            
-            alarmRepeatLabel.text = "\(timer.alarmRepetitions)"
-            timerRepeatLabel.text = "\(timer.timerRepetitions)"
         } else if carousel.currentItemIndex < (timers.count + intervalTimers.count) {
             
             intervalTimer = intervalTimers[carousel.currentItemIndex - timers.count]
             
             //update sound buttons
             //clear previously highlighted buttons
-            for i in (200...205) {
-                let button = self.view.viewWithTag(i) as? UIButton
-                button?.imageView?.image = soundButtonImages[i-200]
-            }
-            
+            disableAllSoundAndColourButtons()
+
             highlightCorrectSoundButtonForTimer(intervalTimer.timer1)
             highlightCorrectSoundButtonForTimer(intervalTimer.timer2)
             
             timerTitleTextField.text = intervalTimer.name
+            timerTitleTextField.enabled = false
             timerRepeatLabel.text = "\(intervalTimer.intervalRepetitions)"
             alarmRepeatLabel.text = "\(intervalTimer.timer1.alarmRepetitions)"
             
         } else {
-            //something to do with the add view
+            //clear previously highlighted buttons
+            disableAllSoundAndColourButtons()
+            disableRepetitionButtons()
+            
+            timerTitleTextField.text = ""
+            alarmRepeatLabel.text = "1"
+            timerRepeatLabel.text = "1"
+            
         }
     }
     
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
         return UIStatusBarStyle.LightContent
+    }
+    
+    func setUIforTimerSettings() {
+        timer = timers[carousel.currentItemIndex]
+        
+        //update sound buttons
+        //clear previously highlighted buttons
+        for i in (200...205) {
+            let button = self.view.viewWithTag(i) as? UIButton
+            button?.imageView?.image = soundButtonImages[i-200]
+            button?.setImage(soundButtonImages[i-200], forState: .Normal)
+            button?.setImage(soundButtonImages[i-200], forState: .Disabled)
+            button?.enabled = true
+        }
+        //enable colour buttons
+        for i in (100...105) {
+            let button = self.view.viewWithTag(i) as? UIButton
+            button?.enabled = true
+        }
+        
+        highlightCorrectSoundButtonForTimer(timer)
+        
+        timerTitleTextField.text = timer.name
+        
+        alarmRepeatLabel.text = "\(timer.alarmRepetitions)"
+        timerRepeatLabel.text = "\(timer.timerRepetitions)"
+    }
+    
+    func disableAllSoundAndColourButtons() {
+        //sound
+        for i in (200...205) {
+            let button = self.view.viewWithTag(i) as? UIButton
+            button?.imageView?.image = soundButtonImages[i-200]
+            button?.setImage(soundButtonImages[i-200], forState: .Normal)
+            
+            let origImage = button?.imageView?.image
+            let tintedImage = origImage?.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
+            button?.setImage(tintedImage, forState: .Disabled)
+            
+            button?.tintColor = UIColor.flatWhiteColorDark()
+            
+            button?.enabled = false
+        }
+        
+        //colour
+        for i in (100...105) {
+            let button = self.view.viewWithTag(i) as? UIButton
+            button?.enabled = false
+        }
+    }
+    
+    func enableRepetitionButtons() {
+        for i in (300...303) {
+            let button = self.view.viewWithTag(i) as? UIButton
+            button?.enabled = true
+        }
+    }
+    
+    func disableRepetitionButtons() {
+        for i in (300...303) {
+            let button = self.view.viewWithTag(i) as? UIButton
+            button?.enabled = false
+        }
     }
     
     //MARK: - Keyboard dismissal

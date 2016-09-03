@@ -67,13 +67,7 @@ class TimerModel: NSObject, NSCoding, AVAudioPlayerDelegate {
         self.audioPlaying = false
         self.timerRepetitions = timerRepetitions
         self.currentTimerRepetition = 0
-        
-        let sess = AVAudioSession.sharedInstance()
-        if sess.otherAudioPlaying {
-            _ = try? sess.setCategory(AVAudioSessionCategoryAmbient, withOptions: [.MixWithOthers])
-            _ = try? sess.setActive(true, withOptions: [])
-        }
-        
+ 
         super.init()
     }
     
@@ -182,7 +176,7 @@ class TimerModel: NSObject, NSCoding, AVAudioPlayerDelegate {
     }
     
     func setPausedRemaining() {
-        
+        print("setPausedRemaining called")
         guard let timerEnd = timerEndTime as NSDate! else {
             print("No timerEndTime set 3")
             return
@@ -253,6 +247,8 @@ class TimerModel: NSObject, NSCoding, AVAudioPlayerDelegate {
     //MARK: - AVPlayer Delegate
     func audioPlayerDidFinishPlaying(player: AVAudioPlayer, successfully flag: Bool) {
         audioPlaying = false
+        Helper.dectivateAudioSession()
+        print("Here")
     }
     
     //MARK: - Timer control methods
@@ -263,6 +259,7 @@ class TimerModel: NSObject, NSCoding, AVAudioPlayerDelegate {
         countDownTimer = NSTimer.scheduledTimerWithTimeInterval(0.01, target: self, selector: #selector(self.timerFired), userInfo: nil, repeats: true)
         timerStartTime = NSDate()
         timerEndTime = NSDate().dateByAddingTimeInterval(NSTimeInterval(duration))
+        Helper.registerTimerNotification(self)
     }
     
     func pause() {
@@ -270,6 +267,7 @@ class TimerModel: NSObject, NSCoding, AVAudioPlayerDelegate {
         paused = true
         setPausedRemaining()
         countDownTimer.invalidate()
+        Helper.removeNotificationFromSchedule(self)
     }
     
     func restart() {
@@ -278,6 +276,7 @@ class TimerModel: NSObject, NSCoding, AVAudioPlayerDelegate {
         countDownTimer = NSTimer.scheduledTimerWithTimeInterval(0.01, target: self, selector: #selector(self.timerFired), userInfo: nil, repeats: true)
         timerStartTime = NSDate()
         timerEndTime = NSDate().dateByAddingTimeInterval(NSTimeInterval(duration))
+        Helper.registerTimerNotification(self)
         
         guard let remaining = remainingWhenPaused else {
             print("No paused remaining time")
@@ -316,6 +315,7 @@ class TimerModel: NSObject, NSCoding, AVAudioPlayerDelegate {
         if NSDate().compare(timerEndTime) == NSComparisonResult.OrderedDescending {
             
             if Helper.appInForeground() == true {
+                Helper.activateAudioSession()
                 loadAudio()
                 playAudio(alarmRepetitions - 1)
             }

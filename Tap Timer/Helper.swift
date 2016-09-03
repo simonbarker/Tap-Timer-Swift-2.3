@@ -8,11 +8,18 @@
 
 import Foundation
 import UIKit
+import AVFoundation
 
 class Helper: NSObject {
     
+    static func displayAlert(title: String, message: String, viewController: UIViewController){
+        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: { (action) -> Void in
+        }))
+        viewController.presentViewController(alert, animated: true, completion: nil)
+    }
+    
     static func addBackgroundGradient(view: UIView) {
-        
         let gradient: CAGradientLayer = CAGradientLayer()
         gradient.frame = view.bounds
         gradient.colors = [UIColor.whiteColor().CGColor, UIColor.blackColor().CGColor]
@@ -90,4 +97,87 @@ class Helper: NSObject {
             return "6+"
         }
     }
+    
+    static func activateAudioSession() {
+        
+        let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
+        dispatch_async(dispatch_get_global_queue(priority, 0)) {
+        
+            let session = AVAudioSession.sharedInstance();
+            do {
+                try session.setCategory(AVAudioSessionCategoryPlayback, withOptions: [.DuckOthers])
+            } catch {
+                print("could not avsession category")
+            }
+            
+            do {
+                try session.setActive(true);
+            } catch {
+                print("could not activate avsession")
+            }
+        }
+    }
+    
+    static func activateAudioSessionInMainThread() {
+            
+        let session = AVAudioSession.sharedInstance();
+        do {
+            try session.setCategory(AVAudioSessionCategoryPlayback, withOptions: [.DuckOthers])
+        } catch {
+            print("could not avsession category")
+        }
+        
+        do {
+            try session.setActive(true);
+        } catch {
+            print("could not activate avsession")
+        }
+        
+    }
+    
+    static func dectivateAudioSession() {
+        
+        let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
+        dispatch_async(dispatch_get_global_queue(priority, 0)) {
+            
+            let session = AVAudioSession.sharedInstance();
+            
+            do {
+                try session.setActive(false);
+            } catch {
+                print("could not deactivate avsession")
+            }
+            
+        }
+        
+        
+    }
+    
+    static func cycleAudioSesion() {
+        let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
+        dispatch_async(dispatch_get_global_queue(priority, 0)) {
+            
+            let session = AVAudioSession.sharedInstance();
+            do {
+                try session.setCategory(AVAudioSessionCategoryPlayback, withOptions: [.DuckOthers])
+            } catch {
+                print("could not avsession category")
+            }
+            
+            do {
+                try session.setActive(true);
+            } catch {
+                print("could not activate avsession")
+            }
+            
+            dispatch_async(dispatch_get_main_queue()) {
+                
+                print("completed AVsession activate")
+                
+                dectivateAudioSession()
+            }
+            
+        }
+    }
+    
 }

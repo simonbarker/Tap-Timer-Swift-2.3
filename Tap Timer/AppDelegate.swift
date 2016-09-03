@@ -18,18 +18,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
-        let sess = AVAudioSession.sharedInstance()
-        if sess.otherAudioPlaying {
-            _ = try? sess.setCategory(AVAudioSessionCategoryAmbient, withOptions: [.MixWithOthers])
-            _ = try? sess.setActive(true, withOptions: [])
-        }
-        
         application.registerUserNotificationSettings(UIUserNotificationSettings(forTypes: [.Alert, .Badge, .Sound], categories: nil))
         
         UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
         
         //check pro
         isPro = TTDefaultsHelper.checkIfPro()
+        
+        //cycle avsession
+        Helper.cycleAudioSesion()
         
         return true
     }

@@ -205,7 +205,7 @@
                                 </constraints>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="20"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Timer Repeat" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mWH-rl-nWs">
                                 <rect key="frame" x="161" y="30" width="154" height="18"/>
@@ -233,7 +233,7 @@
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zfN-ef-rJR">
+                            <button opaque="NO" tag="300" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zfN-ef-rJR">
                                 <rect key="frame" x="33" y="57" width="23" height="22"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="22" id="8YJ-Hc-rid"/>
@@ -244,7 +244,7 @@
                                     <action selector="alarmRepeatMinusTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="KTa-EK-lak"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eQW-Px-rhz">
+                            <button opaque="NO" tag="301" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eQW-Px-rhz">
                                 <rect key="frame" x="110" y="57" width="23" height="22"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="23" id="Zvh-mB-ilN"/>
@@ -255,7 +255,7 @@
                                     <action selector="alarmRepeatPlusTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="CZe-AV-2YC"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fWc-cQ-lWo">
+                            <button opaque="NO" tag="303" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fWc-cQ-lWo">
                                 <rect key="frame" x="265" y="57" width="23" height="22"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="23" id="QXv-hY-uig"/>
@@ -266,7 +266,7 @@
                                     <action selector="timerRepeatPlusTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="XDG-FM-F10"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LOU-TN-dao">
+                            <button opaque="NO" tag="302" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LOU-TN-dao">
                                 <rect key="frame" x="188" y="57" width="23" height="22"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="23" id="oFm-og-IF1"/>
