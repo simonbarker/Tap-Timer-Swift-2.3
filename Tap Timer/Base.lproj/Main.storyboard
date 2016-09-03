@@ -739,6 +739,19 @@
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bwc-ur-EBQ">
+                                <rect key="frame" x="96" y="543" width="128" height="17"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="128" id="NU0-b0-bHG"/>
+                                    <constraint firstAttribute="height" constant="17" id="UtZ-sL-utS"/>
+                                </constraints>
+                                <state key="normal" title="Restore purchase">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="restoreButtonTapped:" destination="VkC-z6-rkg" eventType="touchUpInside" id="bIo-fJ-cRx"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.42745098039215684" green="0.47450980392156861" blue="0.47843137254901963" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
@@ -752,6 +765,8 @@
                             <constraint firstItem="8bw-40-qz7" firstAttribute="centerX" secondItem="WRe-eP-Ivt" secondAttribute="centerX" id="J8L-23-Pd8"/>
                             <constraint firstItem="ULJ-SA-U3g" firstAttribute="top" secondItem="kka-c6-7zs" secondAttribute="bottom" constant="8" id="JZX-8O-3uN"/>
                             <constraint firstItem="DPq-cx-4uW" firstAttribute="top" secondItem="WuE-xv-did" secondAttribute="bottom" constant="15" id="KAD-Jg-SEm"/>
+                            <constraint firstItem="bwc-ur-EBQ" firstAttribute="centerX" secondItem="WRe-eP-Ivt" secondAttribute="centerX" id="NsR-w2-sS5"/>
+                            <constraint firstItem="bwc-ur-EBQ" firstAttribute="top" secondItem="On5-rm-mG7" secondAttribute="bottom" constant="8" id="PRw-RR-THp"/>
                             <constraint firstItem="On5-rm-mG7" firstAttribute="centerX" secondItem="WRe-eP-Ivt" secondAttribute="centerX" id="QDn-Lv-YDY"/>
                             <constraint firstItem="8bw-40-qz7" firstAttribute="height" secondItem="zQe-1k-ihw" secondAttribute="height" id="VTV-2p-ay7"/>
                             <constraint firstItem="zQe-1k-ihw" firstAttribute="top" secondItem="YyT-hN-2pQ" secondAttribute="bottom" constant="14" id="W8C-dX-jwQ"/>
@@ -766,6 +781,9 @@
                             <constraint firstItem="8bw-40-qz7" firstAttribute="top" secondItem="dpA-Ka-rsx" secondAttribute="bottom" constant="14" id="zFH-qT-Twq"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="upgradePriceLabel" destination="YyT-hN-2pQ" id="13h-Lg-TaC"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="waz-44-dfl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

@@ -27,6 +27,9 @@
 		B0596F0F1D54D68B002D5A49 /* TourPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0596F0E1D54D68B002D5A49 /* TourPageViewController.swift */; };
 		B0596F111D54F5DB002D5A49 /* TourOneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0596F101D54F5DB002D5A49 /* TourOneViewController.swift */; };
 		B0596F131D54F692002D5A49 /* TourFourViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0596F121D54F692002D5A49 /* TourFourViewController.swift */; };
+		B05EFADE1D7B0A160043BA58 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B05EFADD1D7B0A160043BA58 /* StoreKit.framework */; };
+		B05EFAE01D7B0A4A0043BA58 /* TapTimerProducts.swift in Sources */ = {isa = PBXBuildFile; fileRef = B05EFADF1D7B0A4A0043BA58 /* TapTimerProducts.swift */; };
+		B05EFAE21D7B0B010043BA58 /* IAPHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B05EFAE11D7B0B010043BA58 /* IAPHelper.swift */; };
 		B06D50881D415439007D8D04 /* Church Bell.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B06D50871D415438007D8D04 /* Church Bell.mp3 */; };
 		B099C5BA1D416E9B00A7B705 /* iCarousel.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B099C5B91D416E9B00A7B705 /* iCarousel.framework */; };
 		B0F54CA31D423884006BF224 /* UpgradeToProViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0F54CA21D423884006BF224 /* UpgradeToProViewController.swift */; };
@@ -57,6 +60,9 @@
 		B0596F0E1D54D68B002D5A49 /* TourPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TourPageViewController.swift; sourceTree = "<group>"; };
 		B0596F101D54F5DB002D5A49 /* TourOneViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TourOneViewController.swift; sourceTree = "<group>"; };
 		B0596F121D54F692002D5A49 /* TourFourViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TourFourViewController.swift; sourceTree = "<group>"; };
+		B05EFADD1D7B0A160043BA58 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		B05EFADF1D7B0A4A0043BA58 /* TapTimerProducts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TapTimerProducts.swift; sourceTree = "<group>"; };
+		B05EFAE11D7B0B010043BA58 /* IAPHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IAPHelper.swift; sourceTree = "<group>"; };
 		B06D50871D415438007D8D04 /* Church Bell.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Church Bell.mp3"; sourceTree = "<group>"; };
 		B099C5B91D416E9B00A7B705 /* iCarousel.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iCarousel.framework; path = "Pods/../build/Debug-iphoneos/iCarousel/iCarousel.framework"; sourceTree = "<group>"; };
 		B0F54CA21D423884006BF224 /* UpgradeToProViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpgradeToProViewController.swift; sourceTree = "<group>"; };
@@ -71,6 +77,7 @@
 			files = (
 				B0596F091D54CD42002D5A49 /* SwiftyUserDefaults.framework in Frameworks */,
 				B099C5BA1D416E9B00A7B705 /* iCarousel.framework in Frameworks */,
+				B05EFADE1D7B0A160043BA58 /* StoreKit.framework in Frameworks */,
 				B05540A41D3EC0E8007A6519 /* ChameleonFramework.framework in Frameworks */,
 				391E3707D5F72B98C8E0603A /* Pods_Tap_Timer.framework in Frameworks */,
 			);
@@ -91,6 +98,7 @@
 		7714B5DF8E9D8E7F61F9CD0E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B05EFADD1D7B0A160043BA58 /* StoreKit.framework */,
 				B0596F081D54CD42002D5A49 /* SwiftyUserDefaults.framework */,
 				B099C5B91D416E9B00A7B705 /* iCarousel.framework */,
 				B05540A31D3EC0E8007A6519 /* ChameleonFramework.framework */,
@@ -120,6 +128,8 @@
 		B01A49DB1D35308100FE087D /* Tap Timer */ = {
 			isa = PBXGroup;
 			children = (
+				B05EFAE11D7B0B010043BA58 /* IAPHelper.swift */,
+				B05EFADF1D7B0A4A0043BA58 /* TapTimerProducts.swift */,
 				B06D50871D415438007D8D04 /* Church Bell.mp3 */,
 				B00737EC1D412F6200D46510 /* Car Horn.mp3 */,
 				B01A49DC1D35308100FE087D /* AppDelegate.swift */,
@@ -181,6 +191,11 @@
 					B01A49D81D35308000FE087D = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = YV4CVWZ68D;
+						SystemCapabilities = {
+							com.apple.InAppPurchase = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -283,7 +298,9 @@
 				B000125F1D6EDCB100BF4737 /* IntervalModel.swift in Sources */,
 				B00012621D6EF16200BF4737 /* IntervalView.swift in Sources */,
 				B01A49DD1D35308100FE087D /* AppDelegate.swift in Sources */,
+				B05EFAE01D7B0A4A0043BA58 /* TapTimerProducts.swift in Sources */,
 				B0F54CA51D4238AA006BF224 /* Helper.swift in Sources */,
+				B05EFAE21D7B0B010043BA58 /* IAPHelper.swift in Sources */,
 				B0596F111D54F5DB002D5A49 /* TourOneViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
