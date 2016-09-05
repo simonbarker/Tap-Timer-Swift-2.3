@@ -123,33 +123,12 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
         }
         
         //have timers so just make the views
-        let phoneType = Helper.detectPhoneScreenSize()
         for t in timers {
             
             t.delegate = self
             let tView = TimerView.init()
             
-            if isPro == true {
-                if phoneType == "4" {
-                    tView.frame = CGRect(x: 0, y: 0, width: 100, height: 160)
-                } else if phoneType == "5" {
-                    tView.frame = CGRect(x: 0, y: 0, width: 100, height: 160)
-                } else if phoneType == "6" {
-                    tView.frame = CGRect(x: 0, y: 0, width: 100, height: 190)
-                } else { //6+
-                    tView.frame = CGRect(x: 0, y: 0, width: 125, height: 260)
-                }
-            } else {
-                if phoneType == "4" {
-                    tView.frame = CGRect(x: 0, y: 0, width: 100, height: 160)
-                } else if phoneType == "5" {
-                    tView.frame = CGRect(x: 0, y: 0, width: 160, height: 280)
-                } else if phoneType == "6" {
-                    tView.frame = CGRect(x: 0, y: 0, width: 160, height: 280)
-                } else { //6+
-                    tView.frame = CGRect(x: 0, y: 0, width: 200, height: 400)
-                }
-            }
+            tView.frame = Helper.frameSizeFor(isPro, singleOrDoubleCarousel: "single")
             
             let colors = t.getColorScheme()
             tView.setColorScheme(colorLight: colors["lightColor"]!, colorDark: colors["darkColor"]!)
@@ -181,7 +160,6 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
         if savedIntervals.count != 0 {
             
             intervalTimers = savedIntervals
-            let phoneType = Helper.detectPhoneScreenSize()
             
             for i in savedIntervals {
                 
@@ -191,15 +169,7 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
                 
                 let iView = IntervalView.init()
                 
-                if phoneType == "4" {
-                    iView.frame = CGRect(x: 0, y: 0, width: 100, height: 160)
-                } else if phoneType == "5" {
-                    iView.frame = CGRect(x: 0, y: 0, width: 100, height: 160)
-                } else if phoneType == "6" {
-                    iView.frame = CGRect(x: 0, y: 0, width: 100, height: 190)
-                } else { //6+
-                    iView.frame = CGRect(x: 0, y: 0, width: 125, height: 260)
-                }
+                iView.frame = Helper.frameSizeFor(true, singleOrDoubleCarousel: "single")
             
                 
                 let colors1 = timer1.getColorScheme()
@@ -252,16 +222,7 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
         let image = UIImage(named: "addTimerButton")
         let imageView = UIImageView(image: image)
         
-        let phoneType = Helper.detectPhoneScreenSize()
-        if phoneType == "4" {
-            addView.frame = CGRect(x: 0, y: 0, width: 100, height: 160)
-        } else if phoneType == "5" {
-            addView.frame = CGRect(x: 0, y: 0, width: 100, height: 160)
-        } else if phoneType == "6" {
-            addView.frame = CGRect(x: 0, y: 0, width: 100, height: 190)
-        } else { //6+
-            addView.frame = CGRect(x: 0, y: 0, width: 125, height: 260)
-        }
+        addView.frame = Helper.frameSizeFor(true, singleOrDoubleCarousel: "single")
         
         imageView.frame = CGRect(x: (addView.frame.width/2)-25, y: (addView.frame.height/2)-25, width: 50, height: 50)
         addView.addSubview(imageView)
@@ -530,16 +491,7 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
         
         let tView = TimerView.init()
         
-        let phoneType = Helper.detectPhoneScreenSize()
-        if phoneType == "4" {
-            tView.frame = CGRect(x: 0, y: 0, width: 100, height: 160)
-        } else if phoneType == "5" {
-            tView.frame = CGRect(x: 0, y: 0, width: 100, height: 160)
-        } else if phoneType == "6" {
-            tView.frame = CGRect(x: 0, y: 0, width: 100, height: 190)
-        } else { //6+
-            tView.frame = CGRect(x: 0, y: 0, width: 125, height: 260)
-        }
+        tView.frame = Helper.frameSizeFor(true, singleOrDoubleCarousel: "single")
         
         let colors = newTimer.getColorScheme()
         tView.setColorScheme(colorLight: colors["lightColor"]!, colorDark: colors["darkColor"]!)
@@ -1050,16 +1002,7 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
         
         let iView = IntervalView.init()
         
-        let phoneType = Helper.detectPhoneScreenSize()
-        if phoneType == "4" {
-            iView.frame = CGRect(x: 0, y: 0, width: 100, height: 160)
-        } else if phoneType == "5" {
-            iView.frame = CGRect(x: 0, y: 0, width: 100, height: 160)
-        } else if phoneType == "6" {
-            iView.frame = CGRect(x: 0, y: 0, width: 100, height: 190)
-        } else { //6+
-            iView.frame = CGRect(x: 0, y: 0, width: 125, height: 260)
-        }
+        iView.frame = Helper.frameSizeFor(isPro, singleOrDoubleCarousel: "single")
         
         let colors1 = newIntervalTimer.timer1.getColorScheme()
         iView.timer1View.setColorScheme(colorLight: colors1["lightColor"]!, colorDark: colors1["darkColor"]!)
@@ -1268,11 +1211,7 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
     }
     
     func carouselItemWidth(carousel: iCarousel) -> CGFloat {
-        if isPro == true {
-            return 100.0
-        } else {
-            return 190.0
-        }
+        return Helper.frameSizeFor(isPro, singleOrDoubleCarousel: "single").width
     }
     
     func carouselCurrentItemIndexDidChange(carousel: iCarousel) {
@@ -1297,7 +1236,7 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
             highlightCorrectSoundButtonForTimer(intervalTimer.timer2)
             
             timerTitleTextField.text = intervalTimer.name
-            timerTitleTextField.enabled = false
+            timerTitleTextField.enabled = true
             timerRepeatLabel.text = "\(intervalTimer.intervalRepetitions)"
             alarmRepeatLabel.text = "\(intervalTimer.timer1.alarmRepetitions)"
             

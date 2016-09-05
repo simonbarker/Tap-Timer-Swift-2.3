@@ -66,20 +66,10 @@ class CreateIntervalTimerViewController: UIViewController, iCarouselDataSource, 
         
         var tempTimerViews = [TimerView]()
         
-        let phoneType = Helper.detectPhoneScreenSize()
-        
         for t in timers {
             let tView = TimerView.init()
             
-            if phoneType == "4" {
-                tView.frame = CGRect(x: 0, y: 0, width: 100, height: 160)
-            } else if phoneType == "5" {
-                tView.frame = CGRect(x: 0, y: 0, width: 100, height: 160)
-            } else if phoneType == "6" {
-                tView.frame = CGRect(x: 0, y: 0, width: 100, height: 190)
-            } else { //6+
-                tView.frame = CGRect(x: 0, y: 0, width: 125, height: 260)
-            }
+            tView.frame = Helper.frameSizeFor(true, singleOrDoubleCarousel: "double")
             
             let colors = t.getColorScheme()
             tView.setColorScheme(colorLight: colors["lightColor"]!, colorDark: colors["darkColor"]!)

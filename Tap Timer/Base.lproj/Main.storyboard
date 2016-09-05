@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -675,6 +675,8 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Repetition Icon" translatesAutoresizingMaskIntoConstraints="NO" id="DPq-cx-4uW">
                                 <rect key="frame" x="136" y="250" width="49" height="43"/>
                                 <constraints>
+                                    <constraint firstAttribute="height" constant="43" id="VEr-pw-L6S"/>
+                                    <constraint firstAttribute="width" constant="49" id="y84-Lz-zfP"/>
                                     <constraint firstAttribute="width" secondItem="DPq-cx-4uW" secondAttribute="height" multiplier="49:43" id="ynw-Yl-m1k"/>
                                 </constraints>
                             </imageView>
@@ -866,9 +868,9 @@
                         <color key="backgroundColor" red="0.35294117647058826" green="0.40000000000000002" blue="0.40392156862745099" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="leadingMargin" secondItem="HoW-If-u7V" secondAttribute="leading" id="0Gd-5z-Xki"/>
+                            <constraint firstItem="N66-5n-Ltn" firstAttribute="height" secondItem="HoW-If-u7V" secondAttribute="height" id="4yn-Iy-JK8"/>
                             <constraint firstItem="ebf-f6-ZjU" firstAttribute="leading" secondItem="HoW-If-u7V" secondAttribute="trailing" constant="15" id="5Za-JV-djB"/>
                             <constraint firstItem="KE7-Ge-tCE" firstAttribute="top" secondItem="8zr-nW-aEv" secondAttribute="bottom" constant="8" id="5dK-b1-iz8"/>
-                            <constraint firstItem="Ch7-fB-d3n" firstAttribute="top" secondItem="9BN-JX-UIP" secondAttribute="bottom" constant="200" id="6vh-ga-XDS"/>
                             <constraint firstItem="9BN-JX-UIP" firstAttribute="top" secondItem="HoW-If-u7V" secondAttribute="bottom" constant="8" id="8Jt-qA-ND2"/>
                             <constraint firstItem="ebf-f6-ZjU" firstAttribute="centerY" secondItem="HoW-If-u7V" secondAttribute="centerY" id="Bgz-T2-0ib"/>
                             <constraint firstItem="Ch7-fB-d3n" firstAttribute="top" secondItem="N66-5n-Ltn" secondAttribute="bottom" constant="-1" id="N9Q-c6-jbf"/>
@@ -884,6 +886,7 @@
                             <constraint firstAttribute="leadingMargin" secondItem="N66-5n-Ltn" secondAttribute="leading" id="mWz-GO-mYc"/>
                             <constraint firstItem="N66-5n-Ltn" firstAttribute="top" secondItem="9BN-JX-UIP" secondAttribute="bottom" constant="3" id="ncw-dn-BhZ"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Ch7-fB-d3n" secondAttribute="trailing" constant="58" id="qhK-KD-BMF"/>
+                            <constraint firstItem="Ch7-fB-d3n" firstAttribute="top" secondItem="N66-5n-Ltn" secondAttribute="bottom" constant="-1" id="sCZ-IW-E0R"/>
                             <constraint firstItem="Ch7-fB-d3n" firstAttribute="leading" secondItem="8NX-lH-d7X" secondAttribute="leadingMargin" constant="58" id="tDU-gb-7jx"/>
                             <constraint firstItem="B9H-VJ-HN3" firstAttribute="centerX" secondItem="8NX-lH-d7X" secondAttribute="centerX" id="uOS-1o-jOz"/>
                         </constraints>

@@ -84,20 +84,6 @@ class Helper: NSObject {
         }
     }
     
-    static func detectPhoneScreenSize() -> String {
-        let screenBounds = UIScreen.mainScreen().bounds
-
-        if screenBounds.width == 320 && screenBounds.height == 480 {
-            return "4"
-        } else if screenBounds.width == 320 && screenBounds.height == 568 {
-            return "5"
-        } else if screenBounds.width == 375 && screenBounds.height == 667 {
-            return "6"
-        } else { //6+ so 414 x 736
-            return "6+"
-        }
-    }
-    
     static func activateAudioSession() {
         
         let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
@@ -172,12 +158,72 @@ class Helper: NSObject {
             
             dispatch_async(dispatch_get_main_queue()) {
                 
-                print("completed AVsession activate")
-                
                 dectivateAudioSession()
             }
             
         }
     }
     
+    static func detectPhoneScreenSize() -> String {
+        let screenBounds = UIScreen.mainScreen().bounds
+        
+        if screenBounds.width == 320 && screenBounds.height == 480 {
+            return "4"
+        } else if screenBounds.width == 320 && screenBounds.height == 568 {
+            return "5"
+        } else if screenBounds.width == 375 && screenBounds.height == 667 {
+            return "6"
+        } else { //6+ so 414 x 736
+            return "6+"
+        }
+    }
+    
+    static func frameSizeFor(pro: Bool, singleOrDoubleCarousel: String) -> CGRect {
+            
+        let screenWidth = UIScreen.mainScreen().bounds.width
+        
+        var timerWidthDivisor: CGFloat = 1.0
+        var timerHeightMultiplier: CGFloat = 1.0
+        
+        if pro == true {
+            if singleOrDoubleCarousel == "single" {
+            
+                timerWidthDivisor = 3
+                timerHeightMultiplier = 1.82
+                
+            } else {
+                
+                timerWidthDivisor = 3.75
+                timerHeightMultiplier = 1.82
+                
+            }
+        } else {
+            
+            timerWidthDivisor = 2
+            timerHeightMultiplier = 1.77
+            
+        }
+        
+        let timerWidth = screenWidth / timerWidthDivisor
+        let timerHeight = timerWidth * timerHeightMultiplier
+        return CGRect(x: 0, y: 0, width: timerWidth, height: timerHeight)
+        
+    }
+    
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
