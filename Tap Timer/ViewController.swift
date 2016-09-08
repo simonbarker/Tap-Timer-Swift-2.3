@@ -299,14 +299,14 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
                         intervalTimer.start()
                         displayedInterval.intervalCounterLabel.text = "\(intervalTimer.currentIntervalRepetition) / \(intervalTimer.intervalRepetitions)"
                         
-                        Helper.registerTimerNotification(intervalTimer.currentActiveTimer)
+                        //Helper.registerTimerNotification(intervalTimer.currentActiveTimer)
                         
                     } else if intervalTimer.active == false && intervalTimer.paused == true {
                         
                         //start timer
                         intervalTimer.restart()
                         
-                        Helper.registerTimerNotification(intervalTimer.currentActiveTimer)
+                        //Helper.registerTimerNotification(intervalTimer.currentActiveTimer)
                         
                         
                     } else {
@@ -315,7 +315,7 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
                         intervalTimer.pause()
                         
                         //remove notification
-                        Helper.removeNotificationFromSchedule(intervalTimer.currentActiveTimer)
+                        //Helper.removeNotificationFromSchedule(intervalTimer.currentActiveTimer)
                         
                     }
                 }
@@ -335,9 +335,6 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
                 timer.clearTimer()
                 displayedTimer.reset()
                 displayedTimer.setTimeRemainingLabel(timer.duration)
-                
-                //remove notification
-                Helper.removeNotificationFromSchedule(timer)
                 
                 guard let index = timers.indexOf(timer) else {
                     print("Index of timer not found")

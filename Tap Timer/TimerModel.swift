@@ -301,6 +301,7 @@ class TimerModel: NSObject, NSCoding, AVAudioPlayerDelegate {
         timerStartTime = nil
         timerEndTime = nil
         currentTimerRepetition = 0
+        Helper.removeNotificationFromSchedule(self)
     }
     
     
