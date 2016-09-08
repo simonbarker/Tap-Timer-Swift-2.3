@@ -307,7 +307,7 @@ class TimerModel: NSObject, NSCoding, AVAudioPlayerDelegate {
     func timerFired() {
         //update timer
         guard let timerEndTime = timerEndTime else {
-            print("No timer end time available")
+            print("No timer end time available in timerFired")
             return
         }
         

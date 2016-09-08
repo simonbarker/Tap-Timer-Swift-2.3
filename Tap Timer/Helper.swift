@@ -84,6 +84,8 @@ class Helper: NSObject {
         }
     }
     
+    //MARK - Audio Session methods
+    
     static func activateAudioSession() {
         
         let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
@@ -163,6 +165,8 @@ class Helper: NSObject {
             
         }
     }
+    
+    //MARK: - Screen size helpers
     
     static func detectPhoneScreenSize() -> String {
         let screenBounds = UIScreen.mainScreen().bounds

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="IntervalView" customModule="Tap_Timer" customModuleProvider="target">
+            <connections>
+                <outlet property="contentView" destination="iN0-l3-epB" id="Xng-LN-1KE"/>
+                <outlet property="intervalCounterLabel" destination="a9w-eb-PLj" id="3ua-mb-L1y"/>
+                <outlet property="timer1View" destination="dHU-v2-icc" id="Fhb-hB-b6b"/>
+                <outlet property="timer2View" destination="cHg-DD-amX" id="FDp-xw-ieo"/>
+                <outlet property="timerBoxEqualHeights" destination="7MQ-jY-OaA" id="zeE-ha-0aN"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cHg-DD-amX" userLabel="Timer 2" customClass="TimerView" customModule="Tap_Timer" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="300" width="600" height="300"/>
+                    <color key="backgroundColor" red="0.85043728351593018" green="0.21816034615039825" blue="0.15920260548591614" alpha="1" colorSpace="calibratedRGB"/>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dHU-v2-icc" userLabel="Timer 1" customClass="TimerView" customModule="Tap_Timer" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="300"/>
+                    <color key="backgroundColor" red="0.19376453757286072" green="0.50850099325180054" blue="0.85232251882553101" alpha="1" colorSpace="calibratedRGB"/>
+                </view>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a9w-eb-PLj">
+                    <rect key="frame" x="8" y="556" width="584" height="36"/>
+                    <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="30"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <constraints>
+                <constraint firstItem="cHg-DD-amX" firstAttribute="height" secondItem="dHU-v2-icc" secondAttribute="height" identifier="TBHeights" id="7MQ-jY-OaA"/>
+                <constraint firstItem="cHg-DD-amX" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="84c-Hc-NlM"/>
+                <constraint firstItem="a9w-eb-PLj" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="Ctt-0W-fVh"/>
+                <constraint firstItem="dHU-v2-icc" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" priority="999" id="SIb-qF-szp"/>
+                <constraint firstAttribute="trailing" secondItem="cHg-DD-amX" secondAttribute="trailing" id="aYM-rt-F7b"/>
+                <constraint firstItem="cHg-DD-amX" firstAttribute="top" secondItem="dHU-v2-icc" secondAttribute="bottom" id="aqt-eX-9Tp"/>
+                <constraint firstAttribute="trailing" secondItem="dHU-v2-icc" secondAttribute="trailing" id="juF-CC-HdV"/>
+                <constraint firstItem="dHU-v2-icc" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="s69-Ff-vMZ"/>
+                <constraint firstAttribute="trailing" secondItem="a9w-eb-PLj" secondAttribute="trailing" constant="8" id="sVi-32-gsd"/>
+                <constraint firstAttribute="bottom" secondItem="cHg-DD-amX" secondAttribute="bottom" id="vDu-qD-ox2"/>
+                <constraint firstAttribute="bottom" secondItem="a9w-eb-PLj" secondAttribute="bottom" constant="8" id="yo0-Hi-foq"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="491" y="449"/>
+        </view>
+    </objects>
+</document>
