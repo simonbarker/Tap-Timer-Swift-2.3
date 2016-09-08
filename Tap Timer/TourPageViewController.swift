@@ -33,7 +33,8 @@ class TourPageViewController: UIPageViewController {
         return [self.newTourViewController("TourScreen1"),
                 self.newTourViewController("TourScreen2"),
                 self.newTourViewController("TourScreen3"),
-                self.newTourViewController("TourScreen4")]
+                self.newTourViewController("TourScreen4"),
+                self.newTourViewController("TourScreen5")]
     }()
     
     private func newTourViewController(name: String) -> UIViewController {

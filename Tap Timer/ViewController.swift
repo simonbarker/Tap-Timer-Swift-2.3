@@ -47,6 +47,10 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
     @IBOutlet var createIntervalButton: UIButton!
     @IBOutlet var intervalIcon: UIImageView!
     
+    var timerSetTimer = NSTimer()
+    var timerBeingSet = false
+    var dot = UIView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -374,10 +378,73 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
         
     }
     
-    func panDetected(sender: UIPanGestureRecognizer) {
+    func panDetected(pan: UIPanGestureRecognizer) {
         
         if settingsMode == false {
-            changeTimerBasedOnDistanceFromBottom(sender)
+            
+            let pt = pan.translationInView(self.view)
+            
+            switch (pan.state) {
+            case .Began:
+                self.draggingStart()
+                break
+            case .Changed:
+                dot.center = CGPointMake(self.view.frame.width - dot.frame.width/2, self.view.center.y + pt.y)
+                break
+            case .Ended:
+                self.draggingEnded()
+                break
+            default:
+                break
+            }
+        }
+        
+    }
+    
+    func draggingStart() {
+        self.timerBeingSet = true
+    }
+    
+    func draggingEnded() {
+        self.timerBeingSet = false
+        UIView.animateWithDuration(0.2) {
+            self.dot.center = CGPointMake(self.view.frame.width - self.dot.frame.width/2, self.view.center.y)
+        }
+    }
+    
+    func timerSetTimerFired() {
+        if (self.timerBeingSet) {
+
+            let distance = self.dot.center.y - self.view.center.y
+            
+            if distance < 50 && distance > -50 {
+                
+                timerSetTimer.invalidate()
+                timerSetTimer = NSTimer.scheduledTimerWithTimeInterval(0.4, target: self, selector: #selector(self.timerSetTimerFired), userInfo: nil, repeats: true)
+                
+            } else {
+                
+                timerSetTimer.invalidate()
+                timerSetTimer = NSTimer.scheduledTimerWithTimeInterval(0.2, target: self, selector: #selector(self.timerSetTimerFired), userInfo: nil, repeats: true)
+
+            }
+            
+            var distance2 = distance * distance
+            
+            if distance < 0 {
+                distance2 *= -1
+            }
+            
+            let deltaD = Int(round(0.0025 * (distance2)))
+            
+            timer.duration -= deltaD
+            
+            if timer.duration < 0 {
+                timer.duration = 0
+            }
+            timer.clearTimer()
+            displayedTimer.reset()
+            displayedTimer.setTimeRemainingLabel(timer.duration)
             
             TTDefaultsHelper.saveTimers(timers)
             
@@ -387,9 +454,8 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
             }
             
             timerViews[index].setTimeRemainingLabel(timer.duration)
-            
+
         }
-        
     }
     
     func pinchDetected(sender: UIPinchGestureRecognizer) {
@@ -532,6 +598,7 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
         
         if mode == "settings" && settingsMode != true {
             addSettingsModeConstraintsToTimerView()
+            timerSetTimer.invalidate()
             animatedLayoutIfNeeded(removeView: true, viewToRemove: displayedTimer)
             
             guard let index = timers.indexOf(timer) else {
@@ -552,8 +619,21 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
             displayedTimer.setTimeRemainingLabel(timer.timeToDisplay())
             displayedTimer.timerLabel.hidden = false
             displayedTimer.timerRepetitionLabel.text = "0 / \(timer.timerRepetitions)"
-            
             displayedTimer.layer.zPosition = 100 //make sure the timer view sits on top of the settings panel
+            
+            let triangleBase: CGFloat = 25
+            let triangleHeight: CGFloat = 45
+            
+            dot = TriangleView(frame: CGRectMake(self.view.frame.width - triangleHeight, self.view.frame.height/2 - triangleBase/2, triangleHeight, triangleBase))
+            dot.layer.zPosition = 102
+            dot.alpha = 0.3
+            displayedTimer.addSubview(dot)
+            
+            let pan = UIPanGestureRecognizer(target: self, action: #selector(self.panDetected(_:)))
+            
+            dot.addGestureRecognizer(pan)
+            
+            timerSetTimer = NSTimer.scheduledTimerWithTimeInterval(0.20, target: self, selector: #selector(self.timerSetTimerFired), userInfo: nil, repeats: true)
             
             //set up gesture recognisers for timer
             let singleTapGestureRecogniser = UITapGestureRecognizer(target: self, action: #selector(self.singleTapDetected(_:)))
@@ -562,13 +642,13 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
             let doubleTapGestureRecogniser = UITapGestureRecognizer(target: self, action: #selector(self.doubleTapDetected(_:)))
             doubleTapGestureRecogniser.numberOfTapsRequired = 2
             singleTapGestureRecogniser.requireGestureRecognizerToFail(doubleTapGestureRecogniser)
-            let panGestureRecogniser = UIPanGestureRecognizer(target: self, action: #selector(self.panDetected(_:)))
-            panGestureRecogniser.minimumNumberOfTouches = 2
+            //let panGestureRecogniser = UIPanGestureRecognizer(target: self, action: #selector(self.panDetected(_:)))
+            //panGestureRecogniser.minimumNumberOfTouches = 2
             let pinchGestureRecogniser = UIPinchGestureRecognizer(target: self, action: #selector(self.pinchDetected(_:)))
             
             displayedTimer.addGestureRecognizer(singleTapGestureRecogniser)
             displayedTimer.addGestureRecognizer(doubleTapGestureRecogniser)
-            displayedTimer.addGestureRecognizer(panGestureRecogniser)
+            //displayedTimer.addGestureRecognizer(panGestureRecogniser)
             displayedTimer.addGestureRecognizer(pinchGestureRecogniser)
             
             self.view.addSubview(displayedTimer)
@@ -685,7 +765,9 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
             }
         }
     }
-
+    
+    
+    
     //MARK: - IBActions
     @IBAction func colorTapped(sender: UIButton) {
         //make sure this only works for timers

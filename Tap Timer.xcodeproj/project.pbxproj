@@ -15,7 +15,6 @@
 		B01A49DD1D35308100FE087D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B01A49DC1D35308100FE087D /* AppDelegate.swift */; };
 		B01A49DF1D35308100FE087D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B01A49DE1D35308100FE087D /* ViewController.swift */; };
 		B01A49E21D35308100FE087D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B01A49E01D35308100FE087D /* Main.storyboard */; };
-		B01A49E41D35308100FE087D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B01A49E31D35308100FE087D /* Assets.xcassets */; };
 		B01A49E71D35308100FE087D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B01A49E51D35308100FE087D /* LaunchScreen.storyboard */; };
 		B01A49EF1D35319F00FE087D /* TimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B01A49EE1D35319F00FE087D /* TimerView.swift */; };
 		B02E24D11D35344D001C3243 /* TimerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B02E24D01D35344D001C3243 /* TimerView.xib */; };
@@ -34,6 +33,9 @@
 		B099C5BA1D416E9B00A7B705 /* iCarousel.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B099C5B91D416E9B00A7B705 /* iCarousel.framework */; };
 		B0F54CA31D423884006BF224 /* UpgradeToProViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0F54CA21D423884006BF224 /* UpgradeToProViewController.swift */; };
 		B0F54CA51D4238AA006BF224 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0F54CA41D4238AA006BF224 /* Helper.swift */; };
+		B0F94FF11D80634E00AA405E /* TriangleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0F94FF01D80634E00AA405E /* TriangleView.swift */; };
+		B0F94FF31D8083F100AA405E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B0F94FF21D8083F100AA405E /* Assets.xcassets */; };
+		B0F94FF51D81674E00AA405E /* TourFiveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0F94FF41D81674E00AA405E /* TourFiveViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -47,7 +49,6 @@
 		B01A49DC1D35308100FE087D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B01A49DE1D35308100FE087D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		B01A49E11D35308100FE087D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		B01A49E31D35308100FE087D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B01A49E61D35308100FE087D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B01A49E81D35308100FE087D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B01A49EE1D35319F00FE087D /* TimerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimerView.swift; sourceTree = "<group>"; };
@@ -67,6 +68,9 @@
 		B099C5B91D416E9B00A7B705 /* iCarousel.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iCarousel.framework; path = "Pods/../build/Debug-iphoneos/iCarousel/iCarousel.framework"; sourceTree = "<group>"; };
 		B0F54CA21D423884006BF224 /* UpgradeToProViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpgradeToProViewController.swift; sourceTree = "<group>"; };
 		B0F54CA41D4238AA006BF224 /* Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
+		B0F94FF01D80634E00AA405E /* TriangleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TriangleView.swift; sourceTree = "<group>"; };
+		B0F94FF21D8083F100AA405E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		B0F94FF41D81674E00AA405E /* TourFiveViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TourFiveViewController.swift; sourceTree = "<group>"; };
 		FEE7D16F601712D0A3F4C637 /* Pods-Tap Timer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tap Timer.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Tap Timer/Pods-Tap Timer.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -128,12 +132,14 @@
 		B01A49DB1D35308100FE087D /* Tap Timer */ = {
 			isa = PBXGroup;
 			children = (
+				B0F94FF21D8083F100AA405E /* Assets.xcassets */,
 				B05EFAE11D7B0B010043BA58 /* IAPHelper.swift */,
 				B05EFADF1D7B0A4A0043BA58 /* TapTimerProducts.swift */,
 				B06D50871D415438007D8D04 /* Church Bell.mp3 */,
 				B00737EC1D412F6200D46510 /* Car Horn.mp3 */,
 				B01A49DC1D35308100FE087D /* AppDelegate.swift */,
 				B01A49DE1D35308100FE087D /* ViewController.swift */,
+				B0F94FF01D80634E00AA405E /* TriangleView.swift */,
 				B0F54CA21D423884006BF224 /* UpgradeToProViewController.swift */,
 				B02E24D21D355FA9001C3243 /* TimerModel.swift */,
 				B0F54CA41D4238AA006BF224 /* Helper.swift */,
@@ -143,12 +149,12 @@
 				B0596F0E1D54D68B002D5A49 /* TourPageViewController.swift */,
 				B0596F101D54F5DB002D5A49 /* TourOneViewController.swift */,
 				B0596F121D54F692002D5A49 /* TourFourViewController.swift */,
+				B0F94FF41D81674E00AA405E /* TourFiveViewController.swift */,
 				B00012601D6EF16200BF4737 /* IntervalView.swift */,
 				B00012611D6EF16200BF4737 /* IntervalView.xib */,
 				B000125E1D6EDCB100BF4737 /* IntervalModel.swift */,
 				B02E24D01D35344D001C3243 /* TimerView.xib */,
 				B01A49EE1D35319F00FE087D /* TimerView.swift */,
-				B01A49E31D35308100FE087D /* Assets.xcassets */,
 				B01A49E51D35308100FE087D /* LaunchScreen.storyboard */,
 				B01A49E81D35308100FE087D /* Info.plist */,
 			);
@@ -225,8 +231,8 @@
 				B06D50881D415439007D8D04 /* Church Bell.mp3 in Resources */,
 				B01A49E71D35308100FE087D /* LaunchScreen.storyboard in Resources */,
 				B00737ED1D412F6200D46510 /* Car Horn.mp3 in Resources */,
-				B01A49E41D35308100FE087D /* Assets.xcassets in Resources */,
 				B02E24D11D35344D001C3243 /* TimerView.xib in Resources */,
+				B0F94FF31D8083F100AA405E /* Assets.xcassets in Resources */,
 				B01A49E21D35308100FE087D /* Main.storyboard in Resources */,
 				B00012631D6EF16200BF4737 /* IntervalView.xib in Resources */,
 			);
@@ -301,6 +307,8 @@
 				B05EFAE01D7B0A4A0043BA58 /* TapTimerProducts.swift in Sources */,
 				B0F54CA51D4238AA006BF224 /* Helper.swift in Sources */,
 				B05EFAE21D7B0B010043BA58 /* IAPHelper.swift in Sources */,
+				B0F94FF51D81674E00AA405E /* TourFiveViewController.swift in Sources */,
+				B0F94FF11D80634E00AA405E /* TriangleView.swift in Sources */,
 				B0596F111D54F5DB002D5A49 /* TourOneViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
