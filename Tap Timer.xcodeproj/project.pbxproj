@@ -35,6 +35,7 @@
 		B0C641FA1D82EB58008779D4 /* Alien.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B0C641F61D82EB58008779D4 /* Alien.mp3 */; };
 		B0C641FB1D82EB58008779D4 /* Boxing Bell.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B0C641F71D82EB58008779D4 /* Boxing Bell.mp3 */; };
 		B0C641FC1D82EB58008779D4 /* Dog Bark.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B0C641F81D82EB58008779D4 /* Dog Bark.mp3 */; };
+		B0C642011D8319D4008779D4 /* KeyboardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0C642001D8319D4008779D4 /* KeyboardManager.swift */; };
 		B0F54CA31D423884006BF224 /* UpgradeToProViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0F54CA21D423884006BF224 /* UpgradeToProViewController.swift */; };
 		B0F54CA51D4238AA006BF224 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0F54CA41D4238AA006BF224 /* Helper.swift */; };
 		B0F94FF11D80634E00AA405E /* TriangleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0F94FF01D80634E00AA405E /* TriangleView.swift */; };
@@ -74,6 +75,7 @@
 		B0C641F61D82EB58008779D4 /* Alien.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Alien.mp3; sourceTree = "<group>"; };
 		B0C641F71D82EB58008779D4 /* Boxing Bell.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Boxing Bell.mp3"; sourceTree = "<group>"; };
 		B0C641F81D82EB58008779D4 /* Dog Bark.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Dog Bark.mp3"; sourceTree = "<group>"; };
+		B0C642001D8319D4008779D4 /* KeyboardManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardManager.swift; sourceTree = "<group>"; };
 		B0F54CA21D423884006BF224 /* UpgradeToProViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpgradeToProViewController.swift; sourceTree = "<group>"; };
 		B0F54CA41D4238AA006BF224 /* Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
 		B0F94FF01D80634E00AA405E /* TriangleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TriangleView.swift; sourceTree = "<group>"; };
@@ -140,6 +142,7 @@
 		B01A49DB1D35308100FE087D /* Tap Timer */ = {
 			isa = PBXGroup;
 			children = (
+				B0C642001D8319D4008779D4 /* KeyboardManager.swift */,
 				B0F94FF21D8083F100AA405E /* Assets.xcassets */,
 				B05EFAE11D7B0B010043BA58 /* IAPHelper.swift */,
 				B05EFADF1D7B0A4A0043BA58 /* TapTimerProducts.swift */,
@@ -325,6 +328,7 @@
 				B02E24D31D355FA9001C3243 /* TimerModel.swift in Sources */,
 				B01A49DF1D35308100FE087D /* ViewController.swift in Sources */,
 				B0596F0F1D54D68B002D5A49 /* TourPageViewController.swift in Sources */,
+				B0C642011D8319D4008779D4 /* KeyboardManager.swift in Sources */,
 				B000125F1D6EDCB100BF4737 /* IntervalModel.swift in Sources */,
 				B00012621D6EF16200BF4737 /* IntervalView.swift in Sources */,
 				B01A49DD1D35308100FE087D /* AppDelegate.swift in Sources */,

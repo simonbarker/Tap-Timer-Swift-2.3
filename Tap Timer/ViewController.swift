@@ -10,7 +10,7 @@ import UIKit
 import iCarousel
 import AVFoundation
 
-class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCarouselDelegate, UITextFieldDelegate, proUpgradeDelegate, intervalProtocol, intervalTimerCreationDelegate {
+class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCarouselDelegate, proUpgradeDelegate, intervalProtocol, intervalTimerCreationDelegate {
     
     @IBOutlet var carousel: iCarousel!
     
@@ -28,6 +28,7 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
     var intervalTimers = [IntervalModel]()
     var intervalViews = [IntervalView]()
     var addViews = [UIView]()
+    var keyboardManager: KeyboardManager!
     
     var settingsConstraints = [NSLayoutConstraint]()
     var timerConstraints = [NSLayoutConstraint]()
@@ -82,10 +83,12 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
             proFeaturesButton.hidden = false
         }
         
+        keyboardManager = KeyboardManager(withViewController: self)
+        
         //instantiate first timer
         timer = timers[0]
         timerTitleTextField.text = timer.name
-        timerTitleTextField.delegate = self
+        timerTitleTextField.delegate = keyboardManager
         alarmRepeatLabel.text = "\(timer.alarmRepetitions)"
         timerRepeatLabel.text = "\(timer.timerRepetitions)"
         
@@ -1398,30 +1401,6 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
         }
     }
     
-    //MARK: - Keyboard dismissal
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        self.view.endEditing(true)
-    }
-    
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
-        
-        textField.resignFirstResponder()
-        
-        //update defaults
-        TTDefaultsHelper.saveTimers(timers)
-        
-        return true
-    }
-    
-    func textFieldDidEndEditing(textField: UITextField) {
-        //workout if we changed to a timer or interval
-        if carousel.currentItemIndex < timers.count {
-            timer.name = timerTitleTextField.text!
-        } else {
-            intervalTimer.name = timerTitleTextField.text!
-        }
-    }
-    
     //MARK: - Segue Navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "ShowProFeaturesSegue"{
@@ -1434,6 +1413,11 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
                 vc.delegate = self
             }
         }
+    }
+    
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        self.view.endEditing(true)
+        print("KBM1")
     }
     
 }
