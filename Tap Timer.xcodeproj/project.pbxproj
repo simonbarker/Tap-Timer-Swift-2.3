@@ -36,6 +36,7 @@
 		B0C641FB1D82EB58008779D4 /* Boxing Bell.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B0C641F71D82EB58008779D4 /* Boxing Bell.mp3 */; };
 		B0C641FC1D82EB58008779D4 /* Dog Bark.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B0C641F81D82EB58008779D4 /* Dog Bark.mp3 */; };
 		B0C642011D8319D4008779D4 /* KeyboardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0C642001D8319D4008779D4 /* KeyboardManager.swift */; };
+		B0C6420B1D832529008779D4 /* CarouselDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0C6420A1D832529008779D4 /* CarouselDelegate.swift */; };
 		B0F54CA31D423884006BF224 /* UpgradeToProViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0F54CA21D423884006BF224 /* UpgradeToProViewController.swift */; };
 		B0F54CA51D4238AA006BF224 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0F54CA41D4238AA006BF224 /* Helper.swift */; };
 		B0F94FF11D80634E00AA405E /* TriangleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0F94FF01D80634E00AA405E /* TriangleView.swift */; };
@@ -76,6 +77,7 @@
 		B0C641F71D82EB58008779D4 /* Boxing Bell.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Boxing Bell.mp3"; sourceTree = "<group>"; };
 		B0C641F81D82EB58008779D4 /* Dog Bark.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Dog Bark.mp3"; sourceTree = "<group>"; };
 		B0C642001D8319D4008779D4 /* KeyboardManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardManager.swift; sourceTree = "<group>"; };
+		B0C6420A1D832529008779D4 /* CarouselDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CarouselDelegate.swift; sourceTree = "<group>"; };
 		B0F54CA21D423884006BF224 /* UpgradeToProViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpgradeToProViewController.swift; sourceTree = "<group>"; };
 		B0F54CA41D4238AA006BF224 /* Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
 		B0F94FF01D80634E00AA405E /* TriangleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TriangleView.swift; sourceTree = "<group>"; };
@@ -142,30 +144,15 @@
 		B01A49DB1D35308100FE087D /* Tap Timer */ = {
 			isa = PBXGroup;
 			children = (
-				B0C642001D8319D4008779D4 /* KeyboardManager.swift */,
-				B0F94FF21D8083F100AA405E /* Assets.xcassets */,
-				B05EFAE11D7B0B010043BA58 /* IAPHelper.swift */,
-				B05EFADF1D7B0A4A0043BA58 /* TapTimerProducts.swift */,
+				B0C642041D832386008779D4 /* Tour ViewControllers */,
 				B0C641FD1D82F61C008779D4 /* Sounds */,
+				B0C642061D8323EC008779D4 /* Xibs and Storyboards */,
+				B0C642051D8323C6008779D4 /* Helpers and Delegates */,
+				B0F94FF21D8083F100AA405E /* Assets.xcassets */,
 				B01A49DC1D35308100FE087D /* AppDelegate.swift */,
-				B01A49DE1D35308100FE087D /* ViewController.swift */,
-				B0F94FF01D80634E00AA405E /* TriangleView.swift */,
-				B0F54CA21D423884006BF224 /* UpgradeToProViewController.swift */,
-				B02E24D21D355FA9001C3243 /* TimerModel.swift */,
-				B0F54CA41D4238AA006BF224 /* Helper.swift */,
-				B0596F0A1D54CDEB002D5A49 /* TTDefaultsHelper.swift */,
-				B01A49E01D35308100FE087D /* Main.storyboard */,
-				B04B588F1D65F2BC000F3F96 /* CreateIntervalTimerViewController.swift */,
-				B0596F0E1D54D68B002D5A49 /* TourPageViewController.swift */,
-				B0596F101D54F5DB002D5A49 /* TourOneViewController.swift */,
-				B0596F121D54F692002D5A49 /* TourFourViewController.swift */,
-				B0F94FF41D81674E00AA405E /* TourFiveViewController.swift */,
-				B00012601D6EF16200BF4737 /* IntervalView.swift */,
-				B00012611D6EF16200BF4737 /* IntervalView.xib */,
-				B000125E1D6EDCB100BF4737 /* IntervalModel.swift */,
-				B02E24D01D35344D001C3243 /* TimerView.xib */,
-				B01A49EE1D35319F00FE087D /* TimerView.swift */,
-				B01A49E51D35308100FE087D /* LaunchScreen.storyboard */,
+				B0C642071D832422008779D4 /* Models */,
+				B0C642091D83244F008779D4 /* Custom Views */,
+				B0C642081D832435008779D4 /* Controllers */,
 				B01A49E81D35308100FE087D /* Info.plist */,
 			);
 			path = "Tap Timer";
@@ -182,6 +169,70 @@
 				B0C641F11D81C8B3008779D4 /* Car Horn.mp3 */,
 			);
 			name = Sounds;
+			sourceTree = "<group>";
+		};
+		B0C642041D832386008779D4 /* Tour ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				B0596F0E1D54D68B002D5A49 /* TourPageViewController.swift */,
+				B0596F101D54F5DB002D5A49 /* TourOneViewController.swift */,
+				B0596F121D54F692002D5A49 /* TourFourViewController.swift */,
+				B0F94FF41D81674E00AA405E /* TourFiveViewController.swift */,
+			);
+			name = "Tour ViewControllers";
+			sourceTree = "<group>";
+		};
+		B0C642051D8323C6008779D4 /* Helpers and Delegates */ = {
+			isa = PBXGroup;
+			children = (
+				B0C6420A1D832529008779D4 /* CarouselDelegate.swift */,
+				B05EFAE11D7B0B010043BA58 /* IAPHelper.swift */,
+				B05EFADF1D7B0A4A0043BA58 /* TapTimerProducts.swift */,
+				B0C642001D8319D4008779D4 /* KeyboardManager.swift */,
+				B0F54CA41D4238AA006BF224 /* Helper.swift */,
+				B0596F0A1D54CDEB002D5A49 /* TTDefaultsHelper.swift */,
+			);
+			name = "Helpers and Delegates";
+			sourceTree = "<group>";
+		};
+		B0C642061D8323EC008779D4 /* Xibs and Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				B01A49E01D35308100FE087D /* Main.storyboard */,
+				B00012611D6EF16200BF4737 /* IntervalView.xib */,
+				B02E24D01D35344D001C3243 /* TimerView.xib */,
+				B01A49E51D35308100FE087D /* LaunchScreen.storyboard */,
+			);
+			name = "Xibs and Storyboards";
+			sourceTree = "<group>";
+		};
+		B0C642071D832422008779D4 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B02E24D21D355FA9001C3243 /* TimerModel.swift */,
+				B000125E1D6EDCB100BF4737 /* IntervalModel.swift */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		B0C642081D832435008779D4 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				B0F54CA21D423884006BF224 /* UpgradeToProViewController.swift */,
+				B01A49DE1D35308100FE087D /* ViewController.swift */,
+				B04B588F1D65F2BC000F3F96 /* CreateIntervalTimerViewController.swift */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		B0C642091D83244F008779D4 /* Custom Views */ = {
+			isa = PBXGroup;
+			children = (
+				B00012601D6EF16200BF4737 /* IntervalView.swift */,
+				B01A49EE1D35319F00FE087D /* TimerView.swift */,
+				B0F94FF01D80634E00AA405E /* TriangleView.swift */,
+			);
+			name = "Custom Views";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -338,6 +389,7 @@
 				B0F94FF51D81674E00AA405E /* TourFiveViewController.swift in Sources */,
 				B0F94FF11D80634E00AA405E /* TriangleView.swift in Sources */,
 				B0596F111D54F5DB002D5A49 /* TourOneViewController.swift in Sources */,
+				B0C6420B1D832529008779D4 /* CarouselDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

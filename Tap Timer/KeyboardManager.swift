@@ -10,7 +10,7 @@ import UIKit
 
 class KeyboardManager: NSObject, UITextFieldDelegate {
     
-    var viewController: ViewController
+    var viewController: ViewController!
     
     init(withViewController vc: ViewController) {
         self.viewController = vc

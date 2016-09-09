@@ -10,7 +10,7 @@ import UIKit
 import iCarousel
 import AVFoundation
 
-class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCarouselDelegate, proUpgradeDelegate, intervalProtocol, intervalTimerCreationDelegate {
+class ViewController: UIViewController, timerProtocol, proUpgradeDelegate, intervalProtocol, intervalTimerCreationDelegate {
     
     @IBOutlet var carousel: iCarousel!
     
@@ -28,7 +28,9 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
     var intervalTimers = [IntervalModel]()
     var intervalViews = [IntervalView]()
     var addViews = [UIView]()
+    
     var keyboardManager: KeyboardManager!
+    var carouselDelegate: CarouselDelegate!
     
     var settingsConstraints = [NSLayoutConstraint]()
     var timerConstraints = [NSLayoutConstraint]()
@@ -101,8 +103,9 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
         //highlight correct sound
         highlightCorrectSoundButtonForTimer(timer)
         
-        carousel.delegate = self
-        carousel.dataSource = self
+        carouselDelegate = CarouselDelegate.init(withViewController: self)
+        carousel.delegate = carouselDelegate
+        carousel.dataSource = carouselDelegate
         carousel.type = .CoverFlow
         carousel.bounces = false
         carousel.clipsToBounds = true
@@ -1265,79 +1268,7 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
         NSLayoutConstraint.activateConstraints(timerConstraints)
     }
     
-    //MARK: - Carousel Delegate and Datasoure Methods
-    func numberOfItemsInCarousel(carousel: iCarousel) -> Int
-    {
-        return timers.count + intervalTimers.count + addViews.count
-    }
-    
-    func carousel(carousel: iCarousel, viewForItemAtIndex index: Int, reusingView view: UIView?) -> UIView
-    {
-        
-        if index < timers.count {
-            return timerViews[index]
-        } else if index < timers.count + intervalTimers.count {
-            return intervalViews[index - timers.count]
-        } else {
-            return addViews[0]
-        }
-    }
-    
-    func carousel(carousel: iCarousel, valueForOption option: iCarouselOption, withDefault value: CGFloat) -> CGFloat
-    {
-        if (option == .Spacing)
-        {
-            return value * 0.7
-        }
-        return value
-    }
-    
-    func carouselItemWidth(carousel: iCarousel) -> CGFloat {
-        return Helper.frameSizeFor(isPro, singleOrDoubleCarousel: "single").width
-    }
-    
-    func carouselCurrentItemIndexDidChange(carousel: iCarousel) {
-        
-        timerTitleTextField.enabled = true
-        enableRepetitionButtons()
-        
-        //workout if we changed to a timer or interval
-        if carousel.currentItemIndex < timers.count {
-            
-            setUIforTimerSettings()
-            
-        } else if carousel.currentItemIndex < (timers.count + intervalTimers.count) {
-            
-            intervalTimer = intervalTimers[carousel.currentItemIndex - timers.count]
-            
-            //update sound buttons
-            //clear previously highlighted buttons
-            disableAllSoundAndColourButtons()
-
-            highlightCorrectSoundButtonForTimer(intervalTimer.timer1)
-            highlightCorrectSoundButtonForTimer(intervalTimer.timer2)
-            
-            timerTitleTextField.text = intervalTimer.name
-            timerTitleTextField.enabled = true
-            timerRepeatLabel.text = "\(intervalTimer.intervalRepetitions)"
-            alarmRepeatLabel.text = "\(intervalTimer.timer1.alarmRepetitions)"
-            
-        } else {
-            //clear previously highlighted buttons
-            disableAllSoundAndColourButtons()
-            disableRepetitionButtons()
-            
-            timerTitleTextField.text = ""
-            alarmRepeatLabel.text = "1"
-            timerRepeatLabel.text = "1"
-            
-        }
-    }
-    
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return UIStatusBarStyle.LightContent
-    }
-    
+    //MARK: ui methods
     func setUIforTimerSettings() {
         timer = timers[carousel.currentItemIndex]
         
@@ -1415,9 +1346,14 @@ class ViewController: UIViewController, timerProtocol, iCarouselDataSource, iCar
         }
     }
     
+    //MARK: - Misc vc methods
+    
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         self.view.endEditing(true)
-        print("KBM1")
+    }
+    
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return UIStatusBarStyle.LightContent
     }
     
 }
