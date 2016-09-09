@@ -11,7 +11,6 @@
 		B000125F1D6EDCB100BF4737 /* IntervalModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B000125E1D6EDCB100BF4737 /* IntervalModel.swift */; };
 		B00012621D6EF16200BF4737 /* IntervalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00012601D6EF16200BF4737 /* IntervalView.swift */; };
 		B00012631D6EF16200BF4737 /* IntervalView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B00012611D6EF16200BF4737 /* IntervalView.xib */; };
-		B00737ED1D412F6200D46510 /* Car Horn.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B00737EC1D412F6200D46510 /* Car Horn.mp3 */; };
 		B01A49DD1D35308100FE087D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B01A49DC1D35308100FE087D /* AppDelegate.swift */; };
 		B01A49DF1D35308100FE087D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B01A49DE1D35308100FE087D /* ViewController.swift */; };
 		B01A49E21D35308100FE087D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B01A49E01D35308100FE087D /* Main.storyboard */; };
@@ -29,8 +28,13 @@
 		B05EFADE1D7B0A160043BA58 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B05EFADD1D7B0A160043BA58 /* StoreKit.framework */; };
 		B05EFAE01D7B0A4A0043BA58 /* TapTimerProducts.swift in Sources */ = {isa = PBXBuildFile; fileRef = B05EFADF1D7B0A4A0043BA58 /* TapTimerProducts.swift */; };
 		B05EFAE21D7B0B010043BA58 /* IAPHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B05EFAE11D7B0B010043BA58 /* IAPHelper.swift */; };
-		B06D50881D415439007D8D04 /* Church Bell.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B06D50871D415438007D8D04 /* Church Bell.mp3 */; };
 		B099C5BA1D416E9B00A7B705 /* iCarousel.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B099C5B91D416E9B00A7B705 /* iCarousel.framework */; };
+		B0C641F21D81C8B3008779D4 /* Car Horn.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B0C641F11D81C8B3008779D4 /* Car Horn.mp3 */; };
+		B0C641F41D82E64D008779D4 /* Church Bell.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B0C641F31D82E64C008779D4 /* Church Bell.mp3 */; };
+		B0C641F91D82EB58008779D4 /* Air Horn.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B0C641F51D82EB58008779D4 /* Air Horn.mp3 */; };
+		B0C641FA1D82EB58008779D4 /* Alien.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B0C641F61D82EB58008779D4 /* Alien.mp3 */; };
+		B0C641FB1D82EB58008779D4 /* Boxing Bell.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B0C641F71D82EB58008779D4 /* Boxing Bell.mp3 */; };
+		B0C641FC1D82EB58008779D4 /* Dog Bark.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B0C641F81D82EB58008779D4 /* Dog Bark.mp3 */; };
 		B0F54CA31D423884006BF224 /* UpgradeToProViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0F54CA21D423884006BF224 /* UpgradeToProViewController.swift */; };
 		B0F54CA51D4238AA006BF224 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0F54CA41D4238AA006BF224 /* Helper.swift */; };
 		B0F94FF11D80634E00AA405E /* TriangleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0F94FF01D80634E00AA405E /* TriangleView.swift */; };
@@ -44,7 +48,6 @@
 		B000125E1D6EDCB100BF4737 /* IntervalModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntervalModel.swift; sourceTree = "<group>"; };
 		B00012601D6EF16200BF4737 /* IntervalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntervalView.swift; sourceTree = "<group>"; };
 		B00012611D6EF16200BF4737 /* IntervalView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IntervalView.xib; sourceTree = "<group>"; };
-		B00737EC1D412F6200D46510 /* Car Horn.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Car Horn.mp3"; sourceTree = "<group>"; };
 		B01A49D91D35308100FE087D /* Tap Timer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Tap Timer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B01A49DC1D35308100FE087D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B01A49DE1D35308100FE087D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -64,8 +67,13 @@
 		B05EFADD1D7B0A160043BA58 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		B05EFADF1D7B0A4A0043BA58 /* TapTimerProducts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TapTimerProducts.swift; sourceTree = "<group>"; };
 		B05EFAE11D7B0B010043BA58 /* IAPHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IAPHelper.swift; sourceTree = "<group>"; };
-		B06D50871D415438007D8D04 /* Church Bell.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Church Bell.mp3"; sourceTree = "<group>"; };
 		B099C5B91D416E9B00A7B705 /* iCarousel.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iCarousel.framework; path = "Pods/../build/Debug-iphoneos/iCarousel/iCarousel.framework"; sourceTree = "<group>"; };
+		B0C641F11D81C8B3008779D4 /* Car Horn.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Car Horn.mp3"; sourceTree = "<group>"; };
+		B0C641F31D82E64C008779D4 /* Church Bell.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Church Bell.mp3"; sourceTree = "<group>"; };
+		B0C641F51D82EB58008779D4 /* Air Horn.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Air Horn.mp3"; sourceTree = "<group>"; };
+		B0C641F61D82EB58008779D4 /* Alien.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Alien.mp3; sourceTree = "<group>"; };
+		B0C641F71D82EB58008779D4 /* Boxing Bell.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Boxing Bell.mp3"; sourceTree = "<group>"; };
+		B0C641F81D82EB58008779D4 /* Dog Bark.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Dog Bark.mp3"; sourceTree = "<group>"; };
 		B0F54CA21D423884006BF224 /* UpgradeToProViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpgradeToProViewController.swift; sourceTree = "<group>"; };
 		B0F54CA41D4238AA006BF224 /* Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
 		B0F94FF01D80634E00AA405E /* TriangleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TriangleView.swift; sourceTree = "<group>"; };
@@ -135,8 +143,7 @@
 				B0F94FF21D8083F100AA405E /* Assets.xcassets */,
 				B05EFAE11D7B0B010043BA58 /* IAPHelper.swift */,
 				B05EFADF1D7B0A4A0043BA58 /* TapTimerProducts.swift */,
-				B06D50871D415438007D8D04 /* Church Bell.mp3 */,
-				B00737EC1D412F6200D46510 /* Car Horn.mp3 */,
+				B0C641FD1D82F61C008779D4 /* Sounds */,
 				B01A49DC1D35308100FE087D /* AppDelegate.swift */,
 				B01A49DE1D35308100FE087D /* ViewController.swift */,
 				B0F94FF01D80634E00AA405E /* TriangleView.swift */,
@@ -159,6 +166,19 @@
 				B01A49E81D35308100FE087D /* Info.plist */,
 			);
 			path = "Tap Timer";
+			sourceTree = "<group>";
+		};
+		B0C641FD1D82F61C008779D4 /* Sounds */ = {
+			isa = PBXGroup;
+			children = (
+				B0C641F31D82E64C008779D4 /* Church Bell.mp3 */,
+				B0C641F51D82EB58008779D4 /* Air Horn.mp3 */,
+				B0C641F61D82EB58008779D4 /* Alien.mp3 */,
+				B0C641F71D82EB58008779D4 /* Boxing Bell.mp3 */,
+				B0C641F81D82EB58008779D4 /* Dog Bark.mp3 */,
+				B0C641F11D81C8B3008779D4 /* Car Horn.mp3 */,
+			);
+			name = Sounds;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -228,13 +248,17 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B06D50881D415439007D8D04 /* Church Bell.mp3 in Resources */,
+				B0C641FA1D82EB58008779D4 /* Alien.mp3 in Resources */,
+				B0C641F41D82E64D008779D4 /* Church Bell.mp3 in Resources */,
 				B01A49E71D35308100FE087D /* LaunchScreen.storyboard in Resources */,
-				B00737ED1D412F6200D46510 /* Car Horn.mp3 in Resources */,
 				B02E24D11D35344D001C3243 /* TimerView.xib in Resources */,
 				B0F94FF31D8083F100AA405E /* Assets.xcassets in Resources */,
+				B0C641F21D81C8B3008779D4 /* Car Horn.mp3 in Resources */,
+				B0C641F91D82EB58008779D4 /* Air Horn.mp3 in Resources */,
 				B01A49E21D35308100FE087D /* Main.storyboard in Resources */,
 				B00012631D6EF16200BF4737 /* IntervalView.xib in Resources */,
+				B0C641FC1D82EB58008779D4 /* Dog Bark.mp3 in Resources */,
+				B0C641FB1D82EB58008779D4 /* Boxing Bell.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

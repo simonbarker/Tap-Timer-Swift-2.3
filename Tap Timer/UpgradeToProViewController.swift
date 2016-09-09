@@ -106,14 +106,7 @@ class UpgradeToProViewController: UIViewController {
 
     @IBAction func upgradeToProTapped(sender: AnyObject) {
         
-        //TapTimerProducts.store.buyProduct(products[0])
-        
-        
-        //remove this before submitting to app store
-        isPro = true
-        TTDefaultsHelper.upgradeToPro()
-        self.delegate?.upgradedToPro(true)
-        self.dismissViewControllerAnimated(true, completion: nil)
+        TapTimerProducts.store.buyProduct(products[0])
         
     }
     

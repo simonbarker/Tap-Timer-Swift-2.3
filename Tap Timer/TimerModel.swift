@@ -190,13 +190,13 @@ class TimerModel: NSObject, NSCoding, AVAudioPlayerDelegate {
         case .ChurchBell:
             return ("Church Bell", "mp3")
         case .DogBark:
-            return ("Car Horn", "mp3")
+            return ("Dog Bark", "mp3")
         case .BoxingBell:
-            return ("Church Bell", "mp3")
+            return ("Boxing Bell", "mp3")
         case .Horn:
-            return ("Car Horn", "mp3")
+            return ("Air Horn", "mp3")
         case .Alien:
-            return ("Church Bell", "mp3")
+            return ("Alien", "mp3")
         case .Car:
             return ("Car Horn", "mp3")
         }
