@@ -7,32 +7,25 @@
 //
 
 import Foundation
-import SwiftyUserDefaults
-
-extension DefaultsKeys {
-    static let launchCount = DefaultsKey<Int>("launchCount")
-    static let isPro = DefaultsKey<Bool?>("isPro")
-}
 
 class TTDefaultsHelper: NSObject {
     
     static func checkIfPro() -> Bool {
         
-        let pro = Defaults[.isPro]
+        let defaults = NSUserDefaults.standardUserDefaults()
         
-        if pro == nil {
-            print("TTDefaultsHelper isPro key doesn't exist")
-            Defaults[.isPro] = false
-            return false
+        if let isPro = defaults.objectForKey("isPro") as? Bool {
+            print("isPro = \(isPro)")
+            return isPro
         }
         
-        //Defaults.remove(.isPro)
-        return pro!
+        return false
         
     }
     
     static func upgradeToPro() {
-        Defaults[.isPro] = true
+        let defaults = NSUserDefaults.standardUserDefaults()
+        defaults.setObject(true, forKey: "isPro")
     }
     
     //MARK: - Timer Methods

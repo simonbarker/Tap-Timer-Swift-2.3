@@ -8,6 +8,5 @@ target 'Tap Timer' do
   # Pods for Tap Timer
   pod 'ChameleonFramework', '~> 2.1'
   pod 'iCarousel', '~> 1.8.2'
-  pod 'SwiftyUserDefaults', '~> 2.2.0'
 
 end
